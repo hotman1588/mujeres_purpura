@@ -161,6 +161,34 @@ a {
   transition-duration: 0.08s;
 }
 
+.admin-login-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--purple-dark);
+  color: var(--white);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: transform 0.2s var(--spring), box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 3px 14px rgba(62,51,111,0.35);
+}
+
+.admin-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(62,51,111,0.5);
+  filter: brightness(1.1);
+}
+
+.admin-login-btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.08s;
+}
+
 .donate {
   display: inline-flex;
   align-items: center;
@@ -198,6 +226,32 @@ a {
 .hero-copy {
   max-width: 700px;
   padding: 72px 0;
+  will-change: transform;
+}
+
+/* Hero h1 shimmer sweep */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .hero h1 {
+    background: linear-gradient(
+      105deg,
+      #ffffff          0%,
+      #cef0f3         30%,
+      rgba(255,255,255,0.6) 48%,
+      #ffffff          52%,
+      #cef0f3         70%,
+      #95dce2        100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 5s linear 1.2s infinite;
+  }
 }
 
 .eyebrow {
@@ -211,11 +265,18 @@ a {
   color: var(--aqua);
 }
 
+/* Eyebrow line se dibuja al cargar */
+@keyframes lineIn {
+  from { width: 0; opacity: 0; }
+  to   { width: 38px; opacity: 1; }
+}
+
 .eyebrow::before {
   content: "";
   width: 38px;
   height: 3px;
   background: var(--aqua);
+  animation: lineIn 0.55s var(--ease-out) 0.3s both;
 }
 
 h1,
@@ -1292,6 +1353,317 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 /* Pmc cta — pill shape matching rest of site */
 .pmc-cta {
   border-radius: 999px;
+}
+
+/* ─── SPOTIFY CAROUSEL — mejoras ─────────────────────────────────────────── */
+
+.pmc-platform-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(30, 215, 96, 0.15);
+  border-color: rgba(30, 215, 96, 0.3);
+  color: #1ed760;
+}
+
+.pmc-ep-badge {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.pmc-ep-new {
+  background: rgba(30, 215, 96, 0.85);
+  color: #000;
+}
+
+.pmc-card {
+  position: relative;
+}
+
+/* ─── YOUTUBE CAROUSEL ────────────────────────────────────────────────────── */
+
+:root {
+  --yt-red: #FF0000;
+  --yt-dark: #0f0f0f;
+  --yt-card: #1a1a1a;
+}
+
+.ytc-section {
+  background: var(--yt-dark);
+  overflow: hidden;
+  padding: 64px 0 52px;
+  position: relative;
+}
+
+.ytc-bg {
+  position: absolute;
+  inset: -60px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(52px) brightness(0.22) saturate(1.2);
+  transform: scale(1.08);
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+.ytc-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(15,15,15,0.4) 0%, rgba(15,15,15,0.75) 100%);
+}
+
+.ytc-layer {
+  position: relative;
+  z-index: 1;
+}
+
+.ytc-section .section-title h2 {
+  color: #fff;
+}
+
+.ytc-section .section-title p {
+  color: rgba(255,255,255,0.5);
+}
+
+.ytc-platform-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 0, 0, 0.18);
+  border: 1px solid rgba(255,0,0,0.35);
+  color: #ff4444;
+}
+
+.ytc-track-wrap {
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.ytc-track-wrap:active { cursor: grabbing; }
+
+.ytc-track {
+  display: flex;
+  gap: 20px;
+  padding: 32px 0 28px;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  will-change: transform;
+}
+
+.ytc-track::-webkit-scrollbar { display: none; }
+
+/* ── YouTube card ── */
+.ytc-card {
+  flex: 0 0 300px;
+  scroll-snap-align: center;
+  border-radius: 16px;
+  background: var(--yt-card);
+  border: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+              opacity 0.35s ease, box-shadow 0.35s ease;
+  transform: scale(0.83) translateY(14px);
+  opacity: 0.5;
+  will-change: transform, opacity;
+  display: flex;
+  flex-direction: column;
+}
+
+.ytc-card.ytc-active {
+  transform: scale(1.05) translateY(0);
+  opacity: 1;
+  box-shadow: 0 24px 60px rgba(255,0,0,0.18), 0 0 0 1px rgba(255,0,0,0.2);
+  z-index: 2;
+}
+
+.ytc-card.ytc-near {
+  transform: scale(0.92) translateY(7px);
+  opacity: 0.72;
+}
+
+/* ── Thumbnail 16:9 ── */
+.ytc-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ytc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.ytc-card.ytc-active .ytc-img {
+  transform: scale(1.04);
+}
+
+.ytc-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.65) 100%);
+  pointer-events: none;
+}
+
+.ytc-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,0,0,0.9);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+              background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(255,0,0,0.4);
+}
+
+.ytc-card.ytc-active .ytc-play {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.ytc-play:hover {
+  background: #ff1a1a;
+  transform: translate(-50%, -50%) scale(1.12);
+  box-shadow: 0 6px 28px rgba(255,0,0,0.55);
+}
+
+.ytc-play:active {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+.ytc-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.82);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+/* ── Card body ── */
+.ytc-body {
+  padding: 16px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.ytc-channel {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: rgba(255,0,0,0.8);
+}
+
+.ytc-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.25;
+}
+
+.ytc-desc {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.ytc-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,0,0,0.3);
+  background: rgba(255,0,0,0.12);
+  color: #ff4444;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s var(--spring);
+  justify-content: center;
+}
+
+.ytc-cta:hover {
+  background: rgba(255,0,0,0.28);
+  border-color: rgba(255,0,0,0.6);
+  transform: translateY(-2px);
+}
+
+.ytc-cta:active {
+  transform: scale(0.97);
+}
+
+/* ── Dots ── */
+.ytc-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.ytc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s ease;
+}
+
+.ytc-dot.ytc-dot-active {
+  width: 28px;
+  background: var(--yt-red);
+}
+
+@media (min-width: 640px) {
+  .ytc-card { flex: 0 0 320px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

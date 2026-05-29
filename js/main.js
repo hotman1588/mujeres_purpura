@@ -1,12 +1,3 @@
-/* Header scroll shadow */
-(function () {
-  const header = document.querySelector(".site-header");
-  if (!header) return;
-  const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 8);
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-})();
-
 const toggle = document.querySelector(".nav-toggle");
 const links = document.querySelector(".nav-links");
 
@@ -251,3 +242,135 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
     });
   });
 });
+
+/* ─── YOUTUBE CAROUSEL ────────────────────────────────────────────────────── */
+(function () {
+  const track = document.getElementById("ytcTrack");
+  const dotsContainer = document.getElementById("ytcDots");
+  const bgEl = document.getElementById("ytcBg");
+  if (!track || !dotsContainer) return;
+
+  const cards = Array.from(track.querySelectorAll(".ytc-card"));
+  let activeIndex = -1;
+  let rafId = null;
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+
+  function updateBackground(index) {
+    if (!bgEl || index === activeIndex) return;
+    const img = cards[index] && cards[index].querySelector(".ytc-img");
+    if (!img) return;
+    bgEl.style.opacity = "0";
+    setTimeout(() => {
+      bgEl.style.backgroundImage = `url('${img.src}')`;
+      bgEl.style.opacity = "1";
+    }, 220);
+  }
+
+  cards.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = "ytc-dot" + (i === 0 ? " ytc-dot-active" : "");
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-label", "Video " + (i + 1));
+    dot.addEventListener("click", () => scrollToCard(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function getDots() {
+    return Array.from(dotsContainer.querySelectorAll(".ytc-dot"));
+  }
+
+  function scrollToCard(index) {
+    const card = cards[index];
+    if (!card) return;
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const offset = cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2;
+    track.scrollBy({ left: offset, behavior: "smooth" });
+  }
+
+  function updateCards() {
+    const trackRect = track.getBoundingClientRect();
+    const center = trackRect.left + trackRect.width / 2;
+    let closestIndex = 0;
+    let closestDist = Infinity;
+
+    cards.forEach((card, i) => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.left + rect.width / 2;
+      const dist = Math.abs(cardCenter - center);
+      if (dist < closestDist) { closestDist = dist; closestIndex = i; }
+
+      const maxDist = trackRect.width * 0.6;
+      const t = Math.min(dist / maxDist, 1);
+      card.style.transform = `scale(${1.05 - t * 0.22}) translateY(${t * 14}px)`;
+      card.style.opacity = 1 - t * 0.5;
+      card.classList.toggle("ytc-active", i === closestIndex);
+      card.classList.toggle("ytc-near", Math.abs(i - closestIndex) === 1);
+    });
+
+    if (closestIndex !== activeIndex) {
+      updateBackground(closestIndex);
+      activeIndex = closestIndex;
+      getDots().forEach((d, i) => d.classList.toggle("ytc-dot-active", i === activeIndex));
+    }
+  }
+
+  function setEdgePadding() {
+    const trackRect = track.getBoundingClientRect();
+    const card = cards[0];
+    if (!card) return;
+    const pad = Math.max(16, (trackRect.width - card.offsetWidth) / 2);
+    track.style.paddingLeft = pad + "px";
+    track.style.paddingRight = pad + "px";
+  }
+
+  track.addEventListener("mousedown", (e) => {
+    isDown = true;
+    track.style.scrollSnapType = "none";
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+  });
+  track.addEventListener("mouseleave", endDrag);
+  track.addEventListener("mouseup", endDrag);
+  track.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX);
+  });
+
+  function endDrag() {
+    if (!isDown) return;
+    isDown = false;
+    track.style.scrollSnapType = "x mandatory";
+    scrollToCard(activeIndex);
+  }
+
+  track.addEventListener("scroll", () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(updateCards);
+  }, { passive: true });
+
+  // Play button → focus card + open YouTube
+  cards.forEach((card) => {
+    const playBtn = card.querySelector(".ytc-play");
+    const ctaBtn  = card.querySelector(".ytc-cta");
+    const url = card.dataset.ytUrl;
+
+    function focusAndOpen() {
+      const index = cards.indexOf(card);
+      scrollToCard(index);
+      setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
+      if (url) setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 320);
+    }
+
+    if (playBtn) playBtn.addEventListener("click", (e) => { e.stopPropagation(); focusAndOpen(); });
+    if (ctaBtn)  ctaBtn.addEventListener("click",  () => focusAndOpen());
+  });
+
+  const ro = new ResizeObserver(() => { setEdgePadding(); scrollToCard(activeIndex); updateCards(); });
+  ro.observe(track);
+  setEdgePadding();
+  setTimeout(() => { scrollToCard(0); updateCards(); }, 80);
+})();

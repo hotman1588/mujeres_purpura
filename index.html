@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fundación Mujeres Púrpura</title>
     <meta name="description" content="Fundación Mujeres Púrpura: acompañamiento, apoyo y empoderamiento para mujeres.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
@@ -22,6 +25,10 @@
           <a class="donate" href="#" data-donation data-i18n="nav.donate">Donaciones</a>
         </div>
         <button class="lang-btn" id="langToggle" type="button" aria-label="Cambiar idioma">EN</button>
+        <a class="admin-login-btn" href="admin/index.html">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Ingresar
+        </a>
       </nav>
     </header>
 
@@ -42,9 +49,54 @@
 
       <section class="stats-band">
         <div class="section-inner stats" aria-label="Indicadores de la fundación">
-          <div class="stat"><strong>100</strong><span data-i18n="index.stat.women">Mujeres impactadas</span></div>
-          <div class="stat"><strong>10</strong><span data-i18n="index.stat.allies">Aliados</span></div>
-          <div class="stat"><strong>4+</strong><span data-i18n="index.stat.years">Años de experiencia</span></div>
+          <div class="stat" data-reveal data-delay="1">
+            <div class="stat-icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <strong data-count="100">100</strong>
+            <span data-i18n="index.stat.women">Mujeres impactadas</span>
+          </div>
+          <div class="stat" data-reveal data-delay="2">
+            <div class="stat-icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <strong data-count="10">10</strong>
+            <span data-i18n="index.stat.allies">Aliados</span>
+          </div>
+          <div class="stat" data-reveal data-delay="3">
+            <div class="stat-icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <strong data-count="4+">4+</strong>
+            <span data-i18n="index.stat.years">Años de experiencia</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIOS — Pattern #24 Social Proof (UI/UX Pro Max skill) -->
+      <section class="section testimonials-section">
+        <div class="section-inner">
+          <div class="section-title" data-reveal>
+            <span class="tag">Voces que transforman</span>
+            <h2>Lo que dicen las mujeres que acompañamos.</h2>
+          </div>
+          <div class="grid three">
+            <figure class="testimonial-card" data-reveal data-delay="1">
+              <blockquote><p>"La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad."</p></blockquote>
+              <figcaption>
+                <div class="testimonial-avatar" aria-hidden="true">M</div>
+                <div><strong>María Alejandra R.</strong><span>Programa Emprende Mujer</span></div>
+              </figcaption>
+            </figure>
+            <figure class="testimonial-card" data-reveal data-delay="2">
+              <blockquote><p>"Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida."</p></blockquote>
+              <figcaption>
+                <div class="testimonial-avatar" aria-hidden="true">C</div>
+                <div><strong>Carmen L.</strong><span>Mujeres Tejiendo Redes</span></div>
+              </figcaption>
+            </figure>
+            <figure class="testimonial-card" data-reveal data-delay="3">
+              <blockquote><p>"Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí."</p></blockquote>
+              <figcaption>
+                <div class="testimonial-avatar" aria-hidden="true">L</div>
+                <div><strong>Lucía P.</strong><span>Renacer Mujer</span></div>
+              </figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
@@ -115,5 +167,6 @@
     </footer>
     <script src="js/main.js"></script>
     <script src="js/i18n.js"></script>
+    <script src="js/effects.js"></script>
   </body>
 </html>
