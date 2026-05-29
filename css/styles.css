@@ -162,8 +162,9 @@ a {
 }
 
 .admin-login-btn {
+  display: none; /* Ocultado temporalmente por solicitud del usuario */
   flex-shrink: 0;
-  display: inline-flex;
+  /* display: inline-flex; */
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
@@ -466,6 +467,24 @@ h3 {
 .mp-card p {
   margin: 12px 0 0;
   color: var(--muted);
+}
+
+.obj-num {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(111, 96, 168, 0.09);
+  user-select: none;
+  font-family: 'Playfair Display', serif;
+  transition: transform 0.3s var(--spring), color 0.3s ease;
+}
+
+.mp-card:hover .obj-num {
+  transform: scale(1.1) translateY(-2px);
+  color: rgba(111, 96, 168, 0.22);
 }
 
 .tag {
