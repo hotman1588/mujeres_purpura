@@ -232,9 +232,39 @@
 
             <div class="form-field">
               <label for="cf-telefono" data-i18n="form.phone">Teléfono</label>
-              <div class="input-wrap">
-                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <input type="tel" id="cf-telefono" name="telefono" autocomplete="tel" placeholder="(opcional)">
+              <div class="phone-group">
+                <select id="cf-indicativo" name="indicativo" aria-label="Indicativo de país" class="phone-code">
+                  <option value="+57" data-flag="🇨🇴" selected>🇨🇴 +57</option>
+                  <option value="+52" data-flag="🇲🇽">🇲🇽 +52</option>
+                  <option value="+54" data-flag="🇦🇷">🇦🇷 +54</option>
+                  <option value="+56" data-flag="🇨🇱">🇨🇱 +56</option>
+                  <option value="+51" data-flag="🇵🇪">🇵🇪 +51</option>
+                  <option value="+58" data-flag="🇻🇪">🇻🇪 +58</option>
+                  <option value="+593" data-flag="🇪🇨">🇪🇨 +593</option>
+                  <option value="+591" data-flag="🇧🇴">🇧🇴 +591</option>
+                  <option value="+595" data-flag="🇵🇾">🇵🇾 +595</option>
+                  <option value="+598" data-flag="🇺🇾">🇺🇾 +598</option>
+                  <option value="+507" data-flag="🇵🇦">🇵🇦 +507</option>
+                  <option value="+506" data-flag="🇨🇷">🇨🇷 +506</option>
+                  <option value="+503" data-flag="🇸🇻">🇸🇻 +503</option>
+                  <option value="+502" data-flag="🇬🇹">🇬🇹 +502</option>
+                  <option value="+504" data-flag="🇭🇳">🇭🇳 +504</option>
+                  <option value="+505" data-flag="🇳🇮">🇳🇮 +505</option>
+                  <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
+                  <option value="+1-do" data-flag="🇩🇴">🇩🇴 +1</option>
+                  <option value="+34" data-flag="🇪🇸">🇪🇸 +34</option>
+                  <option value="+39" data-flag="🇮🇹">🇮🇹 +39</option>
+                  <option value="+33" data-flag="🇫🇷">🇫🇷 +33</option>
+                  <option value="+49" data-flag="🇩🇪">🇩🇪 +49</option>
+                  <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
+                  <option value="+351" data-flag="🇵🇹">🇵🇹 +351</option>
+                  <option value="+55" data-flag="🇧🇷">🇧🇷 +55</option>
+                  <option value="+other" data-flag="🌍">🌍 Otro</option>
+                </select>
+                <div class="input-wrap phone-number">
+                  <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <input type="tel" id="cf-telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="(opcional)">
+                </div>
               </div>
             </div>
 

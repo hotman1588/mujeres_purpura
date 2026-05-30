@@ -2356,6 +2356,33 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   transition: color 0.2s var(--ease-out);
 }
 .contact-form .input-wrap input { padding-left: 42px; }
+
+/* Grupo teléfono con indicativo de país */
+.phone-group { display: flex; gap: 10px; }
+.phone-group .phone-number { flex: 1; }
+.contact-form .phone-code {
+  font: inherit;
+  flex: none;
+  width: auto;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius);
+  padding: 13px 34px 13px 14px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), background-color 0.2s ease;
+}
+.contact-form .phone-code:focus {
+  outline: none;
+  background-color: var(--white);
+  border-color: var(--purple-soft);
+  box-shadow: 0 0 0 4px rgba(145,133,199,0.18);
+}
 .contact-form input,
 .contact-form textarea {
   font: inherit;
