@@ -118,4 +118,26 @@
     window.addEventListener("scroll", onHeaderScroll, { passive: true });
     onHeaderScroll();
   }
+
+  /* ── Líneas accordion ── */
+  const accordion = document.getElementById("linesAccordion");
+  if (accordion) {
+    const items = Array.from(accordion.querySelectorAll(".line-item"));
+    items.forEach((item) => {
+      const head = item.querySelector(".line-head");
+      head.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
+        // Cerrar todos
+        items.forEach((it) => {
+          it.classList.remove("open");
+          it.querySelector(".line-head").setAttribute("aria-expanded", "false");
+        });
+        // Abrir el clicado (si no estaba ya abierto)
+        if (!isOpen) {
+          item.classList.add("open");
+          head.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  }
 })();
