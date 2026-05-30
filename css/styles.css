@@ -2205,3 +2205,76 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 /* ═══════════════════════════════════════════════════════════════════════════
    FIN POLISH
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FORMULARIO DE CONTACTO (Web3Forms)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.contact-form {
+  max-width: 640px;
+  margin: 38px auto 0;
+  padding: 34px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+.contact-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.contact-form .form-field {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+.contact-form label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--purple-dark);
+  margin-bottom: 7px;
+}
+.contact-form input,
+.contact-form textarea {
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  width: 100%;
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), background 0.2s ease;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: var(--muted); opacity: 0.8; }
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  background: var(--white);
+  border-color: var(--purple-soft);
+  box-shadow: 0 0 0 3px rgba(145,133,199,0.22);
+}
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.contact-form .contact-submit {
+  width: 100%;
+  margin-top: 6px;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+.contact-form.is-sending .contact-submit { opacity: 0.75; cursor: progress; }
+.contact-form .contact-submit:disabled { cursor: not-allowed; }
+.form-feedback {
+  margin: 16px 0 0;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.92rem;
+  min-height: 1.2em;
+}
+.contact-form.is-success .form-feedback { color: var(--aqua-dark); }
+.contact-form.is-error .form-feedback { color: var(--coral); }
+
+@media (max-width: 560px) {
+  .contact-form { padding: 24px; }
+  .contact-form .form-row { grid-template-columns: 1fr; gap: 0; }
+}

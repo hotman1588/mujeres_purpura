@@ -157,6 +157,53 @@
           </div>
         </div>
       </section>
+
+      <!-- CONTACTO — Formulario Web3Forms (sin backend) -->
+      <section class="section alt contact-section" id="contacto">
+        <div class="section-inner">
+          <div class="section-title" data-reveal>
+            <span class="tag" data-i18n="index.tag.contact">Hablemos</span>
+            <h2 data-i18n="index.h2.contact">¿Quieres unirte, donar o saber más? Escríbenos.</h2>
+            <p data-i18n="index.p.contact">Déjanos tus datos y un mensaje. Te responderemos lo antes posible para construir redes y caminar juntas.</p>
+          </div>
+
+          <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" data-reveal data-delay="1">
+            <input type="hidden" name="access_key" value="06d5b509-3677-4a75-bb1f-9e96a586f51f">
+            <input type="hidden" name="subject" value="Nuevo mensaje desde la web de Mujeres Púrpura">
+            <input type="hidden" name="from_name" value="Fundación Mujeres Púrpura">
+
+            <!-- Honeypot anti-spam (invisible para personas) -->
+            <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" style="display:none !important">
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="cf-nombre" data-i18n="form.name">Nombre completo</label>
+                <input type="text" id="cf-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre">
+              </div>
+              <div class="form-field">
+                <label for="cf-email" data-i18n="form.email">Correo electrónico</label>
+                <input type="email" id="cf-email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="cf-telefono" data-i18n="form.phone">Teléfono</label>
+              <input type="tel" id="cf-telefono" name="telefono" autocomplete="tel" placeholder="(opcional)">
+            </div>
+
+            <div class="form-field">
+              <label for="cf-mensaje" data-i18n="form.message">Mensaje</label>
+              <textarea id="cf-mensaje" name="mensaje" rows="5" required placeholder="Cuéntanos en qué podemos ayudarte…"></textarea>
+            </div>
+
+            <button class="button cta-button contact-submit" type="submit">
+              <span class="contact-submit-label" data-i18n="form.submit">Enviar mensaje</span>
+            </button>
+
+            <p class="form-feedback" id="contactFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -168,5 +215,53 @@
     <script src="js/main.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/effects.js"></script>
+    <script>
+      // Envío del formulario de contacto vía Web3Forms (sin backend)
+      (function () {
+        var form = document.getElementById('contactForm');
+        if (!form) return;
+        var feedback = document.getElementById('contactFeedback');
+        var btn = form.querySelector('.contact-submit');
+        var label = form.querySelector('.contact-submit-label');
+        var labelText = label ? label.textContent : 'Enviar mensaje';
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          btn.disabled = true;
+          form.classList.remove('is-error', 'is-success');
+          form.classList.add('is-sending');
+          if (label) label.textContent = 'Enviando…';
+          feedback.textContent = '';
+
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              form.classList.remove('is-sending');
+              if (data.success) {
+                form.classList.add('is-success');
+                feedback.textContent = '¡Gracias! Tu mensaje fue enviado. Te responderemos pronto.';
+                form.reset();
+                if (label) label.textContent = '¡Enviado!';
+                setTimeout(function () { if (label) label.textContent = labelText; }, 4000);
+              } else {
+                form.classList.add('is-error');
+                feedback.textContent = 'Hubo un problema al enviar. Intenta de nuevo.';
+                if (label) label.textContent = labelText;
+              }
+            })
+            .catch(function () {
+              form.classList.remove('is-sending');
+              form.classList.add('is-error');
+              feedback.textContent = 'No se pudo conectar. Revisa tu conexión e intenta otra vez.';
+              if (label) label.textContent = labelText;
+            })
+            .finally(function () { btn.disabled = false; });
+        });
+      })();
+    </script>
   </body>
 </html>
