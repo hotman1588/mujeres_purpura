@@ -4,6 +4,7 @@ const translations = {
     "nav.home": "Inicio",
     "nav.about": "Quiénes somos",
     "nav.multimedia": "Multimedia",
+    "nav.contact": "Contacto",
     "nav.donate": "Donaciones",
     // Index — hero
     "index.eyebrow": "Fuerza, libertad y autenticidad",
@@ -157,6 +158,7 @@ const translations = {
     "nav.home": "Home",
     "nav.about": "Who we are",
     "nav.multimedia": "Multimedia",
+    "nav.contact": "Contact",
     "nav.donate": "Donate",
     // Index — hero
     "index.eyebrow": "Strength, freedom and authenticity",
