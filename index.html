@@ -233,34 +233,22 @@
             <div class="form-field">
               <label for="cf-telefono" data-i18n="form.phone">Teléfono</label>
               <div class="phone-group">
-                <select id="cf-indicativo" name="indicativo" aria-label="Indicativo de país" class="phone-code">
-                  <option value="+57" data-flag="🇨🇴" selected>🇨🇴 +57</option>
-                  <option value="+52" data-flag="🇲🇽">🇲🇽 +52</option>
-                  <option value="+54" data-flag="🇦🇷">🇦🇷 +54</option>
-                  <option value="+56" data-flag="🇨🇱">🇨🇱 +56</option>
-                  <option value="+51" data-flag="🇵🇪">🇵🇪 +51</option>
-                  <option value="+58" data-flag="🇻🇪">🇻🇪 +58</option>
-                  <option value="+593" data-flag="🇪🇨">🇪🇨 +593</option>
-                  <option value="+591" data-flag="🇧🇴">🇧🇴 +591</option>
-                  <option value="+595" data-flag="🇵🇾">🇵🇾 +595</option>
-                  <option value="+598" data-flag="🇺🇾">🇺🇾 +598</option>
-                  <option value="+507" data-flag="🇵🇦">🇵🇦 +507</option>
-                  <option value="+506" data-flag="🇨🇷">🇨🇷 +506</option>
-                  <option value="+503" data-flag="🇸🇻">🇸🇻 +503</option>
-                  <option value="+502" data-flag="🇬🇹">🇬🇹 +502</option>
-                  <option value="+504" data-flag="🇭🇳">🇭🇳 +504</option>
-                  <option value="+505" data-flag="🇳🇮">🇳🇮 +505</option>
-                  <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
-                  <option value="+1-do" data-flag="🇩🇴">🇩🇴 +1</option>
-                  <option value="+34" data-flag="🇪🇸">🇪🇸 +34</option>
-                  <option value="+39" data-flag="🇮🇹">🇮🇹 +39</option>
-                  <option value="+33" data-flag="🇫🇷">🇫🇷 +33</option>
-                  <option value="+49" data-flag="🇩🇪">🇩🇪 +49</option>
-                  <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
-                  <option value="+351" data-flag="🇵🇹">🇵🇹 +351</option>
-                  <option value="+55" data-flag="🇧🇷">🇧🇷 +55</option>
-                  <option value="+other" data-flag="🌍">🌍 Otro</option>
-                </select>
+                <div class="phone-code-select" id="phoneCode">
+                  <input type="hidden" name="indicativo" id="cf-indicativo" value="+57">
+                  <button type="button" class="phone-code-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Seleccionar indicativo de país">
+                    <img class="phone-code-flag" src="https://flagcdn.com/24x18/co.png" alt="" width="24" height="18">
+                    <span class="phone-code-value">+57</span>
+                    <svg class="phone-code-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="phone-code-panel" role="dialog" aria-label="Buscar país">
+                    <div class="phone-code-search">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                      <input type="text" class="phone-code-search-input" placeholder="Buscar país…" data-i18n-ph="form.searchCountry" aria-label="Buscar país" autocomplete="off">
+                    </div>
+                    <ul class="phone-code-list" role="listbox" aria-label="Países"></ul>
+                    <p class="phone-code-empty" hidden data-i18n="form.noCountry">Sin resultados</p>
+                  </div>
+                </div>
                 <div class="input-wrap phone-number">
                   <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   <input type="tel" id="cf-telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="(opcional)">
@@ -296,6 +284,82 @@
     <script src="js/i18n.js"></script>
     <script src="js/effects.js"></script>
     <script>
+      // Selector de indicativo de país con banderas y búsqueda
+      (function () {
+        var root = document.getElementById('phoneCode');
+        if (!root) return;
+        var countries = [
+          ['co', '+57', 'Colombia'], ['mx', '+52', 'México'], ['ar', '+54', 'Argentina'],
+          ['cl', '+56', 'Chile'], ['pe', '+51', 'Perú'], ['ve', '+58', 'Venezuela'],
+          ['ec', '+593', 'Ecuador'], ['bo', '+591', 'Bolivia'], ['py', '+595', 'Paraguay'],
+          ['uy', '+598', 'Uruguay'], ['pa', '+507', 'Panamá'], ['cr', '+506', 'Costa Rica'],
+          ['sv', '+503', 'El Salvador'], ['gt', '+502', 'Guatemala'], ['hn', '+504', 'Honduras'],
+          ['ni', '+505', 'Nicaragua'], ['us', '+1', 'Estados Unidos'], ['do', '+1', 'Rep. Dominicana'],
+          ['es', '+34', 'España'], ['it', '+39', 'Italia'], ['fr', '+33', 'Francia'],
+          ['de', '+49', 'Alemania'], ['gb', '+44', 'Reino Unido'], ['pt', '+351', 'Portugal'],
+          ['br', '+55', 'Brasil'], ['ca', '+1', 'Canadá'], ['au', '+61', 'Australia'],
+          ['cn', '+86', 'China'], ['jp', '+81', 'Japón'], ['in', '+91', 'India']
+        ];
+        var hidden = document.getElementById('cf-indicativo');
+        var btn = root.querySelector('.phone-code-btn');
+        var btnFlag = root.querySelector('.phone-code-flag');
+        var btnValue = root.querySelector('.phone-code-value');
+        var panel = root.querySelector('.phone-code-panel');
+        var search = root.querySelector('.phone-code-search-input');
+        var list = root.querySelector('.phone-code-list');
+        var empty = root.querySelector('.phone-code-empty');
+
+        function flagUrl(iso) { return 'https://flagcdn.com/24x18/' + iso + '.png'; }
+
+        countries.forEach(function (c) {
+          var li = document.createElement('li');
+          li.className = 'phone-code-option';
+          li.setAttribute('role', 'option');
+          li.dataset.iso = c[0];
+          li.dataset.code = c[1];
+          li.dataset.name = c[2];
+          li.innerHTML = '<img src="' + flagUrl(c[0]) + '" alt="" width="24" height="18" loading="lazy">' +
+            '<span class="opt-name">' + c[2] + '</span><span class="opt-code">' + c[1] + '</span>';
+          li.addEventListener('click', function () { choose(c[0], c[1]); close(); });
+          list.appendChild(li);
+        });
+
+        function choose(iso, code) {
+          hidden.value = code;
+          btnFlag.src = flagUrl(iso);
+          btnValue.textContent = code;
+        }
+        function open() {
+          panel.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          search.value = '';
+          filter('');
+          setTimeout(function () { search.focus(); }, 30);
+        }
+        function close() {
+          panel.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+        function filter(q) {
+          q = q.toLowerCase().trim();
+          var visible = 0;
+          list.querySelectorAll('.phone-code-option').forEach(function (li) {
+            var match = li.dataset.name.toLowerCase().indexOf(q) !== -1 ||
+              li.dataset.code.indexOf(q) !== -1 || li.dataset.iso.indexOf(q) !== -1;
+            li.style.display = match ? '' : 'none';
+            if (match) visible++;
+          });
+          empty.hidden = visible !== 0;
+        }
+
+        btn.addEventListener('click', function () {
+          panel.classList.contains('is-open') ? close() : open();
+        });
+        search.addEventListener('input', function () { filter(search.value); });
+        search.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); btn.focus(); } });
+        document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
+      })();
+
       // Envío del formulario de contacto vía Web3Forms (sin backend)
       (function () {
         var form = document.getElementById('contactForm');

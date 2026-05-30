@@ -45,6 +45,8 @@ const translations = {
     "contact.trust.2.d": "Tu información se trata con total reserva.",
     "contact.trust.3.t": "Una red que acompaña",
     "contact.trust.3.d": "Sororidad, escucha y acción colectiva.",
+    "form.searchCountry": "Buscar país…",
+    "form.noCountry": "Sin resultados",
     "prog.1.h3": "Mujeres Tejiendo Redes",
     "prog.1.p": "Redes de apoyo solidarias basadas en la sororidad para prevenir y afrontar discriminación y violencia.",
     "prog.2.h3": "Voces que Sanan",
@@ -207,6 +209,8 @@ const translations = {
     "contact.trust.2.d": "Your information is handled with full discretion.",
     "contact.trust.3.t": "A network that supports",
     "contact.trust.3.d": "Sisterhood, listening and collective action.",
+    "form.searchCountry": "Search country…",
+    "form.noCountry": "No results",
     "prog.1.h3": "Women Weaving Networks",
     "prog.1.p": "Solidarity support networks based on sorority to prevent and face discrimination and violence.",
     "prog.2.h3": "Voices that Heal",
@@ -334,6 +338,10 @@ const translations = {
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.dataset.i18n;
       if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach((el) => {
+      const key = el.dataset.i18nPh;
+      if (dict[key] !== undefined) el.placeholder = dict[key];
     });
     document.documentElement.lang = lang;
     currentLang = lang;
