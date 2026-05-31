@@ -138,6 +138,8 @@
     const OUT_Z     = 240;  // px que la tarjeta activa avanza hacia el espectador al salir (translateZ+)
     const OUT_Y     = 130;  // px que la tarjeta sube al salir de escena (translateY−)
     const OUT_ROTX  = 16;   // grados de inclinación (rotateX) al salir
+    const OUT_ROTY  = 22;   // grados de giro lateral cinematográfico (rotateY) al salir
+    const STACK_ROTY= 6;    // grados de giro lateral leve de las tarjetas apiladas (profundidad)
     const OUT_ROTZ  = 4;    // grados de giro sutil del "naipe" (rotateZ)
     const OUT_SC    = 0.06; // aumento de escala al acercarse a la cámara
     const FADE_BACK = 3;    // a partir de este nivel apilado, las traseras se desvanecen
@@ -156,13 +158,15 @@
 
       cards.forEach((card, i) => {
         const rel = i - active; // >0: aún apiladas detrás · ≈0: al frente · <0: ya reveladas (salen)
-        let tz, ty, rotx, rotz, scale, op;
+        let tz, ty, rotx, roty, rotz, scale, op;
 
         if (rel >= 0) {
           // Tarjetas apiladas detrás del frente
           tz    = -rel * STACK_Z;
           ty    =  rel * STACK_Y;
           rotx  = 0;
+          // Giro lateral leve que se atenúa al acercarse al frente (rel→0 ⇒ 0°)
+          roty  = -clamp(rel, 0, 1) * STACK_ROTY;
           rotz  = 0;
           scale = 1 - rel * STACK_SC;
           op    = clamp(1 - Math.max(0, rel - FADE_BACK) * 0.6, 0, 1);
@@ -172,6 +176,7 @@
           tz    =  k * OUT_Z;
           ty    = -k * OUT_Y;
           rotx  =  k * OUT_ROTX;
+          roty  =  k * OUT_ROTY;   // giro lateral cinematográfico al salir
           rotz  =  k * OUT_ROTZ;
           scale = 1 + k * OUT_SC;
           op    = clamp(1 - k * 1.15, 0, 1);
@@ -180,6 +185,7 @@
         card.style.setProperty("--tz", tz.toFixed(1) + "px");
         card.style.setProperty("--ty", ty.toFixed(1) + "px");
         card.style.setProperty("--rotx", rotx.toFixed(2) + "deg");
+        card.style.setProperty("--roty", roty.toFixed(2) + "deg");
         card.style.setProperty("--rotz", rotz.toFixed(2) + "deg");
         card.style.setProperty("--scale", scale.toFixed(3));
         card.style.setProperty("--op", op.toFixed(3));

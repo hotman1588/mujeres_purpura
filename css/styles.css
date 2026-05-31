@@ -1952,6 +1952,7 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
     translateY(var(--ty, 0px))
     translateZ(var(--tz, 0px))         /* ← CALIBRAR: separación en profundidad */
     rotateX(var(--rotx, 0deg))         /* ← CALIBRAR: inclinación vertical */
+    rotateY(var(--roty, 0deg))         /* ← CALIBRAR: giro lateral cinematográfico */
     rotateZ(var(--rotz, 0deg))         /* ← CALIBRAR: giro sutil del naipe */
     scale(var(--scale, 1));
   opacity: var(--op, 1);
