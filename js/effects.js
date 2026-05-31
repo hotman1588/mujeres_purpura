@@ -193,6 +193,27 @@
     updateUI();
   }
 
+  /* ── Video sello institucional ── */
+  const vselloVideo = document.getElementById("vselloVideo");
+  const vselloOverlay = document.getElementById("vselloOverlay");
+  if (vselloVideo && vselloOverlay) {
+    vselloOverlay.addEventListener("click", () => {
+      vselloVideo.setAttribute("controls", "");   // muestra los controles nativos al reproducir
+      const playPromise = vselloVideo.play();
+      if (playPromise && playPromise.then) {
+        playPromise.then(() => vselloOverlay.classList.add("is-hidden"))
+          .catch(() => {
+            // Si no hay archivo de video aún, lleva al usuario a la página Multimedia
+            window.location.href = "multimedia.html";
+          });
+      } else {
+        vselloOverlay.classList.add("is-hidden");
+      }
+    });
+    // Al terminar o pausar, vuelve a mostrar la portada con el botón
+    vselloVideo.addEventListener("ended", () => vselloOverlay.classList.remove("is-hidden"));
+  }
+
   /* ── Líneas accordion ── */
   const accordion = document.getElementById("linesAccordion");
   if (accordion) {

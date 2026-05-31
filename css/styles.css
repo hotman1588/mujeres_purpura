@@ -2709,3 +2709,112 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   .contact-submit-arrow,
   .contact-submit-spinner { transition: none; animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   VIDEO SELLO — video institucional con logo de marca
+   ═══════════════════════════════════════════════════════════════════════════ */
+.vsello-player {
+  position: relative;
+  max-width: 900px;
+  margin: 40px auto 0;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--purple-dark);
+  box-shadow: var(--shadow-lg);
+}
+.vsello-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Capa con botón de play (degradado para legibilidad) */
+.vsello-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  background:
+    radial-gradient(60% 60% at 50% 50%, rgba(62,51,111,0.25), transparent 70%),
+    linear-gradient(180deg, rgba(30,24,52,0.35) 0%, rgba(30,24,52,0.55) 100%);
+  transition: opacity 0.4s var(--ease-out), visibility 0.4s;
+}
+.vsello-overlay.is-hidden { opacity: 0; visibility: hidden; }
+.vsello-play {
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  color: var(--purple);
+  cursor: pointer;
+  padding-left: 4px;            /* centra ópticamente el triángulo */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  transition: transform 0.25s var(--spring), background 0.2s ease;
+}
+.vsello-play::after {
+  /* Aro pulsante alrededor del botón */
+  content: "";
+  position: absolute;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  animation: vselloPulse 2.4s var(--ease-out) infinite;
+}
+.vsello-overlay:hover .vsello-play { transform: scale(1.08); background: #fff; }
+@keyframes vselloPulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.vsello-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+}
+/* Sello de marca (logo) en la esquina superior */
+.vsello-seal {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px 7px 7px;
+  border-radius: 999px;
+  background: rgba(30,24,52,0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+.vsello-seal img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255,255,255,0.7);
+}
+.vsello-seal span {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .vsello-play, .vsello-play::after { width: 64px; height: 64px; }
+  .vsello-seal span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vsello-play::after { animation: none; }
+}

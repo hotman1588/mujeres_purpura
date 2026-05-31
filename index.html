@@ -68,6 +68,42 @@
         </div>
       </section>
 
+      <!-- VIDEO SELLO — video institucional con el logo como sello de marca -->
+      <section class="section video-sello-section" id="video-sello" aria-label="Video institucional">
+        <div class="section-inner">
+          <div class="section-title" data-reveal style="text-align:center;margin-inline:auto;">
+            <span class="tag" data-i18n="index.tag.video">Nuestra historia</span>
+            <h2 data-i18n="index.h2.video">Conoce a la Fundación Mujeres Púrpura.</h2>
+            <p data-i18n="index.p.video">Un vistazo a quiénes somos, lo que hacemos y las mujeres que transforman su realidad cada día.</p>
+          </div>
+
+          <figure class="vsello-player" data-reveal data-delay="1">
+            <!-- Coloca tu archivo en assets/sello.mp4 (y opcional sello.webm).
+                 El atributo poster muestra una imagen mientras carga / antes de reproducir. -->
+            <video class="vsello-video" id="vselloVideo" preload="none"
+                   poster="assets/hero-community.jpg" playsinline
+                   aria-label="Video institucional de la Fundación Mujeres Púrpura">
+              <source src="assets/sello.webm" type="video/webm">
+              <source src="assets/sello.mp4" type="video/mp4">
+            </video>
+
+            <!-- Capa con degradado + botón de reproducción -->
+            <div class="vsello-overlay" id="vselloOverlay">
+              <button class="vsello-play" type="button" aria-label="Reproducir video">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
+              </button>
+              <span class="vsello-label" data-i18n="index.video.label">Ver video</span>
+            </div>
+
+            <!-- Sello de marca (logo) sobre el video -->
+            <div class="vsello-seal" aria-hidden="true">
+              <img src="assets/logo.jpg" alt="">
+              <span>Mujeres Púrpura</span>
+            </div>
+          </figure>
+        </div>
+      </section>
+
       <!-- TESTIMONIOS — Carrusel de flip-cards (logo al frente, comentario al girar) -->
       <section class="section testimonials-section voces" id="voces-transforman" aria-label="Voces que transforman">
         <div class="section-inner">
