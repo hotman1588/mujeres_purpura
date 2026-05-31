@@ -70,7 +70,7 @@ const translations = {
     "about.tag.vision": "Visión 2030",
     "about.h2.vision": "Ser una organización comunitaria referente.",
     "about.p.vision": "Para el año 2030, la Fundación Mujeres Púrpura será reconocida nacional e internacionalmente como una organización de base comunitaria líder en la defensa de los derechos de las mujeres, impulsando el empoderamiento colectivo, el liderazgo social y una sociedad más justa, equitativa y libre de violencias de género.",
-    "about.quote": "Donde otros ven diferencia, nosotras vemos poder. Aquí, cada mujer es revolución.",
+    "about.quote": "Donde otrxs ven diferencia, nosotras vemos poder. Aquí, cada mujer es revolución.",
     "about.tag.org": "Nuestra forma de organizarnos",
     "about.h2.org": "Un círculo que nos une, no una pirámide que nos divide.",
     "about.p.org": "La fundación adopta una visión horizontal: cada mujer tiene voz y voto, cada rol es valioso y cada experiencia aporta a la construcción de un tejido social más justo.",
