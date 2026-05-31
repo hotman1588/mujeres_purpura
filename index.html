@@ -68,52 +68,105 @@
         </div>
       </section>
 
-      <!-- TESTIMONIOS — 3D Image Split Scroll (scroll-scrub, sin dependencias) -->
-      <!-- El alto del .t3d-track determina cuánto scroll dura la animación (pin). -->
-      <section class="section testimonials-section t3d" id="voces-transforman" aria-label="Voces que transforman">
-        <div class="t3d-track">
-          <!-- La escena se fija (sticky) mientras se recorre el track -->
-          <div class="t3d-stage">
-            <div class="section-inner">
-              <div class="section-title t3d-title" data-reveal>
-                <span class="tag">Voces que transforman</span>
-                <h2>Lo que dicen las mujeres que acompañamos.</h2>
-              </div>
-              <!-- Deck 3D: contenedor con perspectiva; las tarjetas viven aquí apiladas -->
-              <div class="t3d-deck" role="list">
-                <figure class="testimonial-card t3d-card" role="listitem" data-card="0">
-                  <blockquote><p>"La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad."</p></blockquote>
-                  <figcaption>
-                    <div class="testimonial-avatar" aria-hidden="true">M</div>
-                    <div><strong>María Alejandra R.</strong><span>Programa Emprende Mujer</span></div>
-                  </figcaption>
-                </figure>
-                <figure class="testimonial-card t3d-card" role="listitem" data-card="1">
-                  <blockquote><p>"Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida."</p></blockquote>
-                  <figcaption>
-                    <div class="testimonial-avatar" aria-hidden="true">C</div>
-                    <div><strong>Carmen L.</strong><span>Mujeres Tejiendo Redes</span></div>
-                  </figcaption>
-                </figure>
-                <figure class="testimonial-card t3d-card" role="listitem" data-card="2">
-                  <blockquote><p>"Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí."</p></blockquote>
-                  <figcaption>
-                    <div class="testimonial-avatar" aria-hidden="true">L</div>
-                    <div><strong>Lucía P.</strong><span>Renacer Mujer</span></div>
-                  </figcaption>
-                </figure>
-                <figure class="testimonial-card t3d-card" role="listitem" data-card="3">
-                  <blockquote><p>"Llegué sin saber qué hacer con mi vida y aquí encontré formación, apoyo y hermanas. Hoy lidero un proyecto social en mi barrio."</p></blockquote>
-                  <figcaption>
-                    <div class="testimonial-avatar" aria-hidden="true">S</div>
-                    <div><strong>Sandra M.</strong><span>Aprender para Transformar</span></div>
-                  </figcaption>
-                </figure>
-              </div>
-              <!-- Indicador de progreso del recorrido -->
-              <div class="t3d-progress" aria-hidden="true"><span></span></div>
-            </div>
+      <!-- TESTIMONIOS — Carrusel de flip-cards (logo al frente, comentario al girar) -->
+      <section class="section testimonials-section voces" id="voces-transforman" aria-label="Voces que transforman">
+        <div class="section-inner">
+          <div class="section-title" data-reveal>
+            <span class="tag">Voces que transforman</span>
+            <h2>Lo que dicen las mujeres que acompañamos.</h2>
+            <p data-i18n="index.voces.hint">Pasa el cursor o toca cada tarjeta para leer su testimonio.</p>
           </div>
+
+          <div class="voces-carousel" data-reveal data-delay="1">
+            <button class="voces-nav voces-prev" type="button" aria-label="Anterior">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+
+            <div class="voces-track" role="list">
+              <!-- Cada tarjeta: cara frontal con el logo · cara trasera con el comentario -->
+              <article class="flip-card" role="listitem" tabindex="0" aria-label="Testimonio de María Alejandra R.">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
+                    <span class="flip-brand">Mujeres Púrpura</span>
+                    <strong class="flip-name">María Alejandra R.</strong>
+                    <span class="flip-role">Programa Emprende Mujer</span>
+                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                  </div>
+                  <div class="flip-card-back">
+                    <blockquote><p>"La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad."</p></blockquote>
+                    <figcaption>
+                      <div class="testimonial-avatar" aria-hidden="true">M</div>
+                      <div><strong>María Alejandra R.</strong><span>Programa Emprende Mujer</span></div>
+                    </figcaption>
+                  </div>
+                </div>
+              </article>
+
+              <article class="flip-card" role="listitem" tabindex="0" aria-label="Testimonio de Carmen L.">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
+                    <span class="flip-brand">Mujeres Púrpura</span>
+                    <strong class="flip-name">Carmen L.</strong>
+                    <span class="flip-role">Mujeres Tejiendo Redes</span>
+                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                  </div>
+                  <div class="flip-card-back">
+                    <blockquote><p>"Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida."</p></blockquote>
+                    <figcaption>
+                      <div class="testimonial-avatar" aria-hidden="true">C</div>
+                      <div><strong>Carmen L.</strong><span>Mujeres Tejiendo Redes</span></div>
+                    </figcaption>
+                  </div>
+                </div>
+              </article>
+
+              <article class="flip-card" role="listitem" tabindex="0" aria-label="Testimonio de Lucía P.">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
+                    <span class="flip-brand">Mujeres Púrpura</span>
+                    <strong class="flip-name">Lucía P.</strong>
+                    <span class="flip-role">Renacer Mujer</span>
+                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                  </div>
+                  <div class="flip-card-back">
+                    <blockquote><p>"Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí."</p></blockquote>
+                    <figcaption>
+                      <div class="testimonial-avatar" aria-hidden="true">L</div>
+                      <div><strong>Lucía P.</strong><span>Renacer Mujer</span></div>
+                    </figcaption>
+                  </div>
+                </div>
+              </article>
+
+              <article class="flip-card" role="listitem" tabindex="0" aria-label="Testimonio de Sandra M.">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
+                    <span class="flip-brand">Mujeres Púrpura</span>
+                    <strong class="flip-name">Sandra M.</strong>
+                    <span class="flip-role">Aprender para Transformar</span>
+                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                  </div>
+                  <div class="flip-card-back">
+                    <blockquote><p>"Llegué sin saber qué hacer con mi vida y aquí encontré formación, apoyo y hermanas. Hoy lidero un proyecto social en mi barrio."</p></blockquote>
+                    <figcaption>
+                      <div class="testimonial-avatar" aria-hidden="true">S</div>
+                      <div><strong>Sandra M.</strong><span>Aprender para Transformar</span></div>
+                    </figcaption>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <button class="voces-nav voces-next" type="button" aria-label="Siguiente">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <div class="voces-dots" role="tablist" aria-label="Navegación de testimonios"></div>
         </div>
       </section>
 

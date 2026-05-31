@@ -119,115 +119,78 @@
     onHeaderScroll();
   }
 
-  /* ── 3D Image Split Scroll — testimonios "Voces que transforman" ─────────────
-     Las tarjetas empiezan apiladas y, vinculadas al scroll (scrub), se separan
-     en el eje Z revelándose una a una. En móvil/reduced-motion no se ejecuta
-     (el CSS las muestra como stack vertical limpio). */
-  const t3dTrack = document.querySelector(".t3d-track");
-  if (t3dTrack) {
-    const stage = t3dTrack.querySelector(".t3d-stage");
-    const cards = Array.from(t3dTrack.querySelectorAll(".t3d-card"));
-    const bar = t3dTrack.querySelector(".t3d-progress span");
-    const N = cards.length;
+  /* ── Carrusel de flip-cards "Voces que transforman" ──────────────────────────
+     Cara frontal con el logo; al pasar el cursor o tocar, la tarjeta gira y
+     muestra el comentario. Flechas + puntos para recorrer las tarjetas. */
+  const vocesCarousel = document.querySelector(".voces-carousel");
+  if (vocesCarousel) {
+    const track = vocesCarousel.querySelector(".voces-track");
+    const cards = Array.from(track.querySelectorAll(".flip-card"));
+    const prevBtn = vocesCarousel.querySelector(".voces-prev");
+    const nextBtn = vocesCarousel.querySelector(".voces-next");
+    const dotsWrap = document.querySelector(".voces-dots");
+    const isTouch = window.matchMedia("(hover: none)").matches;
 
-    // ┌─ CONSTANTES CALIBRABLES ────────────────────────────────────────────┐
-    // │ Ajusta estos valores para variar la intensidad del efecto 3D.        │
-    const STACK_Z   = 110;  // px que cada tarjeta de atrás se hunde en profundidad (translateZ−)
-    const STACK_Y   = 26;   // px que cada tarjeta apilada asoma hacia abajo (peek)
-    const STACK_SC  = 0.07; // reducción de escala por cada nivel apilado
-    const STACK_BLUR= 1.6;  // px de desenfoque por nivel apilado (profundidad de campo)
-    const STACK_DIM = 0.16; // oscurecimiento por nivel apilado (foco de cámara)
-    const OUT_Z     = 320;  // px que la tarjeta activa avanza hacia el espectador al salir (translateZ+)
-    const OUT_Y     = 165;  // px que la tarjeta sube al salir de escena (translateY−)
-    const OUT_ROTX  = 22;   // grados de inclinación (rotateX) al salir
-    const OUT_ROTY  = 30;   // grados de giro lateral cinematográfico (rotateY) al salir
-    const STACK_ROTY= 8;    // grados de giro lateral leve de las tarjetas apiladas (profundidad)
-    const OUT_ROTZ  = 6;    // grados de giro sutil del "naipe" (rotateZ)
-    const OUT_SC    = 0.10; // aumento de escala al acercarse a la cámara
-    const FADE_BACK = 3;    // a partir de este nivel apilado, las traseras se desvanecen
-    // └──────────────────────────────────────────────────────────────────────┘
-
-    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-    function render() {
-      const rect = t3dTrack.getBoundingClientRect();
-      // Progreso 0→1 mientras el track recorre la ventana (mientras la escena está "pin")
-      const total = t3dTrack.offsetHeight - window.innerHeight;
-      const progress = clamp(-rect.top / total, 0, 1);
-
-      // Índice "activo" continuo: 0 → primera tarjeta; (N-1) → última
-      const active = progress * (N - 1);
-
-      cards.forEach((card, i) => {
-        const rel = i - active; // >0: aún apiladas detrás · ≈0: al frente · <0: ya reveladas (salen)
-        let tz, ty, rotx, roty, rotz, scale, op, blur, bright;
-
-        if (rel >= 0) {
-          // Tarjetas apiladas detrás del frente
-          tz    = -rel * STACK_Z;
-          ty    =  rel * STACK_Y;
-          rotx  = 0;
-          // Giro lateral leve que se atenúa al acercarse al frente (rel→0 ⇒ 0°)
-          roty  = -clamp(rel, 0, 1) * STACK_ROTY;
-          rotz  = 0;
-          scale = 1 - rel * STACK_SC;
-          op    = clamp(1 - Math.max(0, rel - FADE_BACK) * 0.6, 0, 1);
-          // Profundidad de campo: las de atrás se desenfocan y oscurecen
-          blur   = rel * STACK_BLUR;
-          bright = clamp(1 - rel * STACK_DIM, 0.45, 1);
-        } else {
-          // Tarjetas que ya pasaron: avanzan hacia el espectador, suben y rotan al salir
-          const k = -rel; // cantidad de "salida" (0→…)
-          tz    =  k * OUT_Z;
-          ty    = -k * OUT_Y;
-          rotx  =  k * OUT_ROTX;
-          roty  =  k * OUT_ROTY;   // giro lateral cinematográfico al salir
-          rotz  =  k * OUT_ROTZ;
-          scale = 1 + k * OUT_SC;
-          op    = clamp(1 - k * 1.15, 0, 1);
-          blur   = k * 0.8;        // ligero desenfoque de movimiento al salir
-          bright = 1;
-        }
-
-        card.style.setProperty("--tz", tz.toFixed(1) + "px");
-        card.style.setProperty("--ty", ty.toFixed(1) + "px");
-        card.style.setProperty("--rotx", rotx.toFixed(2) + "deg");
-        card.style.setProperty("--roty", roty.toFixed(2) + "deg");
-        card.style.setProperty("--rotz", rotz.toFixed(2) + "deg");
-        card.style.setProperty("--scale", scale.toFixed(3));
-        card.style.setProperty("--op", op.toFixed(3));
-        card.style.setProperty("--blur", blur.toFixed(2) + "px");
-        card.style.setProperty("--bright", bright.toFixed(3));
-        // z-index para que la tarjeta más al frente quede siempre encima
-        card.style.zIndex = String(Math.round(100 - Math.abs(rel) * 10));
+    // Flip por toque/click en pantallas sin hover (móvil)
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        if (isTouch) card.classList.toggle("is-flipped");
       });
+      // Accesibilidad: girar con Enter/Espacio cuando la tarjeta tiene foco
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          card.classList.toggle("is-flipped");
+        }
+      });
+    });
 
-      if (bar) bar.style.width = (progress * 100).toFixed(1) + "%";
+    // Puntos indicadores (uno por tarjeta)
+    const dots = cards.map((_, i) => {
+      const dot = document.createElement("button");
+      dot.className = "voces-dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", "Ir al testimonio " + (i + 1));
+      dot.addEventListener("click", () => scrollToCard(i));
+      dotsWrap && dotsWrap.appendChild(dot);
+      return dot;
+    });
+
+    function scrollToCard(i) {
+      const card = cards[i];
+      if (!card) return;
+      // Centra la tarjeta dentro de la pista
+      track.scrollTo({ left: card.offsetLeft - (track.clientWidth - card.clientWidth) / 2, behavior: "smooth" });
     }
 
-    // Solo activamos el scrub en escritorio y sin reduced-motion (coincide con el CSS)
-    const mq = window.matchMedia("(min-width: 769px)");
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let rafId = null;
-    const onScroll = () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => { render(); rafId = null; });
-    };
-
-    function enable() {
-      if (!mq.matches || reduce.matches) {
-        // Modo móvil/accesible: limpia estilos en línea para que mande el CSS
-        cards.forEach((c) => { c.removeAttribute("style"); });
-        window.removeEventListener("scroll", onScroll);
-        return;
-      }
-      window.addEventListener("scroll", onScroll, { passive: true });
-      render();
+    function currentIndex() {
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      cards.forEach((card, i) => {
+        const cardCenter = card.offsetLeft + card.clientWidth / 2;
+        const d = Math.abs(cardCenter - center);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
     }
-    enable();
-    mq.addEventListener("change", enable);
-    reduce.addEventListener("change", enable);
-    window.addEventListener("resize", () => { if (mq.matches && !reduce.matches) render(); }, { passive: true });
+
+    function updateUI() {
+      const idx = currentIndex();
+      dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+      if (prevBtn) prevBtn.disabled = track.scrollLeft <= 2;
+      if (nextBtn) nextBtn.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+    }
+
+    prevBtn && prevBtn.addEventListener("click", () => scrollToCard(Math.max(0, currentIndex() - 1)));
+    nextBtn && nextBtn.addEventListener("click", () => scrollToCard(Math.min(cards.length - 1, currentIndex() + 1)));
+
+    let tId = null;
+    track.addEventListener("scroll", () => {
+      if (tId) return;
+      tId = requestAnimationFrame(() => { updateUI(); tId = null; });
+    }, { passive: true });
+    window.addEventListener("resize", updateUI, { passive: true });
+    updateUI();
   }
 
   /* ── Líneas accordion ── */

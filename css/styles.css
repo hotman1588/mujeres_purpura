@@ -1899,136 +1899,184 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   3D IMAGE SPLIT SCROLL — testimonios apilados que se separan en el eje Z
+   VOCES QUE TRANSFORMAN — carrusel de flip-cards (logo al frente, comentario detrás)
    ═══════════════════════════════════════════════════════════════════════════ */
-.t3d { padding: 0; }
-
-/* Track alto = duración del scroll del efecto (pin).
-   400vh ≈ 3 "pasos" de revelado; súbelo para ralentizar, bájalo para acelerar. */
-.t3d-track {
-  position: relative;
-  height: 400vh;
-}
-
-/* La escena queda fija (pin) centrada mientras recorres el track */
-.t3d-stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.voces-carousel {
   display: flex;
   align-items: center;
-  overflow: hidden;
-  /* Atmósfera cinematográfica: degradado profundo + foco de luz central */
-  background:
-    radial-gradient(120% 80% at 50% 38%, rgba(111,96,168,0.16) 0%, transparent 60%),
-    linear-gradient(180deg, #1a1530 0%, #241d40 50%, #1a1530 100%);
+  gap: 12px;
+  margin-top: 38px;
 }
-/* Viñeta para enfocar la mirada en el centro de la escena */
-.t3d-stage::after {
-  content: "";
+
+/* Pista del carrusel: scroll horizontal con snap */
+.voces-track {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 28px 6px 34px;          /* espacio para sombras y elevación al girar */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.voces-track::-webkit-scrollbar { display: none; }
+
+/* ── Flip card ── */
+.flip-card {
+  flex: 0 0 320px;                 /* ancho de cada tarjeta en el carrusel */
+  max-width: 82vw;
+  height: 380px;
+  scroll-snap-align: center;
+  perspective: 1400px;             /* profundidad del giro 3D */
+  cursor: pointer;
+  outline: none;
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);  /* giro suave */
+}
+/* Giro al pasar el cursor, al enfocar con teclado o al tocar (clase is-flipped) */
+.flip-card:hover .flip-card-inner,
+.flip-card:focus-visible .flip-card-inner,
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Caras: ambas ocupan el mismo espacio, ocultando su reverso */
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background: radial-gradient(120% 90% at 50% 45%, transparent 45%, rgba(10,7,22,0.55) 100%);
-  z-index: 2;
-}
-.t3d-stage .section-inner { position: relative; z-index: 3; }
-/* Título en claro sobre el fondo oscuro de la escena */
-.t3d-title .tag { background: rgba(255,255,255,0.14); color: #fff; border: none; }
-.t3d-title h2 { color: #fff; }
-.t3d-stage .section-inner {
-  width: 100%;
+  border-radius: var(--radius-lg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-.t3d-title { text-align: center; margin-inline: auto; }
-
-/* Contenedor con PERSPECTIVA: define la profundidad de la cámara 3D.
-   Menor perspective = efecto 3D más exagerado; mayor = más sutil. */
-.t3d-deck {
-  position: relative;
-  width: min(560px, 92vw);
-  height: 340px;
-  margin: 10px auto 0;
-  perspective: 1050px;          /* ← CALIBRAR: distancia de cámara (más bajo = 3D más dramático) */
-  perspective-origin: 50% 42%;
-}
-
-/* Cada tarjeta se posiciona en 3D. preserve-3d mantiene la profundidad real. */
-.t3d-deck .t3d-card {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  height: 100%;
-  width: 100%;
-  transform-style: preserve-3d;
-  /* Estado inicial (apiladas): lo fija el JS vía --tz/--ty/--rot/--scale/--op.
-     Si el JS no corre, las variables por defecto las dejan visibles. */
-  transform:
-    translateY(var(--ty, 0px))
-    translateZ(var(--tz, 0px))         /* ← CALIBRAR: separación en profundidad */
-    rotateX(var(--rotx, 0deg))         /* ← CALIBRAR: inclinación vertical */
-    rotateY(var(--roty, 0deg))         /* ← CALIBRAR: giro lateral cinematográfico */
-    rotateZ(var(--rotz, 0deg))         /* ← CALIBRAR: giro sutil del naipe */
-    scale(var(--scale, 1));
-  opacity: var(--op, 1);
-  /* Foco de cámara: las tarjetas lejanas se oscurecen y desenfocan ligeramente */
-  filter: brightness(var(--bright, 1)) blur(var(--blur, 0px));
-  transition: none;                    /* el scroll-scrub controla el frame; sin transition */
-  will-change: transform, opacity, filter;
-  backface-visibility: hidden;
-  /* Sombra cinematográfica profunda proyectada bajo la tarjeta */
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.55), 0 12px 28px rgba(62,51,111,0.25);
-}
-.t3d-deck .t3d-card:hover { transform: none; }  /* desactiva el hover translateY heredado */
-
-/* Barra de progreso del recorrido */
-.t3d-progress {
-  width: min(560px, 92vw);
-  height: 4px;
-  margin: 26px auto 0;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.16);
+  box-shadow: var(--shadow);
   overflow: hidden;
 }
-.t3d-progress span {
-  display: block;
-  height: 100%;
-  width: 0%;
+
+/* Cara frontal: logo de Mujeres Púrpura sobre fondo de marca */
+.flip-card-front {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+  padding: 30px 26px;
+  color: #fff;
+  background:
+    radial-gradient(120% 90% at 50% 18%, rgba(149,220,226,0.28), transparent 55%),
+    linear-gradient(155deg, var(--purple) 0%, var(--purple-dark) 100%);
+}
+.flip-logo {
+  width: 104px;
+  height: 104px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.55);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+  margin-bottom: 12px;
+}
+.flip-brand {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.flip-name { font-size: 1.02rem; font-weight: 800; margin-top: 10px; }
+.flip-role { font-size: 0.84rem; color: rgba(255,255,255,0.82); }
+.flip-cta {
+  margin-top: 16px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 7px 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--purple), var(--aqua-dark));
+  background: rgba(255,255,255,0.16);
 }
 
-/* ── Fallback MÓVIL / sin animación: stack vertical limpio y legible ──
-   Bajo 768px el 3D dificulta la lectura → desactivamos el pin y el 3D. */
-@media (max-width: 768px), (prefers-reduced-motion: reduce) {
-  .t3d-track { height: auto; }
-  .t3d-stage {
-    position: static;
-    height: auto;
-    overflow: visible;
-    padding: 64px 0;
-  }
-  .t3d-deck {
-    width: 100%;
-    height: auto;
-    perspective: none;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 28px;
-  }
-  .t3d-deck .t3d-card {
-    position: relative;
-    inset: auto;
-    height: auto;
-    transform: none !important;       /* anula cualquier transform del JS */
-    opacity: 1 !important;
-    box-shadow: var(--shadow-sm);
-  }
-  .t3d-deck .t3d-card:hover { transform: translateY(-5px) !important; box-shadow: var(--shadow-lg); }
-  .t3d-progress { display: none; }
+/* Cara trasera: el comentario (ya rotada 180° para leerse al girar) */
+.flip-card-back {
+  transform: rotateY(180deg);
+  justify-content: space-between;
+  gap: 18px;
+  padding: 30px 26px 24px;
+  background: var(--white);
+  border: 1px solid rgba(111,96,168,0.12);
+}
+.flip-card-back blockquote { margin: 0; flex: 1; display: flex; align-items: center; }
+.flip-card-back blockquote p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  font-weight: 500;
+}
+.flip-card-back figcaption {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(111,96,168,0.1);
+}
+.flip-card-back figcaption strong {
+  display: block; font-size: 0.92rem; font-weight: 800; color: var(--purple-dark); line-height: 1.2;
+}
+.flip-card-back figcaption span { display: block; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+/* Acentos por tarjeta en el avatar de la cara trasera */
+.flip-card:nth-child(2) .testimonial-avatar { background: linear-gradient(135deg, var(--aqua-dark), #2a8a93); }
+.flip-card:nth-child(3) .testimonial-avatar { background: linear-gradient(135deg, var(--coral), #c95a42); }
+.flip-card:nth-child(4) .testimonial-avatar { background: linear-gradient(135deg, var(--purple-soft), var(--aqua-dark)); }
+
+/* ── Botones de navegación ── */
+.voces-nav {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--purple-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s var(--ease-out), color 0.2s ease, transform 0.2s var(--spring), opacity 0.2s ease;
+}
+.voces-nav:hover { background: var(--purple); color: #fff; transform: scale(1.08); }
+.voces-nav:disabled { opacity: 0.35; cursor: default; transform: none; }
+
+/* ── Puntos indicadores ── */
+.voces-dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+.voces-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(111,96,168,0.25);
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out), transform 0.2s var(--spring);
+}
+.voces-dot.active { background: var(--purple); transform: scale(1.3); }
+
+@media (max-width: 600px) {
+  .voces-nav { display: none; }          /* en móvil basta el swipe del carrusel */
+  .flip-card { flex-basis: 80vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner { transition: none; }
+  .voces-track { scroll-behavior: auto; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
