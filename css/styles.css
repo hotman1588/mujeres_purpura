@@ -2864,6 +2864,42 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   box-shadow: 0 30px 70px rgba(111, 96, 168, 0.5), 0 0 0 1px rgba(149, 220, 226, 0.3);
 }
 
+/* ── REGLAS DE ORO 3D: que la profundidad NUNCA bloquee Play ni los enlaces ──
+   En un espacio preserve-3d las tarjetas traseras pueden "tapar" físicamente a
+   la del frente. Estas reglas aíslan la interacción y blindan los controles. */
+
+/* 1) La tarjeta activa tiene la prioridad de capa más alta (2D y 3D). */
+.pmc-section .pmc-card.pmc-active {
+  z-index: 50;
+  pointer-events: auto;
+}
+
+/* 2) Aislamiento: las tarjetas laterales/traseras NO capturan clics de sus
+      controles (siguen siendo clicables como tarjeta para centrarse, pero no
+      disparan Play/enlaces por error desde el fondo). */
+.pmc-section .pmc-card:not(.pmc-active) {
+  z-index: 1;
+}
+.pmc-section .pmc-card:not(.pmc-active) .pmc-play-icon,
+.pmc-section .pmc-card:not(.pmc-active) .pmc-cta,
+.pmc-section .pmc-card:not(.pmc-active) a {
+  pointer-events: none;
+}
+
+/* 3) Garantía absoluta para controles, enlaces y reproductores embebidos:
+      siempre por encima y siempre clicables dentro de la tarjeta activa. */
+.pmc-section .pmc-card.pmc-active .pmc-play-icon,
+.pmc-section .pmc-card.pmc-active .pmc-cta,
+.pmc-section .pmc-card.pmc-active a,
+.pmc-section .pmc-card .pmc-inline-player,
+.pmc-section .pmc-card .pmc-inline-close,
+.pmc-section .pmc-card iframe,
+.pmc-section .pmc-card video {
+  position: relative;
+  z-index: 99;
+  pointer-events: auto !important;   /* fuerza al navegador a permitir el clic */
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pmc-section .section-title h2 { animation: none; }
 }
