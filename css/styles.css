@@ -1918,7 +1918,24 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   display: flex;
   align-items: center;
   overflow: hidden;
+  /* Atmósfera cinematográfica: degradado profundo + foco de luz central */
+  background:
+    radial-gradient(120% 80% at 50% 38%, rgba(111,96,168,0.16) 0%, transparent 60%),
+    linear-gradient(180deg, #1a1530 0%, #241d40 50%, #1a1530 100%);
 }
+/* Viñeta para enfocar la mirada en el centro de la escena */
+.t3d-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 45%, rgba(10,7,22,0.55) 100%);
+  z-index: 2;
+}
+.t3d-stage .section-inner { position: relative; z-index: 3; }
+/* Título en claro sobre el fondo oscuro de la escena */
+.t3d-title .tag { background: rgba(255,255,255,0.14); color: #fff; border: none; }
+.t3d-title h2 { color: #fff; }
 .t3d-stage .section-inner {
   width: 100%;
   display: flex;
@@ -1934,7 +1951,7 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   width: min(560px, 92vw);
   height: 340px;
   margin: 10px auto 0;
-  perspective: 1400px;          /* ← CALIBRAR: distancia de cámara (1000–1800px) */
+  perspective: 1050px;          /* ← CALIBRAR: distancia de cámara (más bajo = 3D más dramático) */
   perspective-origin: 50% 42%;
 }
 
@@ -1956,10 +1973,13 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
     rotateZ(var(--rotz, 0deg))         /* ← CALIBRAR: giro sutil del naipe */
     scale(var(--scale, 1));
   opacity: var(--op, 1);
+  /* Foco de cámara: las tarjetas lejanas se oscurecen y desenfocan ligeramente */
+  filter: brightness(var(--bright, 1)) blur(var(--blur, 0px));
   transition: none;                    /* el scroll-scrub controla el frame; sin transition */
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
   backface-visibility: hidden;
-  box-shadow: var(--shadow-lg);
+  /* Sombra cinematográfica profunda proyectada bajo la tarjeta */
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.55), 0 12px 28px rgba(62,51,111,0.25);
 }
 .t3d-deck .t3d-card:hover { transform: none; }  /* desactiva el hover translateY heredado */
 
@@ -1969,7 +1989,7 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   height: 4px;
   margin: 26px auto 0;
   border-radius: 999px;
-  background: rgba(111,96,168,0.14);
+  background: rgba(255,255,255,0.16);
   overflow: hidden;
 }
 .t3d-progress span {

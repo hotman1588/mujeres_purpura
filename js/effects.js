@@ -132,16 +132,18 @@
 
     // ┌─ CONSTANTES CALIBRABLES ────────────────────────────────────────────┐
     // │ Ajusta estos valores para variar la intensidad del efecto 3D.        │
-    const STACK_Z   = 70;   // px que cada tarjeta de atrás se hunde en profundidad (translateZ−)
-    const STACK_Y   = 20;   // px que cada tarjeta apilada asoma hacia abajo (peek)
-    const STACK_SC  = 0.05; // reducción de escala por cada nivel apilado
-    const OUT_Z     = 240;  // px que la tarjeta activa avanza hacia el espectador al salir (translateZ+)
-    const OUT_Y     = 130;  // px que la tarjeta sube al salir de escena (translateY−)
-    const OUT_ROTX  = 16;   // grados de inclinación (rotateX) al salir
-    const OUT_ROTY  = 22;   // grados de giro lateral cinematográfico (rotateY) al salir
-    const STACK_ROTY= 6;    // grados de giro lateral leve de las tarjetas apiladas (profundidad)
-    const OUT_ROTZ  = 4;    // grados de giro sutil del "naipe" (rotateZ)
-    const OUT_SC    = 0.06; // aumento de escala al acercarse a la cámara
+    const STACK_Z   = 110;  // px que cada tarjeta de atrás se hunde en profundidad (translateZ−)
+    const STACK_Y   = 26;   // px que cada tarjeta apilada asoma hacia abajo (peek)
+    const STACK_SC  = 0.07; // reducción de escala por cada nivel apilado
+    const STACK_BLUR= 1.6;  // px de desenfoque por nivel apilado (profundidad de campo)
+    const STACK_DIM = 0.16; // oscurecimiento por nivel apilado (foco de cámara)
+    const OUT_Z     = 320;  // px que la tarjeta activa avanza hacia el espectador al salir (translateZ+)
+    const OUT_Y     = 165;  // px que la tarjeta sube al salir de escena (translateY−)
+    const OUT_ROTX  = 22;   // grados de inclinación (rotateX) al salir
+    const OUT_ROTY  = 30;   // grados de giro lateral cinematográfico (rotateY) al salir
+    const STACK_ROTY= 8;    // grados de giro lateral leve de las tarjetas apiladas (profundidad)
+    const OUT_ROTZ  = 6;    // grados de giro sutil del "naipe" (rotateZ)
+    const OUT_SC    = 0.10; // aumento de escala al acercarse a la cámara
     const FADE_BACK = 3;    // a partir de este nivel apilado, las traseras se desvanecen
     // └──────────────────────────────────────────────────────────────────────┘
 
@@ -158,7 +160,7 @@
 
       cards.forEach((card, i) => {
         const rel = i - active; // >0: aún apiladas detrás · ≈0: al frente · <0: ya reveladas (salen)
-        let tz, ty, rotx, roty, rotz, scale, op;
+        let tz, ty, rotx, roty, rotz, scale, op, blur, bright;
 
         if (rel >= 0) {
           // Tarjetas apiladas detrás del frente
@@ -170,6 +172,9 @@
           rotz  = 0;
           scale = 1 - rel * STACK_SC;
           op    = clamp(1 - Math.max(0, rel - FADE_BACK) * 0.6, 0, 1);
+          // Profundidad de campo: las de atrás se desenfocan y oscurecen
+          blur   = rel * STACK_BLUR;
+          bright = clamp(1 - rel * STACK_DIM, 0.45, 1);
         } else {
           // Tarjetas que ya pasaron: avanzan hacia el espectador, suben y rotan al salir
           const k = -rel; // cantidad de "salida" (0→…)
@@ -180,6 +185,8 @@
           rotz  =  k * OUT_ROTZ;
           scale = 1 + k * OUT_SC;
           op    = clamp(1 - k * 1.15, 0, 1);
+          blur   = k * 0.8;        // ligero desenfoque de movimiento al salir
+          bright = 1;
         }
 
         card.style.setProperty("--tz", tz.toFixed(1) + "px");
@@ -189,6 +196,8 @@
         card.style.setProperty("--rotz", rotz.toFixed(2) + "deg");
         card.style.setProperty("--scale", scale.toFixed(3));
         card.style.setProperty("--op", op.toFixed(3));
+        card.style.setProperty("--blur", blur.toFixed(2) + "px");
+        card.style.setProperty("--bright", bright.toFixed(3));
         // z-index para que la tarjeta más al frente quede siempre encima
         card.style.zIndex = String(Math.round(100 - Math.abs(rel) * 10));
       });
