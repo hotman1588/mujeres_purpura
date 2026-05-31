@@ -2851,29 +2851,17 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 }
 
 /* ── Profundidad 3D del carrusel ──
-   La perspectiva en la pista hace que las tarjetas tengan profundidad real. */
+   La perspectiva en la pista da profundidad real; el desplazamiento en Z de
+   cada tarjeta lo calcula main.js (updateCards) según su distancia al centro. */
 .pmc-track {
   perspective: 1300px;            /* ← CALIBRAR: cámara (menor = 3D más marcado) */
   transform-style: preserve-3d;
 }
 .pmc-card { transform-style: preserve-3d; }
 
-/* La tarjeta activa "sale" hacia el espectador en el eje Z */
+/* Resplandor extra de la tarjeta activa (la sombra sí aplica vía clase) */
 .pmc-section .pmc-card.pmc-active {
-  transform: translateZ(70px) scale(1.04);   /* translateZ = cuánto se adelanta */
-  box-shadow: 0 30px 70px rgba(111, 96, 168, 0.5), 0 0 0 1px rgba(149,220,226,0.3);
-}
-/* Las contiguas quedan algo atrás e inclinadas, dando volumen de carrusel */
-.pmc-section .pmc-card.pmc-near {
-  transform: translateZ(-40px) rotateY(0deg) scale(0.9) translateY(8px);
-}
-.pmc-section .pmc-card:not(.pmc-active):not(.pmc-near) {
-  transform: translateZ(-110px) scale(0.82) translateY(14px);  /* las lejanas, al fondo */
-}
-
-/* Inclinación 3D al pasar el cursor sobre la tarjeta activa (vivo, no brusco) */
-.pmc-section .pmc-card.pmc-active:hover {
-  transform: translateZ(85px) scale(1.05) rotateX(4deg);
+  box-shadow: 0 30px 70px rgba(111, 96, 168, 0.5), 0 0 0 1px rgba(149, 220, 226, 0.3);
 }
 
 @media (prefers-reduced-motion: reduce) {
