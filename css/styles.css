@@ -2818,3 +2818,64 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 @media (prefers-reduced-motion: reduce) {
   .vsello-play::after { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PODCAST — título con degradado animado + carrusel con profundidad 3D
+   (basado en el snippet aportado, mejorado para la paleta de la fundación)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.pmc-section {
+  /* Colores del degradado del título (sobre el fondo oscuro del podcast) */
+  --primary: var(--aqua);
+  --secondary: var(--purple-soft);
+}
+
+/* Título: texto con degradado que fluye y un pulso de brillo */
+.pmc-section .section-title h2 {
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+  background-size: 220% auto;                 /* tamaño extra para poder desplazarlo */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 22px rgba(149, 220, 226, 0.35);
+  animation: pmcFlow 6s linear infinite, pmcPulse 3s ease-in-out infinite alternate;
+}
+/* El degradado se desplaza horizontalmente (efecto "fluido") */
+@keyframes pmcFlow {
+  to { background-position: 220% center; }
+}
+/* Pulso sutil del resplandor y la escala */
+@keyframes pmcPulse {
+  from { filter: drop-shadow(0 0 6px rgba(149,220,226,0.25)); }
+  to   { filter: drop-shadow(0 0 18px rgba(145,133,199,0.55)); }
+}
+
+/* ── Profundidad 3D del carrusel ──
+   La perspectiva en la pista hace que las tarjetas tengan profundidad real. */
+.pmc-track {
+  perspective: 1300px;            /* ← CALIBRAR: cámara (menor = 3D más marcado) */
+  transform-style: preserve-3d;
+}
+.pmc-card { transform-style: preserve-3d; }
+
+/* La tarjeta activa "sale" hacia el espectador en el eje Z */
+.pmc-section .pmc-card.pmc-active {
+  transform: translateZ(70px) scale(1.04);   /* translateZ = cuánto se adelanta */
+  box-shadow: 0 30px 70px rgba(111, 96, 168, 0.5), 0 0 0 1px rgba(149,220,226,0.3);
+}
+/* Las contiguas quedan algo atrás e inclinadas, dando volumen de carrusel */
+.pmc-section .pmc-card.pmc-near {
+  transform: translateZ(-40px) rotateY(0deg) scale(0.9) translateY(8px);
+}
+.pmc-section .pmc-card:not(.pmc-active):not(.pmc-near) {
+  transform: translateZ(-110px) scale(0.82) translateY(14px);  /* las lejanas, al fondo */
+}
+
+/* Inclinación 3D al pasar el cursor sobre la tarjeta activa (vivo, no brusco) */
+.pmc-section .pmc-card.pmc-active:hover {
+  transform: translateZ(85px) scale(1.05) rotateX(4deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pmc-section .section-title h2 { animation: none; }
+}
