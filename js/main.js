@@ -80,11 +80,8 @@ document.querySelectorAll("[data-donation]").forEach((button) => {
       const scale = 1.06 - t * 0.22;
       const translateY = t * 12;
       const opacity = 1 - t * 0.45;
-      // Profundidad 3D: la tarjeta central se adelanta (+Z) y las lejanas se hunden (−Z).
-      // (la perspectiva está en .pmc-track) — CALIBRAR: 70 = avance, 160 = rango de fondo.
-      const translateZ = 70 - t * 160;
 
-      card.style.transform = `translateZ(${translateZ.toFixed(0)}px) scale(${scale}) translateY(${translateY}px)`;
+      card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
       card.style.opacity = opacity;
       card.classList.toggle("pmc-active", i === closestIndex);
       card.classList.toggle("pmc-near", Math.abs(i - closestIndex) === 1);
