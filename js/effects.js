@@ -119,6 +119,102 @@
     onHeaderScroll();
   }
 
+  /* ── 3D Image Split Scroll — testimonios "Voces que transforman" ─────────────
+     Las tarjetas empiezan apiladas y, vinculadas al scroll (scrub), se separan
+     en el eje Z revelándose una a una. En móvil/reduced-motion no se ejecuta
+     (el CSS las muestra como stack vertical limpio). */
+  const t3dTrack = document.querySelector(".t3d-track");
+  if (t3dTrack) {
+    const stage = t3dTrack.querySelector(".t3d-stage");
+    const cards = Array.from(t3dTrack.querySelectorAll(".t3d-card"));
+    const bar = t3dTrack.querySelector(".t3d-progress span");
+    const N = cards.length;
+
+    // ┌─ CONSTANTES CALIBRABLES ────────────────────────────────────────────┐
+    // │ Ajusta estos valores para variar la intensidad del efecto 3D.        │
+    const STACK_Z   = 70;   // px que cada tarjeta de atrás se hunde en profundidad (translateZ−)
+    const STACK_Y   = 20;   // px que cada tarjeta apilada asoma hacia abajo (peek)
+    const STACK_SC  = 0.05; // reducción de escala por cada nivel apilado
+    const OUT_Z     = 240;  // px que la tarjeta activa avanza hacia el espectador al salir (translateZ+)
+    const OUT_Y     = 130;  // px que la tarjeta sube al salir de escena (translateY−)
+    const OUT_ROTX  = 16;   // grados de inclinación (rotateX) al salir
+    const OUT_ROTZ  = 4;    // grados de giro sutil del "naipe" (rotateZ)
+    const OUT_SC    = 0.06; // aumento de escala al acercarse a la cámara
+    const FADE_BACK = 3;    // a partir de este nivel apilado, las traseras se desvanecen
+    // └──────────────────────────────────────────────────────────────────────┘
+
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+    function render() {
+      const rect = t3dTrack.getBoundingClientRect();
+      // Progreso 0→1 mientras el track recorre la ventana (mientras la escena está "pin")
+      const total = t3dTrack.offsetHeight - window.innerHeight;
+      const progress = clamp(-rect.top / total, 0, 1);
+
+      // Índice "activo" continuo: 0 → primera tarjeta; (N-1) → última
+      const active = progress * (N - 1);
+
+      cards.forEach((card, i) => {
+        const rel = i - active; // >0: aún apiladas detrás · ≈0: al frente · <0: ya reveladas (salen)
+        let tz, ty, rotx, rotz, scale, op;
+
+        if (rel >= 0) {
+          // Tarjetas apiladas detrás del frente
+          tz    = -rel * STACK_Z;
+          ty    =  rel * STACK_Y;
+          rotx  = 0;
+          rotz  = 0;
+          scale = 1 - rel * STACK_SC;
+          op    = clamp(1 - Math.max(0, rel - FADE_BACK) * 0.6, 0, 1);
+        } else {
+          // Tarjetas que ya pasaron: avanzan hacia el espectador, suben y rotan al salir
+          const k = -rel; // cantidad de "salida" (0→…)
+          tz    =  k * OUT_Z;
+          ty    = -k * OUT_Y;
+          rotx  =  k * OUT_ROTX;
+          rotz  =  k * OUT_ROTZ;
+          scale = 1 + k * OUT_SC;
+          op    = clamp(1 - k * 1.15, 0, 1);
+        }
+
+        card.style.setProperty("--tz", tz.toFixed(1) + "px");
+        card.style.setProperty("--ty", ty.toFixed(1) + "px");
+        card.style.setProperty("--rotx", rotx.toFixed(2) + "deg");
+        card.style.setProperty("--rotz", rotz.toFixed(2) + "deg");
+        card.style.setProperty("--scale", scale.toFixed(3));
+        card.style.setProperty("--op", op.toFixed(3));
+        // z-index para que la tarjeta más al frente quede siempre encima
+        card.style.zIndex = String(Math.round(100 - Math.abs(rel) * 10));
+      });
+
+      if (bar) bar.style.width = (progress * 100).toFixed(1) + "%";
+    }
+
+    // Solo activamos el scrub en escritorio y sin reduced-motion (coincide con el CSS)
+    const mq = window.matchMedia("(min-width: 769px)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let rafId = null;
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => { render(); rafId = null; });
+    };
+
+    function enable() {
+      if (!mq.matches || reduce.matches) {
+        // Modo móvil/accesible: limpia estilos en línea para que mande el CSS
+        cards.forEach((c) => { c.removeAttribute("style"); });
+        window.removeEventListener("scroll", onScroll);
+        return;
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      render();
+    }
+    enable();
+    mq.addEventListener("change", enable);
+    reduce.addEventListener("change", enable);
+    window.addEventListener("resize", () => { if (mq.matches && !reduce.matches) render(); }, { passive: true });
+  }
+
   /* ── Líneas accordion ── */
   const accordion = document.getElementById("linesAccordion");
   if (accordion) {

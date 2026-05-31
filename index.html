@@ -68,35 +68,51 @@
         </div>
       </section>
 
-      <!-- TESTIMONIOS — Pattern #24 Social Proof (UI/UX Pro Max skill) -->
-      <section class="section testimonials-section">
-        <div class="section-inner">
-          <div class="section-title" data-reveal>
-            <span class="tag">Voces que transforman</span>
-            <h2>Lo que dicen las mujeres que acompañamos.</h2>
-          </div>
-          <div class="grid three">
-            <figure class="testimonial-card" data-reveal data-delay="1">
-              <blockquote><p>"La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad."</p></blockquote>
-              <figcaption>
-                <div class="testimonial-avatar" aria-hidden="true">M</div>
-                <div><strong>María Alejandra R.</strong><span>Programa Emprende Mujer</span></div>
-              </figcaption>
-            </figure>
-            <figure class="testimonial-card" data-reveal data-delay="2">
-              <blockquote><p>"Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida."</p></blockquote>
-              <figcaption>
-                <div class="testimonial-avatar" aria-hidden="true">C</div>
-                <div><strong>Carmen L.</strong><span>Mujeres Tejiendo Redes</span></div>
-              </figcaption>
-            </figure>
-            <figure class="testimonial-card" data-reveal data-delay="3">
-              <blockquote><p>"Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí."</p></blockquote>
-              <figcaption>
-                <div class="testimonial-avatar" aria-hidden="true">L</div>
-                <div><strong>Lucía P.</strong><span>Renacer Mujer</span></div>
-              </figcaption>
-            </figure>
+      <!-- TESTIMONIOS — 3D Image Split Scroll (scroll-scrub, sin dependencias) -->
+      <!-- El alto del .t3d-track determina cuánto scroll dura la animación (pin). -->
+      <section class="section testimonials-section t3d" id="voces-transforman" aria-label="Voces que transforman">
+        <div class="t3d-track">
+          <!-- La escena se fija (sticky) mientras se recorre el track -->
+          <div class="t3d-stage">
+            <div class="section-inner">
+              <div class="section-title t3d-title" data-reveal>
+                <span class="tag">Voces que transforman</span>
+                <h2>Lo que dicen las mujeres que acompañamos.</h2>
+              </div>
+              <!-- Deck 3D: contenedor con perspectiva; las tarjetas viven aquí apiladas -->
+              <div class="t3d-deck" role="list">
+                <figure class="testimonial-card t3d-card" role="listitem" data-card="0">
+                  <blockquote><p>"La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad."</p></blockquote>
+                  <figcaption>
+                    <div class="testimonial-avatar" aria-hidden="true">M</div>
+                    <div><strong>María Alejandra R.</strong><span>Programa Emprende Mujer</span></div>
+                  </figcaption>
+                </figure>
+                <figure class="testimonial-card t3d-card" role="listitem" data-card="1">
+                  <blockquote><p>"Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida."</p></blockquote>
+                  <figcaption>
+                    <div class="testimonial-avatar" aria-hidden="true">C</div>
+                    <div><strong>Carmen L.</strong><span>Mujeres Tejiendo Redes</span></div>
+                  </figcaption>
+                </figure>
+                <figure class="testimonial-card t3d-card" role="listitem" data-card="2">
+                  <blockquote><p>"Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí."</p></blockquote>
+                  <figcaption>
+                    <div class="testimonial-avatar" aria-hidden="true">L</div>
+                    <div><strong>Lucía P.</strong><span>Renacer Mujer</span></div>
+                  </figcaption>
+                </figure>
+                <figure class="testimonial-card t3d-card" role="listitem" data-card="3">
+                  <blockquote><p>"Llegué sin saber qué hacer con mi vida y aquí encontré formación, apoyo y hermanas. Hoy lidero un proyecto social en mi barrio."</p></blockquote>
+                  <figcaption>
+                    <div class="testimonial-avatar" aria-hidden="true">S</div>
+                    <div><strong>Sandra M.</strong><span>Aprender para Transformar</span></div>
+                  </figcaption>
+                </figure>
+              </div>
+              <!-- Indicador de progreso del recorrido -->
+              <div class="t3d-progress" aria-hidden="true"><span></span></div>
+            </div>
           </div>
         </div>
       </section>

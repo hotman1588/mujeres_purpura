@@ -1894,6 +1894,121 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 .testimonial-card:nth-child(3) .testimonial-avatar {
   background: linear-gradient(135deg, var(--coral), #c95a42);
 }
+.testimonial-card:nth-child(4) .testimonial-avatar {
+  background: linear-gradient(135deg, var(--purple-soft), var(--aqua-dark));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3D IMAGE SPLIT SCROLL — testimonios apilados que se separan en el eje Z
+   ═══════════════════════════════════════════════════════════════════════════ */
+.t3d { padding: 0; }
+
+/* Track alto = duración del scroll del efecto (pin).
+   400vh ≈ 3 "pasos" de revelado; súbelo para ralentizar, bájalo para acelerar. */
+.t3d-track {
+  position: relative;
+  height: 400vh;
+}
+
+/* La escena queda fija (pin) centrada mientras recorres el track */
+.t3d-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.t3d-stage .section-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.t3d-title { text-align: center; margin-inline: auto; }
+
+/* Contenedor con PERSPECTIVA: define la profundidad de la cámara 3D.
+   Menor perspective = efecto 3D más exagerado; mayor = más sutil. */
+.t3d-deck {
+  position: relative;
+  width: min(560px, 92vw);
+  height: 340px;
+  margin: 10px auto 0;
+  perspective: 1400px;          /* ← CALIBRAR: distancia de cámara (1000–1800px) */
+  perspective-origin: 50% 42%;
+}
+
+/* Cada tarjeta se posiciona en 3D. preserve-3d mantiene la profundidad real. */
+.t3d-deck .t3d-card {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  transform-style: preserve-3d;
+  /* Estado inicial (apiladas): lo fija el JS vía --tz/--ty/--rot/--scale/--op.
+     Si el JS no corre, las variables por defecto las dejan visibles. */
+  transform:
+    translateY(var(--ty, 0px))
+    translateZ(var(--tz, 0px))         /* ← CALIBRAR: separación en profundidad */
+    rotateX(var(--rotx, 0deg))         /* ← CALIBRAR: inclinación vertical */
+    rotateZ(var(--rotz, 0deg))         /* ← CALIBRAR: giro sutil del naipe */
+    scale(var(--scale, 1));
+  opacity: var(--op, 1);
+  transition: none;                    /* el scroll-scrub controla el frame; sin transition */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.t3d-deck .t3d-card:hover { transform: none; }  /* desactiva el hover translateY heredado */
+
+/* Barra de progreso del recorrido */
+.t3d-progress {
+  width: min(560px, 92vw);
+  height: 4px;
+  margin: 26px auto 0;
+  border-radius: 999px;
+  background: rgba(111,96,168,0.14);
+  overflow: hidden;
+}
+.t3d-progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--purple), var(--aqua-dark));
+}
+
+/* ── Fallback MÓVIL / sin animación: stack vertical limpio y legible ──
+   Bajo 768px el 3D dificulta la lectura → desactivamos el pin y el 3D. */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .t3d-track { height: auto; }
+  .t3d-stage {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding: 64px 0;
+  }
+  .t3d-deck {
+    width: 100%;
+    height: auto;
+    perspective: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 28px;
+  }
+  .t3d-deck .t3d-card {
+    position: relative;
+    inset: auto;
+    height: auto;
+    transform: none !important;       /* anula cualquier transform del JS */
+    opacity: 1 !important;
+    box-shadow: var(--shadow-sm);
+  }
+  .t3d-deck .t3d-card:hover { transform: translateY(-5px) !important; box-shadow: var(--shadow-lg); }
+  .t3d-progress { display: none; }
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    ESTRUCTURA ORGANIZACIONAL — organigrama circular
