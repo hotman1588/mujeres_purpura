@@ -46,7 +46,10 @@ document.querySelectorAll("[data-donation]").forEach((button) => {
     dot.className = "pmc-dot" + (i === 0 ? " pmc-dot-active" : "");
     dot.setAttribute("role", "tab");
     dot.setAttribute("aria-label", "Episodio " + (i + 1));
-    dot.addEventListener("click", () => scrollToCard(i));
+    dot.addEventListener("click", () => {
+      setActiveCard(i);
+      scrollToCard(i);
+    });
     dotsContainer.appendChild(dot);
   });
 
@@ -61,6 +64,17 @@ document.querySelectorAll("[data-donation]").forEach((button) => {
     const cardRect = card.getBoundingClientRect();
     const offset = cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2;
     track.scrollBy({ left: offset, behavior: "smooth" });
+  }
+
+  function setActiveCard(index) {
+    if (index < 0 || index >= cards.length || index === activeIndex) return;
+    activeIndex = index;
+    updateBackground(index);
+    getDots().forEach((d, i) => d.classList.toggle("pmc-dot-active", i === activeIndex));
+    cards.forEach((card, i) => {
+      card.classList.toggle("pmc-active", i === activeIndex);
+      card.classList.toggle("pmc-near", Math.abs(i - activeIndex) === 1);
+    });
   }
 
   function updateCards() {
@@ -88,9 +102,7 @@ document.querySelectorAll("[data-donation]").forEach((button) => {
     });
 
     if (closestIndex !== activeIndex) {
-      updateBackground(closestIndex);
-      activeIndex = closestIndex;
-      getDots().forEach((d, i) => d.classList.toggle("pmc-dot-active", i === activeIndex));
+      setActiveCard(closestIndex);
     }
   }
 
@@ -163,20 +175,30 @@ document.querySelectorAll("[data-donation]").forEach((button) => {
       return;
     }
     if (activePlayerCard) closeInlinePlayer(activePlayerCard);
+    const index = cards.indexOf(card);
+    setActiveCard(index);
     focusCard(card);
 
     const art = card.querySelector(".pmc-art");
     if (!art) return;
 
-    // Autoplay=1 fuerza reproducción inmediata dentro del embed
-    const embedSrc = card.dataset.spotifyEmbed + "&autoplay=1";
+    let embedSrc = card.dataset.spotifyEmbed || "";
+    try {
+      const url = new URL(embedSrc);
+      url.searchParams.set("autoplay", "1");
+      embedSrc = url.toString();
+    } catch (error) {
+      embedSrc = embedSrc + (embedSrc.includes("?") ? "&" : "?") + "autoplay=1";
+    }
 
     const iframe = document.createElement("iframe");
     iframe.className = "pmc-inline-player";
     iframe.src = embedSrc;
-    iframe.title = "Spotify player";
+    iframe.title = `Spotify player – ${card.querySelector(".pmc-title")?.textContent || "Podcast"}`;
     iframe.setAttribute("frameborder", "0");
     iframe.setAttribute("allow", "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture");
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.setAttribute("loading", "lazy");
 
     const closeBtn = document.createElement("button");
     closeBtn.className = "pmc-inline-close";
@@ -195,22 +217,50 @@ document.querySelectorAll("[data-donation]").forEach((button) => {
 
   cards.forEach((card) => {
     const playIcon = card.querySelector(".pmc-play-icon");
+    const btn = card.querySelector(".pmc-cta");
+    const art = card.querySelector(".pmc-art");
+    const url = card.dataset.spotifyUrl;
+
+    function activateAndPlay() {
+      openInlinePlayer(card);
+    }
+
     if (playIcon) {
       playIcon.addEventListener("click", (e) => {
         e.stopPropagation();
-        openInlinePlayer(card);
+        activateAndPlay();
       });
     }
-  });
 
-  // CTA — centra la tarjeta y abre Spotify
-  cards.forEach((card) => {
-    const btn = card.querySelector(".pmc-cta");
-    if (!btn) return;
-    btn.addEventListener("click", () => {
-      focusCard(card);
-      const url = card.dataset.spotifyUrl;
-      if (url) setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 320);
+    if (btn) {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        focusCard(card);
+        if (url) setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 320);
+      });
+    }
+
+    if (art) {
+      art.addEventListener("click", (e) => {
+        if (e.target.closest(".pmc-play-icon")) return;
+        e.stopPropagation();
+        const index = cards.indexOf(card);
+        if (index >= 0 && index !== activeIndex) {
+          setActiveCard(index);
+          scrollToCard(index);
+          setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
+        }
+      });
+    }
+
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".pmc-play-icon") || e.target.closest(".pmc-cta") || e.target.closest("a")) return;
+      const index = cards.indexOf(card);
+      if (index >= 0 && index !== activeIndex) {
+        setActiveCard(index);
+        scrollToCard(index);
+        setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
+      }
     });
   });
 
@@ -273,7 +323,10 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
     dot.className = "ytc-dot" + (i === 0 ? " ytc-dot-active" : "");
     dot.setAttribute("role", "tab");
     dot.setAttribute("aria-label", "Video " + (i + 1));
-    dot.addEventListener("click", () => scrollToCard(i));
+    dot.addEventListener("click", () => {
+      setActiveCard(i);
+      scrollToCard(i);
+    });
     dotsContainer.appendChild(dot);
   });
 
@@ -288,6 +341,17 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
     const cardRect = card.getBoundingClientRect();
     const offset = cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2;
     track.scrollBy({ left: offset, behavior: "smooth" });
+  }
+
+  function setActiveCard(index) {
+    if (index < 0 || index >= cards.length || index === activeIndex) return;
+    activeIndex = index;
+    updateBackground(index);
+    getDots().forEach((d, i) => d.classList.toggle("ytc-dot-active", i === activeIndex));
+    cards.forEach((card, i) => {
+      card.classList.toggle("ytc-active", i === activeIndex);
+      card.classList.toggle("ytc-near", Math.abs(i - activeIndex) === 1);
+    });
   }
 
   function updateCards() {
@@ -311,9 +375,7 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
     });
 
     if (closestIndex !== activeIndex) {
-      updateBackground(closestIndex);
-      activeIndex = closestIndex;
-      getDots().forEach((d, i) => d.classList.toggle("ytc-dot-active", i === activeIndex));
+      setActiveCard(closestIndex);
     }
   }
 
@@ -360,13 +422,24 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
 
     function focusAndOpen() {
       const index = cards.indexOf(card);
+      setActiveCard(index);
       scrollToCard(index);
       setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
       if (url) setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 320);
     }
 
     if (playBtn) playBtn.addEventListener("click", (e) => { e.stopPropagation(); focusAndOpen(); });
-    if (ctaBtn)  ctaBtn.addEventListener("click",  () => focusAndOpen());
+    if (ctaBtn)  ctaBtn.addEventListener("click",  (e) => { e.stopPropagation(); focusAndOpen(); });
+
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".ytc-play") || e.target.closest(".ytc-cta") || e.target.closest("a")) return;
+      const index = cards.indexOf(card);
+      if (index >= 0 && index !== activeIndex) {
+        setActiveCard(index);
+        scrollToCard(index);
+        setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
+      }
+    });
   });
 
   const ro = new ResizeObserver(() => { setEdgePadding(); scrollToCard(activeIndex); updateCards(); });

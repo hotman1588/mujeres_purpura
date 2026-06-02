@@ -28,16 +28,16 @@ const DEFAULT_SPOTIFY = [
 
 const DEFAULT_YOUTUBE = [
   { title:"Historias de impacto", channel:"Mujeres Púrpura", description:"Videos sobre proyectos, talleres y acciones comunitarias.",
-    ytUrl:"https://www.youtube.com/results?search_query=Fundaci%C3%B3n+Mujeres+P%C3%BArpura",
+    ytUrl:"https://www.youtube.com/results?search_query=Mujeres+Purpura+Fundacion",
     thumbUrl:"../assets/hero-community.jpg", duration:"Próximamente" },
   { title:"Mujeres en acción", channel:"Mujeres Púrpura", description:"Aquí irá el primer video oficial de YouTube.",
-    ytUrl:"https://www.youtube.com/results?search_query=Fundaci%C3%B3n+Mujeres+P%C3%BArpura",
+    ytUrl:"https://www.youtube.com/results?search_query=Mujeres+Purpura+Fundacion",
     thumbUrl:"../assets/hero-group.jpg", duration:"Próximamente" },
   { title:"Voces que Sanan", channel:"Mujeres Púrpura", description:"Arte, expresión y empoderamiento colectivo.",
-    ytUrl:"https://www.youtube.com/results?search_query=Fundaci%C3%B3n+Mujeres+P%C3%BArpura",
+    ytUrl:"https://www.youtube.com/results?search_query=Mujeres+Purpura+Fundacion",
     thumbUrl:"../assets/hero-community.jpg", duration:"Próximamente" },
   { title:"Comunidad Púrpura", channel:"Mujeres Púrpura", description:"Talleres, encuentros y momentos que construyen comunidad.",
-    ytUrl:"https://www.youtube.com/results?search_query=Fundaci%C3%B3n+Mujeres+P%C3%BArpura",
+    ytUrl:"https://www.youtube.com/results?search_query=Mujeres+Purpura+Fundacion",
     thumbUrl:"../assets/hero-group.jpg", duration:"Próximamente" }
 ];
 
