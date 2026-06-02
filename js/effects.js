@@ -244,9 +244,9 @@
       ring.innerHTML = "";
       const isMobile = window.matchMedia("(max-width: 600px)").matches;
       // "Caja" máxima donde encaja cada foto respetando su orientación
-      const maxW = isMobile ? 210 : 320;   // ancho máx (sobre todo para horizontales)
-      const maxH = isMobile ? 170 : 250;   // alto máx (sobre todo para verticales)
-      const gap  = isMobile ? 30 : 56;
+      const maxW = isMobile ? 180 : 240;   // ancho máx (sobre todo para horizontales)
+      const maxH = isMobile ? 140 : 180;   // alto máx (sobre todo para verticales)
+      const gap  = isMobile ? 28 : 50;
       // Radio del anillo basado en el ancho máximo, para que nada se solape
       const radius = Math.max(
         Math.round(((maxW + gap) / 2) / Math.tan(Math.PI / N)),
