@@ -214,6 +214,72 @@
     vselloVideo.addEventListener("ended", () => vselloOverlay.classList.remove("is-hidden"));
   }
 
+  /* ── Galería 3D: anillo giratorio que muestra TODAS las fotos de la carpeta ──
+     El nº de tarjetas y su posición se calculan solos según cuántas fotos haya
+     (ángulo = 360/N; radio = (ancho/2)/tan(180/N)). Para añadir fotos, basta con
+     dejarlas en la carpeta Fotos/ (o añadir su nombre a FALLBACK_FOTOS). */
+  const ring = document.getElementById("ring3d");
+  if (ring) {
+    // Lista de respaldo (se usa si no se puede leer la carpeta automáticamente).
+    // Añade aquí el nombre de archivo de cualquier foto nueva.
+    const FALLBACK_FOTOS = [
+      "img15.jpg", "img22.jpg", "img30.jpg", "img52.jpg",
+      "img64.jpg", "img70.jpg", "img76.jpg", "img87.jpg",
+      "img133.jpg", "img178.jpg", "img179.jpg"
+    ];
+
+    function buildRing(files) {
+      const N = files.length;
+      if (!N) return;
+      ring.innerHTML = "";
+      // Ancho de tarjeta según pantalla (coincide con el CSS) y separación
+      const isMobile = window.matchMedia("(max-width: 600px)").matches;
+      const cardW = isMobile ? 180 : 260;
+      const gap = isMobile ? 40 : 70;
+      // Radio del anillo: fórmula equidistante (con mínimo para que no se solapen)
+      const radius = Math.max(
+        Math.round(((cardW + gap) / 2) / Math.tan(Math.PI / N)),
+        cardW
+      );
+      const step = 360 / N; // ángulo entre tarjetas
+      files.forEach((src, i) => {
+        const card = document.createElement("div");
+        card.className = "ring3d-card";
+        card.setAttribute("role", "img");
+        card.setAttribute("aria-label", "Foto " + (i + 1) + " de la comunidad");
+        card.style.backgroundImage = "url('Fotos/" + src + "')";
+        // Distribución equidistante: rotateY + translateZ
+        card.style.transform = "rotateY(" + (i * step) + "deg) translateZ(" + radius + "px)";
+        ring.appendChild(card);
+      });
+    }
+
+    // Intenta leer el listado de la carpeta Fotos/ (autoindex del servidor);
+    // si no se puede (p. ej. hosting sin listado), usa la lista de respaldo.
+    fetch("Fotos/")
+      .then((r) => (r.ok ? r.text() : Promise.reject()))
+      .then((html) => {
+        const found = Array.from(html.matchAll(/href="([^"]+\.(?:jpe?g|png|webp))"/gi))
+          .map((m) => decodeURIComponent(m[1].split("/").pop()))
+          .filter((v, i, a) => a.indexOf(v) === i); // sin duplicados
+        buildRing(found.length ? found : FALLBACK_FOTOS);
+      })
+      .catch(() => buildRing(FALLBACK_FOTOS));
+
+    // Recalcula posiciones al cambiar el tamaño (móvil/escritorio)
+    let ringResizeId = null;
+    window.addEventListener("resize", () => {
+      if (ringResizeId) return;
+      ringResizeId = setTimeout(() => {
+        ringResizeId = null;
+        const files = Array.from(ring.children).map((c) =>
+          (c.style.backgroundImage.match(/Fotos\/([^'")]+)/) || [])[1]
+        ).filter(Boolean);
+        if (files.length) buildRing(files);
+      }, 200);
+    }, { passive: true });
+  }
+
   /* ── Líneas accordion ── */
   const accordion = document.getElementById("linesAccordion");
   if (accordion) {

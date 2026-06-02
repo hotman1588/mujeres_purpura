@@ -2882,21 +2882,14 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   -webkit-backface-visibility: visible;
 }
 
-/* Distribución equidistante — N = 4, ángulo 90°, radio (translateZ) = 340px */
-.ring3d-card:nth-child(1) { transform: rotateY(  0deg) translateZ(340px); }
-.ring3d-card:nth-child(2) { transform: rotateY( 90deg) translateZ(340px); }
-.ring3d-card:nth-child(3) { transform: rotateY(180deg) translateZ(340px); }
-.ring3d-card:nth-child(4) { transform: rotateY(270deg) translateZ(340px); }
+/* La posición de cada tarjeta (rotateY + translateZ) la calcula js/effects.js
+   según el nº de fotos: ángulo = 360/N y radio = (ancho/2)/tan(180/N). */
 
-/* Responsive: tarjetas y radio más pequeños en móvil */
+/* Responsive: tarjetas más pequeñas en móvil (el radio lo recalcula el JS) */
 @media (max-width: 600px) {
   .ring3d-stage { height: 320px; perspective: 900px; }
   .ring3d { width: 180px; height: 240px; }
   .ring3d-card { width: 180px; height: 240px; }
-  .ring3d-card:nth-child(1) { transform: rotateY(  0deg) translateZ(230px); }
-  .ring3d-card:nth-child(2) { transform: rotateY( 90deg) translateZ(230px); }
-  .ring3d-card:nth-child(3) { transform: rotateY(180deg) translateZ(230px); }
-  .ring3d-card:nth-child(4) { transform: rotateY(270deg) translateZ(230px); }
 }
 
 /* Accesibilidad: detener el giro si el usuario prefiere menos movimiento */
