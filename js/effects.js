@@ -234,8 +234,8 @@
       ring.innerHTML = "";
       // Ancho de tarjeta según pantalla (coincide con el CSS) y separación
       const isMobile = window.matchMedia("(max-width: 600px)").matches;
-      const cardW = isMobile ? 180 : 260;
-      const gap = isMobile ? 40 : 70;
+      const cardW = isMobile ? 140 : 200;
+      const gap = isMobile ? 36 : 60;
       // Radio del anillo: fórmula equidistante (con mínimo para que no se solapen)
       const radius = Math.max(
         Math.round(((cardW + gap) / 2) / Math.tan(Math.PI / N)),

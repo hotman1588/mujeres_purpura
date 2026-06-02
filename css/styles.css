@@ -2823,27 +2823,62 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
    GALERÍA 3D — anillo giratorio infinito de fotos
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* 1) Contenedor PADRE con perspectiva: define la profundidad de la cámara 3D.
-      Menor perspective = efecto más exagerado; mayor = más sutil. */
+/* Halo ambiental detrás de la galería (luces de neón de marca) */
+.ring3d-section {
+  position: relative;
+  overflow: hidden;
+}
+.ring3d-section::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 720px;
+  height: 720px;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle, rgba(149,220,226,0.22) 0%, transparent 60%),
+    radial-gradient(circle at 60% 40%, rgba(111,96,168,0.20) 0%, transparent 65%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: 0;
+}
+.ring3d-section .section-inner { position: relative; z-index: 1; }
+
+/* 1) Contenedor PADRE con perspectiva: define la profundidad de la cámara 3D. */
 .ring3d-stage {
   position: relative;
   width: 100%;
-  height: 420px;
-  margin-top: 44px;
-  perspective: 1200px;            /* ← CALIBRAR: cámara */
+  height: 360px;
+  margin-top: 56px;
+  perspective: 1100px;            /* ← CALIBRAR: cámara */
+  perspective-origin: 50% 55%;    /* baja un poco la mirada para no tapar el título */
   display: flex;
   align-items: center;
   justify-content: center;
 }
+/* Plataforma luminosa bajo el anillo (pedestal con resplandor) */
+.ring3d-stage::after {
+  content: "";
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  width: 320px;
+  height: 60px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(111,96,168,0.45) 0%, rgba(149,220,226,0.18) 40%, transparent 72%);
+  filter: blur(8px);
+  border-radius: 50%;
+  pointer-events: none;
+}
 
-/* 2) El ANILLO: preserve-3d mantiene la profundidad real de las tarjetas y
-      gira de 0° a 360° de forma infinita en el eje Y. */
+/* 2) El ANILLO: preserve-3d mantiene la profundidad real y gira 0°→360° infinito. */
 .ring3d {
   position: relative;
-  width: 260px;                   /* = ancho de cada tarjeta */
-  height: 340px;                  /* = alto de cada tarjeta */
+  width: 200px;                   /* = ancho de cada tarjeta (más pequeño que antes) */
+  height: 270px;                  /* = alto de cada tarjeta */
   transform-style: preserve-3d;
-  animation: ring3dSpin 28s linear infinite;   /* ← CALIBRAR velocidad (más seg = más lento) */
+  animation: ring3dSpin 30s linear infinite;   /* ← CALIBRAR velocidad */
 }
 .ring3d-stage:hover .ring3d { animation-play-state: paused; }  /* pausa al pasar el cursor */
 
@@ -2868,18 +2903,32 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 .ring3d-card {
   position: absolute;
   inset: 0;
-  width: 260px;
-  height: 340px;
-  border-radius: 16px;
+  width: 200px;
+  height: 270px;
+  border-radius: 18px;
   background-size: cover;
   background-position: center;
   /* Color de respaldo: si la foto aún no existe, se ve este tono de marca */
   background-color: var(--purple-soft);
-  box-shadow: 0 18px 40px rgba(62, 51, 111, 0.35);
-  border: 3px solid rgba(255, 255, 255, 0.7);
-  /* backface visible para ver también las fotos del lado opuesto del anillo */
+  /* Sombra profunda + aro de luz púrpura/aqua (efecto neón sutil) */
+  box-shadow:
+    0 16px 36px rgba(62, 51, 111, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 0 22px rgba(149, 220, 226, 0.25);
+  border: 3px solid rgba(255, 255, 255, 0.85);
   backface-visibility: visible;
   -webkit-backface-visibility: visible;
+  overflow: hidden;
+}
+/* Sheen de vidrio + degradado inferior para dar volumen y acabado profesional */
+.ring3d-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 22%),
+    linear-gradient(0deg, rgba(30,24,52,0.45) 0%, transparent 38%);
+  pointer-events: none;
 }
 
 /* La posición de cada tarjeta (rotateY + translateZ) la calcula js/effects.js
@@ -2887,9 +2936,9 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 
 /* Responsive: tarjetas más pequeñas en móvil (el radio lo recalcula el JS) */
 @media (max-width: 600px) {
-  .ring3d-stage { height: 320px; perspective: 900px; }
-  .ring3d { width: 180px; height: 240px; }
-  .ring3d-card { width: 180px; height: 240px; }
+  .ring3d-stage { height: 300px; perspective: 850px; }
+  .ring3d { width: 140px; height: 190px; }
+  .ring3d-card { width: 140px; height: 190px; }
 }
 
 /* Accesibilidad: detener el giro si el usuario prefiere menos movimiento */
