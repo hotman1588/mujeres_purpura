@@ -103,6 +103,28 @@
         </div>
       </section>
 
+      <!-- GALERÍA 3D — anillo giratorio infinito de fotos -->
+      <section class="section ring3d-section" id="galeria-3d" aria-label="Galería de fotos">
+        <div class="section-inner">
+          <div class="section-title" data-reveal style="text-align:center;margin-inline:auto;">
+            <span class="tag" data-i18n="index.tag.gallery">Nuestra comunidad</span>
+            <h2 data-i18n="index.h2.gallery">Momentos que construimos juntas.</h2>
+          </div>
+
+          <!-- Contenedor padre con perspectiva (profundidad de cámara) -->
+          <div class="ring3d-stage" data-reveal data-delay="1">
+            <!-- Anillo que gira de forma infinita en el eje Y -->
+            <div class="ring3d">
+              <!-- Cada tarjeta lleva su imagen de fondo en línea (ruta desde la raíz: Fotos/) -->
+              <div class="ring3d-card" style="background-image:url('Fotos/foto1.jpg')" role="img" aria-label="Foto 1 de la comunidad"></div>
+              <div class="ring3d-card" style="background-image:url('Fotos/foto2.jpg')" role="img" aria-label="Foto 2 de la comunidad"></div>
+              <div class="ring3d-card" style="background-image:url('Fotos/foto3.jpg')" role="img" aria-label="Foto 3 de la comunidad"></div>
+              <div class="ring3d-card" style="background-image:url('Fotos/foto4.jpg')" role="img" aria-label="Foto 4 de la comunidad"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- TESTIMONIOS — Carrusel de flip-cards (logo al frente, comentario al girar) -->
       <section class="section testimonials-section voces" id="voces-transforman" aria-label="Voces que transforman">
         <div class="section-inner">

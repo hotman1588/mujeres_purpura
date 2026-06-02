@@ -1,0 +1,13 @@
+Coloca aquí las fotos del anillo 3D de la página de inicio.
+
+Nombres esperados por el código (index.html):
+  - foto1.jpg
+  - foto2.jpg
+  - foto3.jpg
+  - foto4.jpg
+
+Recomendado: imágenes verticales (proporción ~3:4), por ejemplo 600x800 px,
+optimizadas a menos de ~300 KB cada una.
+
+Para añadir MÁS fotos (6 u 8), mira el comentario con la fórmula en css/styles.css
+(sección "GALERÍA 3D"): ángulo = 360 / N, y agrega un <div class="ring3d-card"> por foto.

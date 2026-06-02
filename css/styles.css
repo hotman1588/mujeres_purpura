@@ -2818,3 +2818,88 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 @media (prefers-reduced-motion: reduce) {
   .vsello-play::after { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GALERÍA 3D — anillo giratorio infinito de fotos
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1) Contenedor PADRE con perspectiva: define la profundidad de la cámara 3D.
+      Menor perspective = efecto más exagerado; mayor = más sutil. */
+.ring3d-stage {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  margin-top: 44px;
+  perspective: 1200px;            /* ← CALIBRAR: cámara */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 2) El ANILLO: preserve-3d mantiene la profundidad real de las tarjetas y
+      gira de 0° a 360° de forma infinita en el eje Y. */
+.ring3d {
+  position: relative;
+  width: 260px;                   /* = ancho de cada tarjeta */
+  height: 340px;                  /* = alto de cada tarjeta */
+  transform-style: preserve-3d;
+  animation: ring3dSpin 28s linear infinite;   /* ← CALIBRAR velocidad (más seg = más lento) */
+}
+.ring3d-stage:hover .ring3d { animation-play-state: paused; }  /* pausa al pasar el cursor */
+
+@keyframes ring3dSpin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+/* 3) TARJETAS: posición absoluta, distribuidas equidistantes con rotateY + translateZ.
+   ─────────────────────────────────────────────────────────────────────────────
+   FÓRMULA PARA ESCALAR (cambiar el nº de fotos):
+     • Ángulo entre tarjetas  =  360° / N          (N = número de fotos)
+     • Radio (translateZ)      =  (anchoTarjeta/2) / tan(180° / N)
+   ─────────────────────────────────────────────────────────────────────────────
+   Config ACTUAL → N = 4  ⇒  ángulo = 360/4 = 90°
+   Radio sugerido (ancho 260 → mitad 130): 130 / tan(45°) = 130 / 1 ≈ 130px,
+   pero usamos 340px para separar más las fotos y que respiren visualmente.
+
+   Si subes a 6 fotos:  ángulo = 360/6 = 60°  → 0,60,120,180,240,300
+   Si subes a 8 fotos:  ángulo = 360/8 = 45°  → 0,45,90,135,180,225,270,315
+   (añade un .ring3d-card por foto y crea su :nth-child con el rotateY correspondiente). */
+.ring3d-card {
+  position: absolute;
+  inset: 0;
+  width: 260px;
+  height: 340px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  /* Color de respaldo: si la foto aún no existe, se ve este tono de marca */
+  background-color: var(--purple-soft);
+  box-shadow: 0 18px 40px rgba(62, 51, 111, 0.35);
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  /* backface visible para ver también las fotos del lado opuesto del anillo */
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+}
+
+/* Distribución equidistante — N = 4, ángulo 90°, radio (translateZ) = 340px */
+.ring3d-card:nth-child(1) { transform: rotateY(  0deg) translateZ(340px); }
+.ring3d-card:nth-child(2) { transform: rotateY( 90deg) translateZ(340px); }
+.ring3d-card:nth-child(3) { transform: rotateY(180deg) translateZ(340px); }
+.ring3d-card:nth-child(4) { transform: rotateY(270deg) translateZ(340px); }
+
+/* Responsive: tarjetas y radio más pequeños en móvil */
+@media (max-width: 600px) {
+  .ring3d-stage { height: 320px; perspective: 900px; }
+  .ring3d { width: 180px; height: 240px; }
+  .ring3d-card { width: 180px; height: 240px; }
+  .ring3d-card:nth-child(1) { transform: rotateY(  0deg) translateZ(230px); }
+  .ring3d-card:nth-child(2) { transform: rotateY( 90deg) translateZ(230px); }
+  .ring3d-card:nth-child(3) { transform: rotateY(180deg) translateZ(230px); }
+  .ring3d-card:nth-child(4) { transform: rotateY(270deg) translateZ(230px); }
+}
+
+/* Accesibilidad: detener el giro si el usuario prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .ring3d { animation: none; }
+}
