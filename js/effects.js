@@ -225,7 +225,7 @@
     const FALLBACK_FOTOS = [
       "img15.jpg", "img22.jpg", "img30.jpg", "img52.jpg",
       "img64.jpg", "img70.jpg", "img76.jpg", "img87.jpg",
-      "img133.jpg", "img178.jpg", "img179.jpg"
+      "img133.jpg", "img178.jpg", "img179.jpg", "Imagen.jpeg"
     ];
 
     // Precarga una imagen y devuelve su proporción (ancho/alto)
