@@ -228,30 +228,59 @@
       "img133.jpg", "img178.jpg", "img179.jpg"
     ];
 
-    function buildRing(files) {
+    // Precarga una imagen y devuelve su proporción (ancho/alto)
+    function loadRatio(src) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1);
+        img.onerror = () => resolve(0.75); // por defecto, vertical (3:4)
+        img.src = "Fotos/" + src;
+      });
+    }
+
+    function buildRing(files, ratios) {
       const N = files.length;
       if (!N) return;
       ring.innerHTML = "";
-      // Ancho de tarjeta según pantalla (coincide con el CSS) y separación
       const isMobile = window.matchMedia("(max-width: 600px)").matches;
-      const cardW = isMobile ? 140 : 200;
-      const gap = isMobile ? 36 : 60;
-      // Radio del anillo: fórmula equidistante (con mínimo para que no se solapen)
+      // "Caja" máxima donde encaja cada foto respetando su orientación
+      const maxW = isMobile ? 210 : 320;   // ancho máx (sobre todo para horizontales)
+      const maxH = isMobile ? 170 : 250;   // alto máx (sobre todo para verticales)
+      const gap  = isMobile ? 30 : 56;
+      // Radio del anillo basado en el ancho máximo, para que nada se solape
       const radius = Math.max(
-        Math.round(((cardW + gap) / 2) / Math.tan(Math.PI / N)),
-        cardW
+        Math.round(((maxW + gap) / 2) / Math.tan(Math.PI / N)),
+        maxW
       );
       const step = 360 / N; // ángulo entre tarjetas
+
       files.forEach((src, i) => {
+        const ratio = ratios[i] || 0.75;
+        // Ajusta la tarjeta a la proporción real de la foto (sin recortar ni deformar):
+        // partimos del alto máximo y, si se pasa de ancho, recalculamos desde el ancho.
+        let h = maxH;
+        let w = h * ratio;
+        if (w > maxW) { w = maxW; h = w / ratio; }
+
         const card = document.createElement("div");
         card.className = "ring3d-card";
         card.setAttribute("role", "img");
         card.setAttribute("aria-label", "Foto " + (i + 1) + " de la comunidad");
         card.style.backgroundImage = "url('Fotos/" + src + "')";
-        // Distribución equidistante: rotateY + translateZ
-        card.style.transform = "rotateY(" + (i * step) + "deg) translateZ(" + radius + "px)";
+        card.style.width = Math.round(w) + "px";
+        card.style.height = Math.round(h) + "px";
+        // translate(-50%,-50%) centra cada tarjeta sea cual sea su tamaño;
+        // luego rotateY + translateZ la colocan equidistante en el anillo.
+        card.style.transform =
+          "translate(-50%, -50%) rotateY(" + (i * step) + "deg) translateZ(" + radius + "px)";
         ring.appendChild(card);
       });
+    }
+
+    // Carga las proporciones de todas las fotos y luego construye el anillo
+    function buildRingAsync(files) {
+      if (!files.length) return;
+      Promise.all(files.map(loadRatio)).then((ratios) => buildRing(files, ratios));
     }
 
     // Intenta leer el listado de la carpeta Fotos/ (autoindex del servidor);
@@ -262,9 +291,9 @@
         const found = Array.from(html.matchAll(/href="([^"]+\.(?:jpe?g|png|webp))"/gi))
           .map((m) => decodeURIComponent(m[1].split("/").pop()))
           .filter((v, i, a) => a.indexOf(v) === i); // sin duplicados
-        buildRing(found.length ? found : FALLBACK_FOTOS);
+        buildRingAsync(found.length ? found : FALLBACK_FOTOS);
       })
-      .catch(() => buildRing(FALLBACK_FOTOS));
+      .catch(() => buildRingAsync(FALLBACK_FOTOS));
 
     // Recalcula posiciones al cambiar el tamaño (móvil/escritorio)
     let ringResizeId = null;
@@ -275,7 +304,7 @@
         const files = Array.from(ring.children).map((c) =>
           (c.style.backgroundImage.match(/Fotos\/([^'")]+)/) || [])[1]
         ).filter(Boolean);
-        if (files.length) buildRing(files);
+        if (files.length) buildRingAsync(files);
       }, 200);
     }, { passive: true });
   }

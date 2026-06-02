@@ -2902,7 +2902,9 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
    (añade un .ring3d-card por foto y crea su :nth-child con el rotateY correspondiente). */
 .ring3d-card {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  /* El tamaño real (según orientación de cada foto) lo fija js/effects.js */
   width: 200px;
   height: 270px;
   border-radius: 18px;
