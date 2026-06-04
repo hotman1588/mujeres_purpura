@@ -8,13 +8,82 @@ if (toggle && links) {
   });
 }
 
-document.querySelectorAll("[data-donation]").forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
-    // Abre la pasarela de pagos de Mercado Pago en una pestaña nueva
-    window.open("https://link.mercadopago.com.co/fmujerespurpura", "_blank", "noopener");
+/* ─── DONACIONES — modal de marca + Mercado Pago ──────────────────────────── */
+(function () {
+  const DONATE_URL = "https://link.mercadopago.com.co/fmujerespurpura";
+  const donateButtons = document.querySelectorAll("[data-donation]");
+  if (!donateButtons.length) return;
+
+  // Crea el modal una sola vez y lo reutiliza en todas las páginas
+  const overlay = document.createElement("div");
+  overlay.className = "donate-modal";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", "Donar a Fundación Mujeres Púrpura");
+  overlay.innerHTML = `
+    <div class="donate-card" role="document">
+      <button class="donate-close" type="button" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="donate-head">
+        <img class="donate-logo" src="${location.pathname.includes('/admin/') ? '../' : ''}assets/logo.jpg" alt="Fundación Mujeres Púrpura">
+        <span class="donate-eyebrow">Tu aporte transforma vidas</span>
+        <h3>Sé parte del cambio 💜</h3>
+        <p>Cada donación impulsa talleres, acompañamiento psicosocial y redes de apoyo para mujeres que lo necesitan.</p>
+      </div>
+
+      <div class="donate-amounts" role="group" aria-label="Montos sugeridos">
+        <button class="donate-amount" type="button" data-amt="20.000">$20.000</button>
+        <button class="donate-amount donate-amount--featured" type="button" data-amt="50.000">$50.000</button>
+        <button class="donate-amount" type="button" data-amt="100.000">$100.000</button>
+        <button class="donate-amount" type="button" data-amt="">Otro monto</button>
+      </div>
+
+      <ul class="donate-impact">
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 100% destinado a programas sociales</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Pago seguro con tarjeta, PSE o efectivo</li>
+      </ul>
+
+      <a class="donate-cta" href="${DONATE_URL}" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        Donar con Mercado Pago
+      </a>
+
+      <div class="donate-secure">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Procesado de forma segura por Mercado Pago
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  const closeBtn = overlay.querySelector(".donate-close");
+  const cta = overlay.querySelector(".donate-cta");
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    overlay.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal() {
+    overlay.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+
+  donateButtons.forEach((btn) => btn.addEventListener("click", openModal));
+  closeBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+  // Al continuar al pago, cerramos el modal (el enlace abre en pestaña nueva)
+  cta.addEventListener("click", () => setTimeout(closeModal, 100));
+
+  // Montos sugeridos: resaltan la selección (Mercado Pago define el valor final)
+  overlay.querySelectorAll(".donate-amount").forEach((b) => {
+    b.addEventListener("click", () => {
+      overlay.querySelectorAll(".donate-amount").forEach((x) => x.classList.remove("is-active"));
+      b.classList.add("is-active");
+    });
   });
-});
+})();
 
 /* ─── PREMIUM MULTIMEDIA CAROUSEL ─────────────────────────────────────────── */
 (function () {
