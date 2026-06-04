@@ -11,7 +11,8 @@ if (toggle && links) {
 document.querySelectorAll("[data-donation]").forEach((button) => {
   button.addEventListener("click", (event) => {
     event.preventDefault();
-    alert("El botón de donaciones quedará activo cuando agreguemos la información de recaudo.");
+    // Abre la pasarela de pagos de Mercado Pago en una pestaña nueva
+    window.open("https://link.mercadopago.com.co/fmujerespurpura", "_blank", "noopener");
   });
 });
 
