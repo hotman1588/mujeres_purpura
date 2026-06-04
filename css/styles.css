@@ -3379,3 +3379,23 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   .thanks-check-circle, .thanks-check-mark { animation: none; stroke-dashoffset: 0; }
   .confetti-piece { display: none; }
 }
+
+/* Botón de pruebas del modal de agradecimiento (temporal) */
+.donate-test-btn {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 1200;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--coral), #c95a42);
+  box-shadow: 0 6px 18px rgba(232, 132, 114, 0.5);
+  transition: transform 0.2s var(--spring), box-shadow 0.2s ease;
+}
+.donate-test-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(232, 132, 114, 0.6); }

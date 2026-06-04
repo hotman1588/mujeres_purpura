@@ -195,6 +195,15 @@ if (toggle && links) {
   });
   window.addEventListener("focus", maybeThankOnReturn);
 
+  /* ─── BOTÓN DE PRUEBAS (quítalo cuando ya no lo necesites) ─────────────────── */
+  const testBtn = document.createElement("button");
+  testBtn.type = "button";
+  testBtn.className = "donate-test-btn";
+  testBtn.textContent = "🧪 Probar gracias";
+  testBtn.title = "Mostrar el modal de agradecimiento (solo para pruebas)";
+  testBtn.addEventListener("click", showThanks);
+  document.body.appendChild(testBtn);
+
   // Montos sugeridos: además de resaltar, ajustan el destino del botón de pago.
   const ctaLabel = cta.querySelector("span");
   const impactLine = overlay.querySelector("#donateImpactLine span");
