@@ -10,7 +10,21 @@ if (toggle && links) {
 
 /* ─── DONACIONES — modal de marca + Mercado Pago ──────────────────────────── */
 (function () {
+  // Link genérico (monto libre): el usuario escribe el valor en Mercado Pago
   const DONATE_URL = "https://link.mercadopago.com.co/fmujerespurpura";
+
+  /* ┌─ LINKS DE PAGO POR MONTO ──────────────────────────────────────────────┐
+     │ Para que el monto vaya YA FIJADO, crea en Mercado Pago un "Link de pago"│
+     │ con valor fijo por cada monto y pega aquí su URL. Mientras esté vacío,  │
+     │ ese botón usará el link genérico (monto libre).                         │
+     │ Mercado Pago → Tu negocio → Link de pago → Crear (monto fijo).          │
+     └─────────────────────────────────────────────────────────────────────────┘ */
+  const DONATE_LINKS = {
+    "20.000":  "",   // ← pega aquí el link de $20.000
+    "50.000":  "",   // ← pega aquí el link de $50.000
+    "100.000": ""    // ← pega aquí el link de $100.000
+  };
+
   const donateButtons = document.querySelectorAll("[data-donation]");
   if (!donateButtons.length) return;
 
@@ -76,11 +90,24 @@ if (toggle && links) {
   // Al continuar al pago, cerramos el modal (el enlace abre en pestaña nueva)
   cta.addEventListener("click", () => setTimeout(closeModal, 100));
 
-  // Montos sugeridos: resaltan la selección (Mercado Pago define el valor final)
+  // Montos sugeridos: además de resaltar, ajustan el destino del botón de pago.
+  const ctaLabel = cta.childNodes[cta.childNodes.length - 1]; // nodo de texto del botón
+  function setCta(url, label) {
+    cta.href = url;
+    if (ctaLabel) ctaLabel.textContent = label;
+  }
   overlay.querySelectorAll(".donate-amount").forEach((b) => {
     b.addEventListener("click", () => {
       overlay.querySelectorAll(".donate-amount").forEach((x) => x.classList.remove("is-active"));
       b.classList.add("is-active");
+      const amt = b.dataset.amt;                       // "50.000" o "" (Otro monto)
+      const specific = amt && DONATE_LINKS[amt];        // link fijo si existe
+      if (specific) {
+        setCta(specific, " Donar $" + amt);             // monto YA fijado en el link
+      } else {
+        // Sin link específico → genérico (monto libre, se escribe en Mercado Pago)
+        setCta(DONATE_URL, amt ? " Donar $" + amt + " en Mercado Pago" : " Donar con Mercado Pago");
+      }
     });
   });
 })();
