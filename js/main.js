@@ -45,9 +45,10 @@ if (toggle && links) {
         <span class="donate-spark donate-spark--1"></span>
         <span class="donate-spark donate-spark--2"></span>
         <span class="donate-spark donate-spark--3"></span>
-        <div class="donate-logo-ring">
-          <img class="donate-logo" src="${location.pathname.includes('/admin/') ? '../' : ''}assets/logo.jpg" alt="Fundación Mujeres Púrpura">
-        </div>
+      </div>
+      <!-- Logo fuera de la cabecera para que no se recorte -->
+      <div class="donate-logo-ring">
+        <img class="donate-logo" src="${location.pathname.includes('/admin/') ? '../' : ''}assets/logo.jpg" alt="Fundación Mujeres Púrpura">
       </div>
 
       <div class="donate-body">
