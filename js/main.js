@@ -107,8 +107,93 @@ if (toggle && links) {
   closeBtn.addEventListener("click", closeModal);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-  // Al continuar al pago, cerramos el modal (el enlace abre en pestaña nueva)
-  cta.addEventListener("click", () => setTimeout(closeModal, 100));
+  // Al continuar al pago: cerramos el modal y marcamos que inició una donación
+  cta.addEventListener("click", () => {
+    sessionStorage.setItem("mp_donation_started", String(Date.now()));
+    setTimeout(closeModal, 100);
+  });
+
+  /* ─── MODAL DE AGRADECIMIENTO (post-donación) ─────────────────────────────── */
+  const thanks = document.createElement("div");
+  thanks.className = "thanks-modal";
+  thanks.setAttribute("role", "dialog");
+  thanks.setAttribute("aria-modal", "true");
+  thanks.setAttribute("aria-label", "Gracias por tu donación");
+  thanks.innerHTML = `
+    <div class="thanks-card" role="document">
+      <div class="thanks-confetti" aria-hidden="true"></div>
+      <button class="thanks-close" type="button" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="thanks-badge">
+        <svg class="thanks-check" width="46" height="46" viewBox="0 0 52 52" aria-hidden="true">
+          <circle class="thanks-check-circle" cx="26" cy="26" r="24" fill="none"/>
+          <path class="thanks-check-mark" fill="none" d="M14 27l8 8 16-16"/>
+        </svg>
+      </div>
+      <span class="thanks-eyebrow">Donación recibida</span>
+      <h3>¡Gracias por tu generosidad! 💜</h3>
+      <p>Tu aporte se convierte en talleres, acompañamiento y oportunidades reales para más mujeres. Eres parte del cambio.</p>
+      <div class="thanks-actions">
+        <button class="thanks-btn primary" type="button" data-close>Volver al inicio</button>
+        <a class="thanks-btn ghost" href="https://instagram.com/fmujerespurpura" target="_blank" rel="noopener">Síguenos en Instagram</a>
+      </div>
+      <p class="thanks-note">Recibirás el comprobante de Mercado Pago en tu correo.</p>
+    </div>`;
+  document.body.appendChild(thanks);
+
+  const confettiBox = thanks.querySelector(".thanks-confetti");
+  function launchConfetti() {
+    confettiBox.innerHTML = "";
+    const colors = ["#6f60a8", "#95dce2", "#36aeb8", "#e88472", "#9185c7"];
+    for (let i = 0; i < 26; i++) {
+      const p = document.createElement("span");
+      p.className = "confetti-piece";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.background = colors[i % colors.length];
+      p.style.animationDelay = (Math.random() * 0.5) + "s";
+      p.style.animationDuration = (1.8 + Math.random() * 1.4) + "s";
+      p.style.transform = "rotate(" + (Math.random() * 360) + "deg)";
+      confettiBox.appendChild(p);
+    }
+  }
+  function showThanks() {
+    thanks.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    launchConfetti();
+  }
+  function closeThanks() {
+    thanks.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+  thanks.querySelector(".thanks-close").addEventListener("click", closeThanks);
+  thanks.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", closeThanks));
+  thanks.addEventListener("click", (e) => { if (e.target === thanks) closeThanks(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeThanks(); });
+
+  // (1) Retorno desde Mercado Pago con ?donacion=gracias o ?status=approved
+  const params = new URLSearchParams(location.search);
+  if (params.get("donacion") === "gracias" || params.get("status") === "approved") {
+    setTimeout(showThanks, 400);
+    // Limpia la URL para que no se repita al recargar
+    params.delete("donacion"); params.delete("status");
+    const clean = location.pathname + (params.toString() ? "?" + params.toString() : "");
+    history.replaceState(null, "", clean);
+    sessionStorage.removeItem("mp_donation_started");
+  }
+
+  // (2) Volvió a la pestaña tras iniciar la donación (mín. 6 s fuera)
+  function maybeThankOnReturn() {
+    const started = parseInt(sessionStorage.getItem("mp_donation_started") || "0", 10);
+    if (started && Date.now() - started > 6000) {
+      sessionStorage.removeItem("mp_donation_started");
+      showThanks();
+    }
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") maybeThankOnReturn();
+  });
+  window.addEventListener("focus", maybeThankOnReturn);
 
   // Montos sugeridos: además de resaltar, ajustan el destino del botón de pago.
   const ctaLabel = cta.querySelector("span");

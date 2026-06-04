@@ -3213,3 +3213,169 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   .donate-cta-arrow { transition: none; }
   .donate-spark, .donate-cta::before, .donate-cta-heart, .donate-impact-line.pulse { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODAL DE AGRADECIMIENTO (post-donación)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.thanks-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(30, 24, 52, 0.6);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s var(--ease-out), visibility 0.3s;
+}
+.thanks-modal.is-open { opacity: 1; visibility: visible; }
+
+.thanks-card {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  background: var(--white);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(30, 24, 52, 0.5);
+  padding: 40px 30px 26px;
+  text-align: center;
+  overflow: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.4s var(--spring);
+}
+.thanks-modal.is-open .thanks-card { transform: translateY(0) scale(1); }
+
+.thanks-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--purple-dark);
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out), transform 0.2s var(--spring);
+}
+.thanks-close:hover { background: #ece5ef; transform: rotate(90deg); }
+
+/* Sello con check animado */
+.thanks-badge {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, rgba(54,174,184,0.18), transparent 70%);
+}
+.thanks-check { display: block; }
+.thanks-check-circle {
+  stroke: var(--aqua-dark);
+  stroke-width: 3;
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: thanksCircle 0.6s var(--ease-out) forwards;
+}
+.thanks-check-mark {
+  stroke: var(--aqua-dark);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: thanksMark 0.4s var(--ease-out) 0.5s forwards;
+}
+@keyframes thanksCircle { to { stroke-dashoffset: 0; } }
+@keyframes thanksMark  { to { stroke-dashoffset: 0; } }
+
+.thanks-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--aqua-dark);
+}
+.thanks-card h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.62rem;
+  color: var(--purple-dark);
+  margin: 6px 0 10px;
+}
+.thanks-card > p {
+  margin: 0 auto;
+  max-width: 34ch;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.thanks-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 22px 0 6px;
+}
+.thanks-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.96rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s var(--spring), box-shadow 0.2s ease, background 0.2s ease;
+}
+.thanks-btn.primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  box-shadow: 0 8px 22px rgba(111, 96, 168, 0.4);
+}
+.thanks-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(111, 96, 168, 0.5); }
+.thanks-btn.ghost {
+  color: var(--purple-dark);
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+}
+.thanks-btn.ghost:hover { border-color: var(--purple-soft); transform: translateY(-2px); }
+
+.thanks-note { margin: 8px 0 0; font-size: 0.76rem; color: var(--muted); }
+
+/* Confeti */
+.thanks-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  top: -14px;
+  width: 9px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0.9;
+  animation-name: confettiFall;
+  animation-timing-function: ease-in;
+  animation-iteration-count: 1;
+}
+@keyframes confettiFall {
+  to { transform: translateY(560px) rotate(540deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thanks-modal, .thanks-card, .thanks-close, .thanks-btn { transition: none; }
+  .thanks-check-circle, .thanks-check-mark { animation: none; stroke-dashoffset: 0; }
+  .confetti-piece { display: none; }
+}
