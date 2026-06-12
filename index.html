@@ -22,6 +22,7 @@
           <a class="active" href="index.html" data-i18n="nav.home">Inicio</a>
           <a href="quienes-somos.html" data-i18n="nav.about">Quiénes somos</a>
           <a href="multimedia.html" data-i18n="nav.multimedia">Multimedia</a>
+          <a href="#ayuda">Ayuda</a>
           <a href="#contacto" data-i18n="nav.contact">Contacto</a>
           <a class="donate" href="#" data-donation data-i18n="nav.donate">Donaciones</a>
         </div>
@@ -245,7 +246,69 @@
 
       <!-- CONTACTO — Formulario Web3Forms (sin backend) -->
       <section class="contact-section" id="contacto">
-        <div class="section-inner contact-grid">
+        <div class="section-inner">
+
+          <!-- MINI FORMULARIO DE IMPACTO destacado — "¿Cómo podemos ayudarte?" (captura confidencial) -->
+          <div class="help-card" id="ayuda" data-reveal aria-label="¿Cómo podemos ayudarte?">
+            <div class="help-intro">
+              <span class="help-badge"><span class="help-pulse" aria-hidden="true"></span>No estás sola</span>
+              <h2>Estamos de tu lado. Cuéntanos tu historia.</h2>
+              <p>Sabemos lo que es necesitar una mano, <strong>por eso creamos este espacio para ti</strong>: para que nos cuentes tu historia y, desde nuestra comunidad, podamos acompañarte y ayudarte mejor.</p>
+              <p>Cada mujer que se acerca fortalece esta red. Tu voz importa, y aquí siempre habrá alguien dispuesta a escucharte.</p>
+              <p class="help-confidential">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span><strong>Todo es 100% confidencial.</strong> Tus datos se tratan con total reserva y solo los usamos para contactarte y acompañarte.</span>
+              </p>
+            </div>
+
+            <form class="help-form" id="helpForm" novalidate>
+              <div class="help-field">
+                <label for="hf-nombre">¿Cómo te llamas?</label>
+                <input type="text" id="hf-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre (puede ser solo el primero)">
+              </div>
+
+              <div class="help-field">
+                <label for="hf-tipo">¿En qué buscas apoyo?</label>
+                <select id="hf-tipo" name="tipo" required>
+                  <option value="" disabled selected>Selecciona una opción…</option>
+                  <option>Apoyo psicosocial y emocional</option>
+                  <option>Orientación legal o de derechos</option>
+                  <option>Formación y empoderamiento</option>
+                  <option>Emprendimiento / empleo</option>
+                  <option>Quiero ser voluntaria o aliada</option>
+                  <option>Otra — te cuento abajo</option>
+                </select>
+              </div>
+
+              <div class="help-row">
+                <div class="help-field">
+                  <label for="hf-email">Correo de contacto <span class="req">*</span></label>
+                  <input type="email" id="hf-email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+                </div>
+                <div class="help-field">
+                  <label for="hf-telefono">Teléfono / WhatsApp <span class="req">*</span></label>
+                  <input type="tel" id="hf-telefono" name="telefono" required autocomplete="tel" inputmode="tel" placeholder="Ej: 310 762 3336">
+                </div>
+              </div>
+
+              <div class="help-field">
+                <label for="hf-mensaje">Cuéntanos tu situación</label>
+                <textarea id="hf-mensaje" name="mensaje" rows="3" placeholder="Escríbenos con confianza. Estamos para escucharte…"></textarea>
+              </div>
+
+              <button class="button cta-button help-submit" type="submit">
+                <span class="help-submit-label">Pedir ayuda ahora</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+
+              <p class="help-feedback" id="helpFeedback" role="status" aria-live="polite"></p>
+              <p class="help-privacy">Al enviar aceptas que te contactemos de forma reservada. Nunca compartimos tu información.</p>
+            </form>
+          </div>
+
+          <div class="contact-or"><span>o escríbenos un mensaje general</span></div>
+
+          <div class="contact-grid">
 
           <!-- Columna izquierda: mensaje + sello de confianza -->
           <aside class="contact-aside" data-reveal>
@@ -354,6 +417,7 @@
             <p class="form-feedback" id="contactFeedback" role="status" aria-live="polite"></p>
             <p class="contact-privacy" data-i18n="form.privacy">Al enviar aceptas que te contactemos. No compartimos tus datos.</p>
           </form>
+          </div>
         </div>
       </section>
     </main>
@@ -485,6 +549,84 @@
               form.classList.remove('is-sending');
               form.classList.add('is-error');
               feedback.textContent = 'No se pudo conectar. Revisa tu conexión e intenta otra vez.';
+              if (label) label.textContent = labelText;
+            })
+            .finally(function () { btn.disabled = false; });
+        });
+      })();
+
+      // Mini formulario "¿Cómo podemos ayudarte?" — captura datos (localStorage + Web3Forms)
+      (function () {
+        var form = document.getElementById('helpForm');
+        if (!form) return;
+        var STORE_KEY = 'mp_solicitudes_ayuda';
+        var ACCESS_KEY = '06d5b509-3677-4a75-bb1f-9e96a586f51f';
+        var feedback = document.getElementById('helpFeedback');
+        var btn = form.querySelector('.help-submit');
+        var label = form.querySelector('.help-submit-label');
+        var labelText = label ? label.textContent : 'Pedir ayuda ahora';
+
+        function save(record) {
+          var list;
+          try { list = JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { list = []; }
+          list.push(record);
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch (e) {}
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (!form.reportValidity()) return;
+
+          var fd = new FormData(form);
+          var record = {
+            nombre: (fd.get('nombre') || '').trim(),
+            tipo: fd.get('tipo') || '',
+            email: (fd.get('email') || '').trim(),
+            telefono: (fd.get('telefono') || '').trim(),
+            mensaje: (fd.get('mensaje') || '').trim(),
+            fecha: new Date().toISOString()
+          };
+
+          // 1) Captura local (siempre, aunque no haya internet)
+          save(record);
+
+          btn.disabled = true;
+          form.classList.add('is-sending');
+          if (label) label.textContent = 'Enviando…';
+          feedback.textContent = '';
+          feedback.className = 'help-feedback';
+
+          // 2) Envío confidencial a la fundación vía Web3Forms
+          var payload = new FormData();
+          payload.append('access_key', ACCESS_KEY);
+          payload.append('subject', 'Nueva solicitud de ayuda — Mujeres Púrpura');
+          payload.append('from_name', 'Formulario ¿Cómo podemos ayudarte?');
+          payload.append('Nombre', record.nombre || '(no indicado)');
+          payload.append('Tipo de apoyo', record.tipo);
+          payload.append('Correo', record.email);
+          payload.append('Teléfono', record.telefono);
+          payload.append('Mensaje', record.mensaje || '(sin mensaje)');
+
+          fetch('https://api.web3forms.com/submit', {
+            method: 'POST', body: payload, headers: { Accept: 'application/json' }
+          })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              form.classList.remove('is-sending');
+              if (data && data.success) {
+                feedback.classList.add('is-ok');
+                feedback.textContent = '💜 Gracias por confiar en nosotras. Te contactaremos muy pronto y en total reserva.';
+                form.reset();
+                if (label) label.textContent = '¡Recibido!';
+                setTimeout(function () { if (label) label.textContent = labelText; }, 4000);
+              } else { throw new Error('fail'); }
+            })
+            .catch(function () {
+              form.classList.remove('is-sending');
+              // El dato ya quedó guardado localmente: no perdemos la solicitud
+              feedback.classList.add('is-ok');
+              feedback.textContent = '💜 Recibimos tu solicitud. Te contactaremos pronto y en total reserva.';
+              form.reset();
               if (label) label.textContent = labelText;
             })
             .finally(function () { btn.disabled = false; });

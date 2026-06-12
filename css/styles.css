@@ -3399,3 +3399,180 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   transition: transform 0.2s var(--spring), box-shadow 0.2s ease;
 }
 .donate-test-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(232, 132, 114, 0.6); }
+
+/* ─── MINI FORMULARIO DE IMPACTO "¿Cómo podemos ayudarte?" (destacado) ──── */
+.help-card {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 55%, var(--aqua-dark) 140%);
+  background-size: 180% 180%;
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.8rem, 4vw, 3.2rem);
+  margin-bottom: clamp(1.5rem, 4vw, 2.6rem);
+  box-shadow: 0 24px 60px rgba(62,51,111,0.35), 0 8px 20px rgba(62,51,111,0.2);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  animation: helpGradient 12s ease infinite;
+}
+@keyframes helpGradient {
+  0%,100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+/* Borde brillante animado que lo hace resaltar sobre el contacto normal */
+.help-card::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  padding: 2px; border-radius: inherit;
+  background: linear-gradient(120deg, var(--aqua), var(--coral), var(--aqua), var(--purple-soft));
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: helpBorder 6s linear infinite;
+}
+@keyframes helpBorder { to { background-position: 300% 0; } }
+.help-card::after {
+  content: "";
+  position: absolute; inset: auto -60px -80px auto;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(149,220,226,0.4), transparent 70%);
+  pointer-events: none; z-index: -1;
+}
+.contact-or {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 0 auto clamp(1.2rem, 3vw, 2rem);
+  max-width: 520px; color: var(--muted);
+  font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.contact-or::before, .contact-or::after {
+  content: ""; flex: 1; height: 1px; background: var(--line);
+}
+.help-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.16);
+  border-radius: 999px; padding: 0.35rem 0.85rem;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--white);
+}
+.help-intro { position: relative; z-index: 1; }
+.help-intro h2 { color: var(--white); margin: 0.55rem 0 0.6rem; line-height: 1.15; font-size: clamp(1.5rem, 3.2vw, 2.1rem); }
+.help-intro > p { color: rgba(255,255,255,0.92); margin: 0 0 0.9rem; }
+.help-pulse {
+  display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--aqua); vertical-align: middle;
+  box-shadow: 0 0 0 0 rgba(149,220,226,0.7);
+  animation: helpPulse 2s infinite;
+}
+@keyframes helpPulse {
+  0% { box-shadow: 0 0 0 0 rgba(149,220,226,0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(149,220,226,0); }
+  100% { box-shadow: 0 0 0 0 rgba(149,220,226,0); }
+}
+.help-confidential {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.05rem; font-size: 0.88rem; line-height: 1.45;
+  color: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.help-confidential svg { flex: 0 0 auto; margin-top: 2px; color: var(--aqua); }
+
+/* Tarjeta del formulario — vidrio premium con doble luz */
+.help-form {
+  position: relative; z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: calc(var(--radius-lg) + 4px);
+  padding: clamp(1.4rem, 3vw, 2rem);
+  box-shadow:
+    0 30px 60px -18px rgba(20,12,40,0.45),
+    0 8px 20px rgba(20,12,40,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  display: grid; gap: 1rem;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.help-form::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(120% 80% at 0% 0%, rgba(149,220,226,0.16), transparent 50%);
+  pointer-events: none;
+}
+.help-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.help-field { display: grid; gap: 0.4rem; position: relative; }
+.help-field label {
+  font-size: 0.72rem; font-weight: 700; color: var(--purple-dark);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.help-field .req { color: var(--coral); }
+.help-field input,
+.help-field select,
+.help-field textarea {
+  width: 100%;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius);
+  padding: 0.8rem 0.95rem;
+  font: inherit; color: var(--ink);
+  background: rgba(247,242,246,0.9);
+  box-shadow: inset 0 1px 2px rgba(62,51,111,0.06);
+  transition: border-color 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out),
+              background 0.22s var(--ease-out), transform 0.22s var(--spring);
+}
+/* Flecha personalizada para el select */
+.help-field select {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236f60a8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.95rem center;
+  padding-right: 2.4rem; cursor: pointer;
+}
+.help-field input::placeholder,
+.help-field textarea::placeholder { color: var(--muted); }
+.help-field input:focus,
+.help-field select:focus,
+.help-field textarea:focus {
+  outline: none; background: var(--white);
+  border-color: var(--purple-soft);
+  box-shadow: 0 0 0 4px rgba(145,133,199,0.18), 0 6px 16px rgba(111,96,168,0.14);
+  transform: translateY(-1px);
+}
+.help-field textarea { resize: vertical; min-height: 78px; }
+
+/* Botón premium con barrido de brillo */
+.help-submit {
+  margin-top: 0.4rem; position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  padding-block: 0.95rem;
+  background: linear-gradient(120deg, var(--purple-dark), var(--purple) 45%, var(--aqua-dark));
+  background-size: 160% 100%;
+  border: none; letter-spacing: 0.01em;
+  box-shadow: 0 12px 26px -8px rgba(62,51,111,0.6);
+  transition: transform 0.25s var(--spring), box-shadow 0.25s var(--ease-out), background-position 0.4s ease;
+}
+.help-submit::after {
+  content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s var(--ease-out);
+}
+.help-submit:hover {
+  transform: translateY(-2px); background-position: 100% 0;
+  box-shadow: 0 18px 34px -8px rgba(62,51,111,0.7);
+}
+.help-submit:hover::after { left: 130%; }
+.help-form.is-sending .help-submit { opacity: 0.8; cursor: progress; }
+.help-feedback { margin: 0.2rem 0 0; font-size: 0.9rem; font-weight: 600; min-height: 1.1em; color: var(--coral); }
+.help-feedback.is-ok { color: var(--aqua-dark); }
+.help-privacy { margin: 0; font-size: 0.76rem; color: var(--muted); text-align: center; }
+
+@media (max-width: 820px) {
+  .help-card { grid-template-columns: 1fr; }
+  .help-row { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .help-card, .help-card::before, .help-submit, .help-submit::after { animation: none !important; transition: none !important; }
+}
