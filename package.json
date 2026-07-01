@@ -1,0 +1,17 @@
+{
+  "name": "mujeres-purpura",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio web de la Fundación Mujeres Púrpura (sitio estático HTML/CSS/JS).",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve .",
+    "build": "echo \"Sitio estático: no requiere compilación\" && exit 0"
+  },
+  "keywords": [
+    "mujeres-purpura",
+    "fundacion",
+    "static-site"
+  ],
+  "license": "MIT"
+}
