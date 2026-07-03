@@ -2,9 +2,68 @@ const toggle = document.querySelector(".nav-toggle");
 const links = document.querySelector(".nav-links");
 
 if (toggle && links) {
-  toggle.addEventListener("click", () => {
-    const isOpen = links.classList.toggle("open");
-    toggle.setAttribute("aria-expanded", String(isOpen));
+  /* ── Íconos del menú móvil expandible (tap en ☰, estilo tarjeta) ──────────
+     Se inyectan una sola vez y solo son visibles en la vista móvil vía CSS.
+     La clave se resuelve por el destino del enlace o por su data-i18n.       */
+  const NAV_ICONS = {
+    home:       '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+    about:      '<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>',
+    multimedia: '<circle cx="12" cy="12" r="9"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/>',
+    help:       '<circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><line x1="12" y1="17" x2="12" y2="17.01"/>',
+    contact:    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    donate:     '<path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>'
+  };
+  const iconKeyFor = (a) => {
+    const i18n = (a.getAttribute("data-i18n") || "").split(".").pop();
+    if (NAV_ICONS[i18n]) return i18n;
+    if (a.hasAttribute("data-donation") || a.classList.contains("donate")) return "donate";
+    const href = (a.getAttribute("href") || "").toLowerCase();
+    if (href.includes("index") || href === "#" || href === "" || href.startsWith("#inicio")) return "home";
+    if (href.includes("quienes")) return "about";
+    if (href.includes("multimedia")) return "multimedia";
+    if (href.includes("ayuda")) return "help";
+    if (href.includes("contacto")) return "contact";
+    return "home";
+  };
+  links.querySelectorAll("a").forEach((a) => {
+    if (a.querySelector(".nav-ico")) return;
+    const key = iconKeyFor(a);
+    const span = document.createElement("span");
+    span.className = "nav-ico";
+    span.setAttribute("aria-hidden", "true");
+    span.innerHTML =
+      `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${NAV_ICONS[key]}</svg>`;
+    a.insertBefore(span, a.firstChild);
+  });
+
+  const setOpen = (open) => {
+    links.classList.toggle("open", open);
+    toggle.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+  };
+
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setOpen(!links.classList.contains("open"));
+  });
+
+  // Cerrar al elegir una opción
+  links.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => setOpen(false))
+  );
+
+  // Cerrar al tocar fuera del panel
+  document.addEventListener("click", (e) => {
+    if (links.classList.contains("open") &&
+        !links.contains(e.target) && !toggle.contains(e.target)) {
+      setOpen(false);
+    }
+  });
+
+  // Cerrar con Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
   });
 }
 

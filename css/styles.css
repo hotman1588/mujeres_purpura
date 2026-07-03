@@ -178,6 +178,14 @@ a {
 
 .nav-links a.active::after { width: 22px; }
 
+/* Los íconos del menú solo se muestran en el panel móvil expandible */
+.nav-ico { display: none; }
+
+@keyframes navPanelPop {
+  from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .lang-btn {
   flex-shrink: 0;
   padding: 7px 16px;
@@ -893,23 +901,96 @@ h3 {
   .nav {
     flex-wrap: wrap;
     padding: 12px 0;
+    position: relative;
   }
 
+  /* ── Botón ☰ → ✕ al abrir ─────────────────────────────────────────── */
+  .nav-toggle.open {
+    background: var(--purple-dark);
+    color: #fff;
+    font-size: 0;
+  }
+  .nav-toggle.open::before {
+    content: "✕";
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  /* ── Panel móvil expandible tipo tarjeta (tap en ☰) ───────────────── */
   .nav-links {
     display: none;
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    padding-bottom: 10px;
   }
 
   .nav-links.open {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 60;
+    padding: 18px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: var(--shadow-lg);
+    transform-origin: top right;
+    animation: navPanelPop 0.28s var(--spring);
   }
 
-  .nav-links a,
-  .donate {
-    width: 100%;
+  .nav-links.open a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: auto;
+    padding: 15px 6px;
+    border-radius: 18px;
+    background: rgba(111, 96, 168, 0.06);
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .nav-links.open a::after { display: none; }
+
+  .nav-links.open a:hover,
+  .nav-links.open a.active {
+    background: rgba(149, 220, 226, 0.28);
+    transform: none;
+  }
+
+  .nav-links.open .nav-ico {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--purple);
+    box-shadow: 0 6px 16px rgba(62, 51, 111, 0.12);
+  }
+
+  .nav-links.open a.active .nav-ico { color: var(--aqua-dark); }
+
+  /* Donaciones ocupa toda la fila, en horizontal y destacado */
+  .nav-links.open a.donate {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+    padding: 14px;
+    font-size: 0.95rem;
+    background: linear-gradient(135deg, var(--coral), #d76a57);
+    color: #fff;
+  }
+  .nav-links.open a.donate .nav-ico {
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+    box-shadow: none;
   }
 
   .hero {
