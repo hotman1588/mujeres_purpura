@@ -351,7 +351,11 @@ const translations = {
     if (!dict) return;
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.dataset.i18n;
-      if (dict[key] !== undefined) el.textContent = dict[key];
+      if (dict[key] === undefined) return;
+      // Preservar el ícono del menú (.nav-ico) al traducir el texto
+      const ico = el.querySelector(".nav-ico");
+      el.textContent = dict[key];
+      if (ico) el.insertBefore(ico, el.firstChild);
     });
     document.querySelectorAll("[data-i18n-ph]").forEach((el) => {
       const key = el.dataset.i18nPh;
