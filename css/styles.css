@@ -922,75 +922,73 @@ h3 {
   }
 
   .nav-links.open {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     position: absolute;
     left: 0;
     right: 0;
     top: calc(100% + 6px);
     z-index: 60;
-    padding: 18px;
+    padding: 12px;
     background: var(--white);
     border: 1px solid var(--line);
-    border-radius: 22px;
+    border-radius: 20px;
     box-shadow: var(--shadow-lg);
     transform-origin: top right;
     animation: navPanelPop 0.28s var(--spring);
   }
 
+  /* Cada opción es una fila: ícono a la izquierda + etiqueta */
   .nav-links.open a {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 9px;
-    width: auto;
-    padding: 15px 6px;
-    border-radius: 18px;
-    background: rgba(111, 96, 168, 0.06);
-    font-size: 0.8rem;
-    text-align: center;
-    line-height: 1.15;
+    gap: 14px;
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 14px;
+    background: transparent;
+    font-size: 0.98rem;
+    text-align: left;
+    line-height: 1.2;
   }
 
   .nav-links.open a::after { display: none; }
 
   .nav-links.open a:hover,
   .nav-links.open a.active {
-    background: rgba(149, 220, 226, 0.28);
+    background: rgba(149, 220, 226, 0.22);
     transform: none;
   }
 
   .nav-links.open .nav-ico {
+    flex-shrink: 0;
     display: grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(111, 96, 168, 0.08);
     color: var(--purple);
-    box-shadow: 0 6px 16px rgba(62, 51, 111, 0.12);
   }
 
-  .nav-links.open a.active .nav-ico { color: var(--aqua-dark); }
+  .nav-links.open a.active .nav-ico {
+    background: rgba(54, 174, 184, 0.14);
+    color: var(--aqua-dark);
+  }
 
-  /* Donaciones ocupa toda la fila, en horizontal y destacado */
+  /* Donaciones destacado al final de la lista */
   .nav-links.open a.donate {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    gap: 12px;
-    padding: 14px;
-    font-size: 0.95rem;
+    margin-top: 6px;
+    padding: 13px 14px;
+    font-size: 0.98rem;
     background: linear-gradient(135deg, var(--coral), #d76a57);
     color: #fff;
   }
   .nav-links.open a.donate .nav-ico {
-    width: 34px;
-    height: 34px;
     background: rgba(255, 255, 255, 0.22);
     color: #fff;
-    box-shadow: none;
   }
 
   .hero {

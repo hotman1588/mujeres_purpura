@@ -48,10 +48,19 @@ if (toggle && links) {
     setOpen(!links.classList.contains("open"));
   });
 
-  // Cerrar al elegir una opción
-  links.querySelectorAll("a").forEach((a) =>
-    a.addEventListener("click", () => setOpen(false))
-  );
+  // Cerrar al elegir una opción (+ scroll suave al Inicio si ya estamos ahí)
+  links.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      if (iconKeyFor(a) === "home") {
+        const hero = document.querySelector(".hero");
+        if (hero) {
+          e.preventDefault();
+          hero.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+      setOpen(false);
+    });
+  });
 
   // Cerrar al tocar fuera del panel
   document.addEventListener("click", (e) => {
