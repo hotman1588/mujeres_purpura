@@ -3742,8 +3742,8 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 
 .help-modal {
   position: relative;
-  width: min(920px, 100%);
-  max-height: 92vh;
+  width: min(860px, 100%);
+  max-height: 90vh;
   overflow-y: auto;
   border-radius: var(--radius-lg);
   transform: translateY(28px) scale(0.97);
@@ -3751,7 +3751,19 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   overscroll-behavior: contain;
 }
 .help-overlay.open .help-modal { transform: none; }
-.help-modal .help-card { margin-bottom: 0; }
+
+/* Versión compacta de la tarjeta dentro del modal (para que quepa en pantalla) */
+.help-modal .help-card {
+  margin-bottom: 0;
+  align-items: start;
+  gap: clamp(1.2rem, 3vw, 2rem);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  animation: none;
+}
+.help-modal .help-card .help-intro h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); margin-bottom: 0.5rem; }
+.help-modal .help-card .help-intro p { font-size: 0.9rem; margin: 0.4rem 0; }
+.help-modal .help-card .help-field { margin-bottom: 0.6rem; }
+.help-modal .help-card textarea { min-height: 62px; }
 
 .help-modal-close {
   position: absolute;
