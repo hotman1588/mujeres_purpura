@@ -928,6 +928,9 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
 (function () {
   const overlay = document.getElementById("ayudaOverlay");
   if (!overlay) return; // Solo existe en index.html
+  // Sacar el overlay de cualquier ancestro con transform (data-reveal),
+  // así 'position: fixed' se ancla a la ventana y queda centrado de verdad.
+  if (overlay.parentElement !== document.body) document.body.appendChild(overlay);
   const closeBtn = overlay.querySelector(".help-modal-close");
   let lastFocus = null;
 
