@@ -25,8 +25,9 @@
 
 html {
   scroll-behavior: smooth;
-  /* Vista al 80% en todos los dispositivos (PC, tablet y móvil) */
-  zoom: 0.8;
+  /* Tamaño base de carga en todos los dispositivos (PC, tablet y móvil).
+     El usuario puede ampliar/reducir con el zoom del navegador por encima. */
+  zoom: 0.88;
 }
 
 body {
