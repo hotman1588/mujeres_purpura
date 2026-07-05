@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=11">
+    <link rel="stylesheet" href="css/styles.css?v=12">
   </head>
   <body>
     <header class="site-header">
@@ -292,7 +292,25 @@
                 </div>
                 <div class="help-field">
                   <label for="hf-telefono">Teléfono / WhatsApp <span class="req">*</span></label>
-                  <input type="tel" id="hf-telefono" name="telefono" required autocomplete="tel" inputmode="tel" placeholder="Ej: 310 762 3336">
+                  <div class="phone-group">
+                    <div class="phone-code-select" id="phoneCodeHelp">
+                      <input type="hidden" name="indicativo" id="hf-indicativo" value="+57">
+                      <button type="button" class="phone-code-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Seleccionar indicativo de país">
+                        <img class="phone-code-flag" src="https://flagcdn.com/24x18/co.png" alt="" width="24" height="18">
+                        <span class="phone-code-value">+57</span>
+                        <svg class="phone-code-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                      <div class="phone-code-panel" role="dialog" aria-label="Buscar país">
+                        <div class="phone-code-search">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                          <input type="text" class="phone-code-search-input" placeholder="Buscar país…" aria-label="Buscar país" autocomplete="off">
+                        </div>
+                        <ul class="phone-code-list" role="listbox" aria-label="Países"></ul>
+                        <p class="phone-code-empty" hidden>Sin resultados</p>
+                      </div>
+                    </div>
+                    <input type="tel" id="hf-telefono" name="telefono" required autocomplete="tel" inputmode="tel" placeholder="Ej: 310 762 3336" class="phone-number-input">
+                  </div>
                 </div>
               </div>
 
@@ -433,14 +451,14 @@
         <span data-i18n="footer.contact">@fmujerespurpura · 3107623336 · 3017752762</span>
       </div>
     </footer>
-    <script src="js/main.js?v=11"></script>
-    <script src="js/i18n.js?v=11"></script>
-    <script src="js/effects.js?v=11"></script>
+    <script src="js/main.js?v=12"></script>
+    <script src="js/i18n.js?v=12"></script>
+    <script src="js/effects.js?v=12"></script>
     <script>
-      // Selector de indicativo de país con banderas y búsqueda
+      // Selector de indicativo de país con banderas y búsqueda (todos los formularios)
       (function () {
-        var root = document.getElementById('phoneCode');
-        if (!root) return;
+        var roots = document.querySelectorAll('.phone-code-select');
+        if (!roots.length) return;
         var countries = [
           ['co', '+57', 'Colombia'], ['mx', '+52', 'México'], ['ar', '+54', 'Argentina'],
           ['cl', '+56', 'Chile'], ['pe', '+51', 'Perú'], ['ve', '+58', 'Venezuela'],
@@ -453,64 +471,69 @@
           ['br', '+55', 'Brasil'], ['ca', '+1', 'Canadá'], ['au', '+61', 'Australia'],
           ['cn', '+86', 'China'], ['jp', '+81', 'Japón'], ['in', '+91', 'India']
         ];
-        var hidden = document.getElementById('cf-indicativo');
-        var btn = root.querySelector('.phone-code-btn');
-        var btnFlag = root.querySelector('.phone-code-flag');
-        var btnValue = root.querySelector('.phone-code-value');
-        var panel = root.querySelector('.phone-code-panel');
-        var search = root.querySelector('.phone-code-search-input');
-        var list = root.querySelector('.phone-code-list');
-        var empty = root.querySelector('.phone-code-empty');
 
         function flagUrl(iso) { return 'https://flagcdn.com/24x18/' + iso + '.png'; }
 
-        countries.forEach(function (c) {
-          var li = document.createElement('li');
-          li.className = 'phone-code-option';
-          li.setAttribute('role', 'option');
-          li.dataset.iso = c[0];
-          li.dataset.code = c[1];
-          li.dataset.name = c[2];
-          li.innerHTML = '<img src="' + flagUrl(c[0]) + '" alt="" width="24" height="18" loading="lazy">' +
-            '<span class="opt-name">' + c[2] + '</span><span class="opt-code">' + c[1] + '</span>';
-          li.addEventListener('click', function () { choose(c[0], c[1]); close(); });
-          list.appendChild(li);
-        });
+        function initSelect(root) {
+          var hidden = root.querySelector('input[type="hidden"]');
+          var btn = root.querySelector('.phone-code-btn');
+          var btnFlag = root.querySelector('.phone-code-flag');
+          var btnValue = root.querySelector('.phone-code-value');
+          var panel = root.querySelector('.phone-code-panel');
+          var search = root.querySelector('.phone-code-search-input');
+          var list = root.querySelector('.phone-code-list');
+          var empty = root.querySelector('.phone-code-empty');
 
-        function choose(iso, code) {
-          hidden.value = code;
-          btnFlag.src = flagUrl(iso);
-          btnValue.textContent = code;
-        }
-        function open() {
-          panel.classList.add('is-open');
-          btn.setAttribute('aria-expanded', 'true');
-          search.value = '';
-          filter('');
-          setTimeout(function () { search.focus(); }, 30);
-        }
-        function close() {
-          panel.classList.remove('is-open');
-          btn.setAttribute('aria-expanded', 'false');
-        }
-        function filter(q) {
-          q = q.toLowerCase().trim();
-          var visible = 0;
-          list.querySelectorAll('.phone-code-option').forEach(function (li) {
-            var match = li.dataset.name.toLowerCase().indexOf(q) !== -1 ||
-              li.dataset.code.indexOf(q) !== -1 || li.dataset.iso.indexOf(q) !== -1;
-            li.style.display = match ? '' : 'none';
-            if (match) visible++;
+          countries.forEach(function (c) {
+            var li = document.createElement('li');
+            li.className = 'phone-code-option';
+            li.setAttribute('role', 'option');
+            li.dataset.iso = c[0];
+            li.dataset.code = c[1];
+            li.dataset.name = c[2];
+            li.innerHTML = '<img src="' + flagUrl(c[0]) + '" alt="" width="24" height="18" loading="lazy">' +
+              '<span class="opt-name">' + c[2] + '</span><span class="opt-code">' + c[1] + '</span>';
+            li.addEventListener('click', function () { choose(c[0], c[1]); close(); });
+            list.appendChild(li);
           });
-          empty.hidden = visible !== 0;
+
+          function choose(iso, code) {
+            if (hidden) hidden.value = code;
+            btnFlag.src = flagUrl(iso);
+            btnValue.textContent = code;
+          }
+          function open() {
+            panel.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+            search.value = '';
+            filter('');
+            setTimeout(function () { search.focus(); }, 30);
+          }
+          function close() {
+            panel.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+          function filter(q) {
+            q = q.toLowerCase().trim();
+            var visible = 0;
+            list.querySelectorAll('.phone-code-option').forEach(function (li) {
+              var match = li.dataset.name.toLowerCase().indexOf(q) !== -1 ||
+                li.dataset.code.indexOf(q) !== -1 || li.dataset.iso.indexOf(q) !== -1;
+              li.style.display = match ? '' : 'none';
+              if (match) visible++;
+            });
+            empty.hidden = visible !== 0;
+          }
+
+          btn.addEventListener('click', function () {
+            panel.classList.contains('is-open') ? close() : open();
+          });
+          search.addEventListener('input', function () { filter(search.value); });
+          search.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); btn.focus(); } });
+          document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
         }
 
-        btn.addEventListener('click', function () {
-          panel.classList.contains('is-open') ? close() : open();
-        });
-        search.addEventListener('input', function () { filter(search.value); });
-        search.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); btn.focus(); } });
-        document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
+        roots.forEach(initSelect);
       })();
 
       // Envío del formulario de contacto vía Web3Forms (sin backend)
@@ -583,14 +606,16 @@
           if (!form.reportValidity()) return;
 
           var fd = new FormData(form);
+          var indicativo = (fd.get('indicativo') || '').trim();
+          var telNum = (fd.get('telefono') || '').trim();
           var record = {
             nombre: (fd.get('nombre') || '').trim(),
             tipo: fd.get('tipo') || '',
             email: (fd.get('email') || '').trim(),
-            telefono: (fd.get('telefono') || '').trim(),
-            mensaje: (fd.get('mensaje') || '').trim(),
+            telefono: telNum ? (indicativo + ' ' + telNum).trim() : '',
             fecha: new Date().toISOString()
           };
+          record.mensaje = (fd.get('mensaje') || '').trim();
 
           // 1) Captura local (siempre, aunque no haya internet)
           save(record);

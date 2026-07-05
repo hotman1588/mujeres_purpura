@@ -2865,6 +2865,7 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 /* Grupo teléfono con indicativo de país (selector con banderas + búsqueda) */
 .phone-group { display: flex; gap: 10px; align-items: stretch; }
 .phone-group .phone-number { flex: 1; }
+.phone-group .phone-number-input { flex: 1; min-width: 0; margin: 0; }
 .phone-code-select { position: relative; flex: none; }
 .phone-code-btn {
   display: inline-flex;
