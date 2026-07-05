@@ -25,6 +25,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Vista al 80% en todos los dispositivos (PC, tablet y móvil) */
+  zoom: 0.8;
 }
 
 body {
