@@ -1,3 +1,12 @@
+/* ─── Vista al 80% en todos los dispositivos y tamaños responsivos ─────────
+   Complementa el `zoom: 0.8` del CSS; lo reafirma al cargar y al rotar/redimensionar
+   para que se mantenga en PC, tablet y móvil. (Misma propiedad → no se acumula.) */
+(function () {
+  function apply80() { try { document.documentElement.style.zoom = "0.8"; } catch (e) {} }
+  apply80();
+  window.addEventListener("orientationchange", apply80);
+})();
+
 const toggle = document.querySelector(".nav-toggle");
 const links = document.querySelector(".nav-links");
 
