@@ -51,12 +51,15 @@ if (toggle && links) {
   // Cerrar al elegir una opción (+ scroll suave al Inicio si ya estamos ahí)
   links.querySelectorAll("a").forEach((a) => {
     a.addEventListener("click", (e) => {
-      if (iconKeyFor(a) === "home") {
-        const hero = document.querySelector(".hero");
-        if (hero) {
-          e.preventDefault();
-          hero.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+      if (iconKeyFor(a) === "home" && document.querySelector(".hero")) {
+        // Mismo scroll suave al Inicio en desktop y móvil
+        e.preventDefault();
+        setOpen(false);
+        // Esperar al cierre del panel para un desplazamiento fluido en móvil
+        requestAnimationFrame(() =>
+          window.scrollTo({ top: 0, behavior: "smooth" })
+        );
+        return;
       }
       setOpen(false);
     });
@@ -732,4 +735,188 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
   ro.observe(track);
   setEdgePadding();
   setTimeout(() => { scrollToCard(0); updateCards(); }, 80);
+})();
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WIDGET DE EMERGENCIA — "Ruta de Ayuda Psicológica"
+   Botón flotante permanente (esquina inferior derecha) que abre un modal con
+   un árbol de decisiones: emergencia, primeros auxilios psicológicos y
+   derivación a instituciones aliadas. Se inyecta en todas las páginas.
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  if (document.querySelector(".sos-fab")) return;
+
+  const WA = "https://wa.me/573107623336"; // WhatsApp de la Fundación
+  const svg = (p) =>
+    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+
+  const ICON = {
+    danger:  '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17.01"/>',
+    heart:   '<path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',
+    building:'<path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/><path d="M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/>',
+    phone:   '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+    wa:      '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+    form:    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/>'
+  };
+
+  /* ── Árbol de decisiones ────────────────────────────────────────────── */
+  const NODES = {
+    root: {
+      title: "Ruta de Ayuda Psicológica",
+      intro: "No estás sola. Cuéntanos qué necesitas ahora y te mostramos el camino más rápido.",
+      items: [
+        { ico: "danger",   goto: "emergencia",  danger: true,
+          t: "Estoy en peligro ahora", d: "Riesgo inmediato para tu vida o integridad." },
+        { ico: "heart",    goto: "auxilios",
+          t: "Necesito calmarme o hablar", d: "Apoyo emocional y primeros auxilios psicológicos." },
+        { ico: "building", goto: "instituciones",
+          t: "Quiero orientación profesional", d: "Instituciones aliadas y rutas de atención." }
+      ]
+    },
+    emergencia: {
+      title: "Si tu vida corre peligro",
+      intro: "Llama de inmediato. Estas líneas atienden 24/7 y son gratuitas.",
+      items: [
+        { ico: "phone", tel: "123", danger: true,
+          t: "Emergencias — 123", d: "Policía y atención inmediata." },
+        { ico: "phone", tel: "155",
+          t: "Línea 155", d: "Orientación a mujeres víctimas de violencia." },
+        { ico: "phone", tel: "018000112137",
+          t: "Línea Púrpura", d: "Apoyo psicosocial y jurídico para mujeres." },
+        { ico: "wa", href: WA,
+          t: "WhatsApp de la Fundación", d: "Escríbenos, te acompañamos." }
+      ]
+    },
+    auxilios: {
+      title: "Primeros auxilios psicológicos",
+      tips: [
+        "<strong>Respira:</strong> inhala 4 seg, sostén 4, exhala 6. Repítelo 5 veces.",
+        "<strong>Ancla tu atención (5-4-3-2-1):</strong> nombra 5 cosas que ves, 4 que tocas, 3 que oyes, 2 que hueles, 1 que saboreas.",
+        "<strong>Recuerda:</strong> lo que sientes es válido y va a pasar. No tienes que resolverlo sola."
+      ],
+      intro: "Cuando te sientas lista, da el siguiente paso:",
+      items: [
+        { ico: "wa", href: WA,
+          t: "Hablar con la Fundación", d: "Acompañamiento por WhatsApp." },
+        { ico: "form", href: "index.html#ayuda", internal: "#ayuda",
+          t: "Pedir ayuda ahora", d: "Déjanos tus datos de forma confidencial." }
+      ]
+    },
+    instituciones: {
+      title: "Instituciones aliadas",
+      intro: "Puedes acudir directamente a estas entidades de atención en Colombia.",
+      items: [
+        { ico: "form", href: "index.html#ayuda", internal: "#ayuda",
+          t: "Fundación Mujeres Púrpura", d: "Acompañamiento y derivación." },
+        { ico: "phone", tel: "155",
+          t: "Comisarías de Familia — 155", d: "Medidas de protección." },
+        { ico: "phone", tel: "122",
+          t: "Fiscalía — 122", d: "Denuncia de delitos." },
+        { ico: "phone", tel: "141",
+          t: "ICBF — 141", d: "Protección de niñas, niños y adolescentes." }
+      ]
+    }
+  };
+
+  /* ── Construir el DOM del widget ────────────────────────────────────── */
+  const fab = document.createElement("button");
+  fab.type = "button";
+  fab.className = "sos-fab";
+  fab.setAttribute("aria-haspopup", "dialog");
+  fab.setAttribute("aria-label", "Abrir Ruta de Ayuda Psicológica");
+  fab.innerHTML =
+    `<span class="sos-fab-ico">${svg(ICON.heart)}</span>` +
+    `<span class="sos-fab-label">Ruta de Ayuda Psicológica</span>`;
+
+  const overlay = document.createElement("div");
+  overlay.className = "sos-overlay";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", "Ruta de Ayuda Psicológica");
+  overlay.innerHTML =
+    '<div class="sos-modal">' +
+      '<div class="sos-head">' +
+        '<button class="sos-back" type="button" aria-label="Volver">' + svg('<polyline points="15 18 9 12 15 6"/>') + '</button>' +
+        '<h3></h3>' +
+        '<button class="sos-close" type="button" aria-label="Cerrar">&times;</button>' +
+      '</div>' +
+      '<div class="sos-body"></div>' +
+    '</div>';
+
+  document.body.appendChild(fab);
+  document.body.appendChild(overlay);
+
+  const modal   = overlay.querySelector(".sos-modal");
+  const titleEl = overlay.querySelector(".sos-head h3");
+  const bodyEl  = overlay.querySelector(".sos-body");
+  const backBtn = overlay.querySelector(".sos-back");
+  const closeBtn= overlay.querySelector(".sos-close");
+  let lastFocus = null;
+
+  function render(key) {
+    const node = NODES[key];
+    if (!node) return;
+    overlay.dataset.node = key;
+    titleEl.textContent = node.title;
+    backBtn.classList.toggle("show", key !== "root");
+
+    let html = "";
+    if (node.tips) {
+      html += '<ul class="sos-tips">' + node.tips.map((t) => "<li>" + t + "</li>").join("") + "</ul>";
+    }
+    if (node.intro) html += '<p class="sos-intro">' + node.intro + "</p>";
+
+    node.items.forEach((it) => {
+      const ico = '<span class="sos-item-ico">' + svg(ICON[it.ico] || ICON.heart) + "</span>";
+      const label = "<span><strong>" + it.t + "</strong><span>" + (it.d || "") + "</span></span>";
+      const cls = "sos-item" + (it.danger ? " danger" : "");
+      if (it.goto) {
+        html += '<button type="button" class="' + cls + '" data-goto="' + it.goto + '">' + ico + label + "</button>";
+      } else if (it.tel) {
+        html += '<a class="' + cls + '" href="tel:' + it.tel + '">' + ico + label + "</a>";
+      } else {
+        const attrs = it.internal ? ' data-internal="' + it.internal + '"' : ' target="_blank" rel="noopener"';
+        html += '<a class="' + cls + '" href="' + it.href + '"' + attrs + ">" + ico + label + "</a>";
+      }
+    });
+    bodyEl.innerHTML = html;
+    modal.scrollTop = 0;
+  }
+
+  function open() {
+    lastFocus = document.activeElement;
+    render("root");
+    overlay.classList.add("open");
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  }
+  function close() {
+    overlay.classList.remove("open");
+    document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  fab.addEventListener("click", open);
+  closeBtn.addEventListener("click", close);
+  backBtn.addEventListener("click", () => render("root"));
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+    const nav = e.target.closest("[data-goto]");
+    if (nav) { render(nav.dataset.goto); return; }
+    // Enlaces internos (#ayuda): cerrar y desplazar si estamos en esa página
+    const internal = e.target.closest("[data-internal]");
+    if (internal) {
+      const target = document.querySelector(internal.dataset.internal);
+      if (target) {
+        e.preventDefault();
+        close();
+        setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+      }
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("open")) close();
+  });
 })();
