@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=8">
+    <link rel="stylesheet" href="css/styles.css?v=9">
   </head>
   <body>
     <header class="site-header">
@@ -248,8 +248,13 @@
       <section class="contact-section" id="contacto">
         <div class="section-inner">
 
-          <!-- MINI FORMULARIO DE IMPACTO destacado — "¿Cómo podemos ayudarte?" (captura confidencial) -->
-          <div class="help-card" id="ayuda" data-reveal aria-label="¿Cómo podemos ayudarte?">
+          <!-- MODAL DE AYUDA CONFIDENCIAL — se activa al "Pedir ayuda a la Fundación" (sobrepuesto) -->
+          <div class="help-overlay" id="ayudaOverlay" aria-hidden="true">
+           <div class="help-modal" role="dialog" aria-modal="true" aria-label="¿Cómo podemos ayudarte?">
+            <button class="help-modal-close" type="button" aria-label="Cerrar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="help-card" id="ayuda" aria-label="¿Cómo podemos ayudarte?">
             <div class="help-intro">
               <span class="help-badge"><span class="help-pulse" aria-hidden="true"></span>No estás sola</span>
               <h2>Estamos de tu lado. Cuéntanos tu historia.</h2>
@@ -304,9 +309,9 @@
               <p class="help-feedback" id="helpFeedback" role="status" aria-live="polite"></p>
               <p class="help-privacy">Al enviar aceptas que te contactemos de forma reservada. Nunca compartimos tu información.</p>
             </form>
+            </div>
+           </div>
           </div>
-
-          <div class="contact-or"><span>o escríbenos un mensaje general</span></div>
 
           <div class="contact-grid">
 
@@ -428,9 +433,9 @@
         <span data-i18n="footer.contact">@fmujerespurpura · 3107623336 · 3017752762</span>
       </div>
     </footer>
-    <script src="js/main.js?v=8"></script>
-    <script src="js/i18n.js?v=8"></script>
-    <script src="js/effects.js?v=8"></script>
+    <script src="js/main.js?v=9"></script>
+    <script src="js/i18n.js?v=9"></script>
+    <script src="js/effects.js?v=9"></script>
     <script>
       // Selector de indicativo de país con banderas y búsqueda
       (function () {

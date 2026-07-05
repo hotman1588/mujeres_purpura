@@ -3722,6 +3722,57 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 .donate-test-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(232, 132, 114, 0.6); }
 
 /* ─── MINI FORMULARIO DE IMPACTO "¿Cómo podemos ayudarte?" (destacado) ──── */
+/* ── Modal sobrepuesto de ayuda (se activa al pedir ayuda a la Fundación) ── */
+.help-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(30, 27, 46, 0.6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.help-overlay.open { opacity: 1; visibility: visible; }
+
+.help-modal {
+  position: relative;
+  width: min(920px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  transform: translateY(28px) scale(0.97);
+  transition: transform 0.35s var(--spring);
+  overscroll-behavior: contain;
+}
+.help-overlay.open .help-modal { transform: none; }
+.help-modal .help-card { margin-bottom: 0; }
+
+.help-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease, transform 0.3s var(--spring);
+}
+.help-modal-close:hover { background: rgba(255, 255, 255, 0.34); transform: rotate(90deg); }
+.help-modal-close:focus-visible { outline: 3px solid rgba(255, 255, 255, 0.7); outline-offset: 2px; }
+
 .help-card {
   display: grid;
   grid-template-columns: 1.05fr 1fr;

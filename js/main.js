@@ -895,19 +895,79 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
     if (e.target === overlay) close();
     const nav = e.target.closest("[data-goto]");
     if (nav) { render(nav.dataset.goto); return; }
-    // Enlaces internos (#ayuda): cerrar y desplazar si estamos en esa página
+    // Enlaces internos (#ayuda): abrir el modal de ayuda o desplazar en la página
     const internal = e.target.closest("[data-internal]");
     if (internal) {
-      const target = document.querySelector(internal.dataset.internal);
+      const sel = internal.dataset.internal;
+      if (sel === "#ayuda" && typeof window.openAyudaModal === "function") {
+        e.preventDefault();
+        close();
+        setTimeout(() => window.openAyudaModal(), 160);
+        return;
+      }
+      const target = document.querySelector(sel);
       if (target) {
         e.preventDefault();
         close();
         setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
       }
+      // Si no hay destino en esta página, se deja navegar (p. ej. index.html#ayuda)
     }
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && overlay.classList.contains("open")) close();
   });
+})();
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODAL DE AYUDA CONFIDENCIAL — se activa al "Pedir ayuda a la Fundación"
+   El formulario ya no vive en la landing: aparece sobrepuesto cuando se pulsa
+   "Ayuda" en el menú, el botón de la Ruta de Ayuda o cualquier enlace #ayuda.
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  const overlay = document.getElementById("ayudaOverlay");
+  if (!overlay) return; // Solo existe en index.html
+  const closeBtn = overlay.querySelector(".help-modal-close");
+  let lastFocus = null;
+
+  function open() {
+    lastFocus = document.activeElement;
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    const first = overlay.querySelector("input, select, textarea, button");
+    if (first) setTimeout(() => first.focus(), 60);
+  }
+  function close() {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    // Limpiar el hash para que no reabra al recargar
+    if (location.hash === "#ayuda") {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  }
+
+  // Exponer para que otros widgets (Ruta de Ayuda) lo abran
+  window.openAyudaModal = open;
+
+  // Interceptar cualquier enlace hacia #ayuda para abrir el modal
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href$="#ayuda"], a[href="#ayuda"]');
+    if (link) {
+      e.preventDefault();
+      open();
+    }
+  });
+
+  closeBtn.addEventListener("click", close);
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("open")) close();
+  });
+
+  // Si se llega con #ayuda en la URL (p. ej. desde otra página), abrir al cargar
+  if (location.hash === "#ayuda") setTimeout(open, 200);
 })();
