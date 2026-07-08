@@ -4544,9 +4544,6 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   background: transparent;
   box-shadow: none;
   color: #fff;
-  transform-origin: center;
-  will-change: transform;
-  animation: donateHeartbeat 2.6s ease-in-out infinite;
 }
 .nav-links a.donate .nav-ico svg {
   width: 18px;
@@ -4554,14 +4551,32 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
 }
 
-/* Latido "lub-dub" delicado, con reposo largo entre pulsos */
+/* Latido "lub-dub" sutil premium del BOTÓN completo (escala + glow sincronizados) */
+.donate {
+  transform-origin: center;
+  will-change: transform;
+  animation: donateHeartbeat 2.6s ease-in-out infinite;
+}
+/* Al interactuar cede el paso al hover/active (que tienen su propio transform) */
+.donate:hover,
+.donate:active { animation: none; }
+
 @keyframes donateHeartbeat {
-  0%, 38%, 100% { transform: scale(1); }
-  12%           { transform: scale(1.17); }
-  22%           { transform: scale(1); }
-  30%           { transform: scale(1.1); }
+  0%, 40%, 100% {
+    transform: scale(1);
+    box-shadow: 0 6px 20px rgba(232, 132, 114, 0.4);
+  }
+  12% {
+    transform: scale(1.05);
+    box-shadow: 0 9px 26px rgba(232, 132, 114, 0.58);
+  }
+  22% { transform: scale(1); }
+  30% {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(232, 132, 114, 0.5);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-links a.donate .nav-ico { animation: none !important; }
+  .donate { animation: none !important; }
 }
