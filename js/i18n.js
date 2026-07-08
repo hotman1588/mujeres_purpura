@@ -3,7 +3,7 @@ const translations = {
     // Nav
     "nav.home": "Inicio",
     "nav.about": "Quiénes somos",
-    "nav.multimedia": "Multimedia",
+    "nav.multimedia": "Nuestras Historias 🎧",
     "nav.contact": "Contacto",
     "nav.donate": "Donaciones",
     // Index — hero
@@ -174,7 +174,7 @@ const translations = {
     // Nav
     "nav.home": "Home",
     "nav.about": "Who we are",
-    "nav.multimedia": "Multimedia",
+    "nav.multimedia": "Our Stories 🎧",
     "nav.contact": "Contact",
     "nav.donate": "Donate",
     // Index — hero
