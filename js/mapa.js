@@ -72,7 +72,9 @@
     );
 
   const byRegion = (name) => DATA.find((d) => d.region === name);
-  const hotspots = Array.from(stage.querySelectorAll(".hotspot"));
+  // Elementos interactivos: departamentos de impacto + marcadores con etiqueta
+  const targets = Array.from(stage.querySelectorAll("[data-region]"));
+  const regions = [...new Set(targets.map((t) => t.dataset.region))];
 
   const placeholder = `
     <div class="mapa-panel-empty">
@@ -125,24 +127,25 @@
       .addEventListener("click", clearActive);
   }
 
-  function setActive(btn) {
-    hotspots.forEach((h) => {
-      const on = h === btn;
-      h.classList.toggle("is-active", on);
-      h.setAttribute("aria-pressed", String(on));
+  function highlight(region) {
+    targets.forEach((t) => {
+      const on = t.dataset.region === region;
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-pressed", String(on));
     });
+  }
+
+  function setActive(region) {
+    highlight(region);
     stage.classList.add("has-selection");
-    render(btn.dataset.region);
+    render(region);
     if (window.matchMedia("(max-width: 900px)").matches) {
       panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   }
 
   function clearActive() {
-    hotspots.forEach((h) => {
-      h.classList.remove("is-active");
-      h.setAttribute("aria-pressed", "false");
-    });
+    highlight(null);
     stage.classList.remove("has-selection");
     panel.classList.remove("is-animated");
     void panel.offsetWidth;
@@ -150,13 +153,14 @@
     panel.innerHTML = placeholder;
   }
 
-  hotspots.forEach((btn) => {
-    btn.setAttribute("aria-pressed", "false");
-    btn.addEventListener("click", () => setActive(btn));
-    btn.addEventListener("keydown", (e) => {
+  targets.forEach((el) => {
+    el.style.cursor = "pointer";
+    el.setAttribute("aria-pressed", "false");
+    el.addEventListener("click", () => setActive(el.dataset.region));
+    el.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        setActive(btn);
+        setActive(el.dataset.region);
       }
     });
   });

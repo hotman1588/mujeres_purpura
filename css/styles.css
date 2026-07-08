@@ -4375,3 +4375,99 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   .mapa-tl-item { animation: none !important; }
   .mapa-tl-item { opacity: 1; transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAPA DE COLOMBIA REAL — departamentos morados sobre fondo aqua + callouts
+   (overrides del mapa estilizado anterior)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.mapa-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 26px;
+  background:
+    radial-gradient(at 30% 20%, rgba(149,220,226,0.55), transparent 60%),
+    linear-gradient(160deg, #9fdfe4, #7fd0d8);
+  box-shadow: var(--shadow-lg);
+}
+.mapa-stage::after { display: none; }
+
+.mapa-art {
+  position: static;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  filter: drop-shadow(0 18px 30px rgba(44, 36, 80, 0.28));
+  overflow: visible;
+}
+
+/* Departamentos: base morada con variación de tonos */
+.mapa-depts .dept {
+  fill: #b9addd;
+  stroke: #f3eefb;
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+  transition: fill 0.25s ease, transform 0.25s var(--spring);
+}
+.mapa-depts .dept:nth-of-type(6n+1) { fill: #a99bd3; }
+.mapa-depts .dept:nth-of-type(6n+2) { fill: #bfb4e2; }
+.mapa-depts .dept:nth-of-type(6n+3) { fill: #9385c6; }
+.mapa-depts .dept:nth-of-type(6n+4) { fill: #cabfe9; }
+.mapa-depts .dept:nth-of-type(6n+5) { fill: #8f80c4; }
+.mapa-depts .dept:nth-of-type(6n)   { fill: #b2a6d8; }
+
+/* Departamentos con impacto: tono profundo y clicables */
+.mapa-depts .dept--impact {
+  fill: #5a4a97;
+  cursor: pointer;
+}
+.mapa-depts .dept--impact:hover { fill: #6f5cb3; }
+.mapa-depts .dept--impact.is-active { fill: var(--coral); }
+.mapa-depts .dept--impact:focus-visible { outline: none; stroke: #fff; stroke-width: 2.2; }
+
+/* Marcadores con etiqueta de llamada */
+.mapa-marker { cursor: pointer; }
+.mapa-leader {
+  fill: none;
+  stroke: #3e336f;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mapa-marker-dot { fill: #3e336f; transition: fill 0.25s ease, r 0.25s var(--spring); }
+.mapa-marker-pulse {
+  fill: rgba(62, 51, 111, 0.28);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mapaMarkerPulse 2.2s ease-out infinite;
+}
+.mapa-label {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  fill: #2c2450;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 3px;
+}
+.mapa-marker:hover .mapa-marker-dot,
+.mapa-marker.is-active .mapa-marker-dot { fill: var(--coral); }
+.mapa-marker:hover .mapa-label,
+.mapa-marker.is-active .mapa-label { fill: #c2543f; }
+.mapa-marker:focus-visible { outline: none; }
+.mapa-marker:focus-visible .mapa-marker-dot { fill: var(--coral); }
+
+@keyframes mapaMarkerPulse {
+  0%   { transform: scale(0.6); opacity: 0.8; }
+  70%  { transform: scale(2.1); opacity: 0; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .mapa-label { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mapa-marker-pulse { animation: none !important; }
+}
