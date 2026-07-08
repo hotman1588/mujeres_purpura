@@ -51,6 +51,11 @@ if (toggle && links) {
   // Cerrar al elegir una opción (+ scroll suave al Inicio si ya estamos ahí)
   links.querySelectorAll("a").forEach((a) => {
     a.addEventListener("click", (e) => {
+      // El trigger del mega-menú gestiona su propia apertura en móvil: no cerrar aquí
+      if (a.classList.contains("mega-trigger") &&
+          window.matchMedia("(max-width: 820px)").matches) {
+        return;
+      }
       if (iconKeyFor(a) === "home" && document.querySelector(".hero")) {
         // Mismo scroll suave al Inicio en desktop y móvil
         e.preventDefault();
@@ -78,6 +83,113 @@ if (toggle && links) {
     if (e.key === "Escape") setOpen(false);
   });
 }
+
+/* ─── MEGA-MENÚ "QUIÉNES SOMOS" (2 columnas) ──────────────────────────────
+   Hover en desktop · tap expandible en móvil. Se construye sobre el enlace
+   de navegación existente para no duplicar HTML en cada página.            */
+(function () {
+  const nav = document.querySelector(".nav-links");
+  if (!nav) return;
+  const trigger = nav.querySelector('a[data-i18n="nav.about"]');
+  if (!trigger) return;
+
+  const ICO = {
+    mission:
+      '<path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/>',
+    vision:
+      '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+    values:
+      '<path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',
+    org:
+      '<circle cx="12" cy="4.5" r="2.2"/><circle cx="4.6" cy="16" r="2.2"/><circle cx="19.4" cy="16" r="2.2"/><path d="M12 6.7v3M10.2 11 6 14M13.8 11 18 14"/>',
+    map:
+      '<path d="m9 4 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v14M15 6v14"/>',
+  };
+
+  const HOME = "quienes-somos.html";
+  const wrap = document.createElement("div");
+  wrap.className = "has-mega";
+  trigger.replaceWith(wrap);
+  wrap.appendChild(trigger);
+  trigger.classList.add("mega-trigger");
+  trigger.setAttribute("aria-haspopup", "true");
+  trigger.setAttribute("aria-expanded", "false");
+
+  const panel = document.createElement("div");
+  panel.className = "mega-panel";
+  panel.setAttribute("role", "menu");
+  panel.innerHTML = `
+    <div class="mega-col">
+      <p class="mega-col-title">Nuestra Esencia</p>
+      <p class="mega-col-sub">Los principios de sororidad y equidad que nos mueven.</p>
+      <a class="mega-link" role="menuitem" href="${HOME}#mision">
+        <span class="mega-ico">${svg(ICO.mission)}</span>
+        <span><strong>Misión</strong><em>Defender derechos y construir bienestar.</em></span>
+      </a>
+      <a class="mega-link" role="menuitem" href="${HOME}#vision">
+        <span class="mega-ico">${svg(ICO.vision)}</span>
+        <span><strong>Visión 2030</strong><em>Una organización comunitaria referente.</em></span>
+      </a>
+      <a class="mega-link" role="menuitem" href="${HOME}#valores">
+        <span class="mega-ico">${svg(ICO.values)}</span>
+        <span><strong>Valores</strong><em>Sororidad, equidad, justicia y más.</em></span>
+      </a>
+    </div>
+    <div class="mega-col mega-col--alt">
+      <p class="mega-col-title">Estructura Circular</p>
+      <p class="mega-col-sub">Un círculo que nos une, no una pirámide que nos divide.</p>
+      <a class="mega-link" role="menuitem" href="${HOME}#organigrama">
+        <span class="mega-ico">${svg(ICO.org)}</span>
+        <span><strong>Organigrama circular</strong><em>Gráfico dinámico, sin jerarquías.</em></span>
+      </a>
+      <a class="mega-link" role="menuitem" href="${HOME}#mapa-accion">
+        <span class="mega-ico">${svg(ICO.map)}</span>
+        <span><strong>Mapa de acción</strong><em>Impacto regional interactivo.</em></span>
+      </a>
+    </div>`;
+  wrap.appendChild(panel);
+
+  function svg(inner) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+  }
+
+  const isMobile = () => window.matchMedia("(max-width: 820px)").matches;
+  const setOpen = (open) => {
+    wrap.classList.toggle("mega-open", open);
+    trigger.setAttribute("aria-expanded", String(open));
+  };
+
+  // Móvil: primer tap expande el submenú en lugar de navegar
+  trigger.addEventListener("click", (e) => {
+    if (isMobile()) {
+      e.preventDefault();
+      e.stopPropagation();
+      setOpen(!wrap.classList.contains("mega-open"));
+    }
+  });
+
+  // Al elegir una opción del mega-menú, cerrar también el panel móvil
+  panel.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      setOpen(false);
+      const list = document.querySelector(".nav-links.open");
+      const tog = document.querySelector(".nav-toggle.open");
+      if (list) list.classList.remove("open");
+      if (tog) {
+        tog.classList.remove("open");
+        tog.setAttribute("aria-expanded", "false");
+      }
+    })
+  );
+
+  // Cerrar submenú al tocar fuera (móvil)
+  document.addEventListener("click", (e) => {
+    if (!wrap.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
+  });
+})();
 
 /* ─── DONACIONES — modal de marca + Mercado Pago ──────────────────────────── */
 (function () {

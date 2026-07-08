@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=17">
+    <link rel="stylesheet" href="css/styles.css?v=18">
   </head>
   <body>
     <header class="site-header">
@@ -69,12 +69,12 @@
 
       <section class="section">
         <div class="section-inner grid two">
-          <article class="mp-card pad">
+          <article class="mp-card pad" id="mision">
             <span class="tag" data-i18n="about.tag.mission">Misión</span>
             <h2 data-i18n="about.h2.mission">Defender derechos y construir bienestar integral.</h2>
             <p data-i18n="about.p.mission">Promover acciones colectivas que defiendan y garanticen los derechos de las mujeres, proporcionando herramientas que les permitan construir de manera participativa un proyecto de vida digno, mejorar su bienestar integral y asegurar una vida libre de violencias.</p>
           </article>
-          <article class="mp-card pad">
+          <article class="mp-card pad" id="vision">
             <span class="tag" data-i18n="about.tag.vision">Visión 2030</span>
             <h2 data-i18n="about.h2.vision">Ser una organización comunitaria referente.</h2>
             <p data-i18n="about.p.vision">Para el año 2030, la Fundación Mujeres Púrpura será reconocida nacional e internacionalmente como una organización de base comunitaria líder en la defensa de los derechos de las mujeres, impulsando el empoderamiento colectivo, el liderazgo social y una sociedad más justa, equitativa y libre de violencias de género.</p>
@@ -105,7 +105,7 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="valores">
         <div class="section-inner">
           <div class="section-title" data-reveal style="text-align:center;margin-inline:auto;">
             <span class="tag" data-i18n="about.tag.values">Valores Corporativos</span>
@@ -128,7 +128,7 @@
       </section>
 
       <!-- ESTRUCTURA ORGANIZACIONAL — organigrama circular -->
-      <section class="section alt org-section">
+      <section class="section alt org-section" id="organigrama">
         <div class="section-inner">
           <div class="section-title" data-reveal style="text-align:center;margin-inline:auto;">
             <span class="tag" data-i18n="about.tag.org">Nuestra forma de organizarnos</span>
@@ -320,6 +320,66 @@
           </div>
         </div>
       </section>
+
+      <!-- MAPA DE ACCIÓN — impacto regional interactivo -->
+      <section class="section mapa-section" id="mapa-accion" aria-labelledby="mapaTitle">
+        <div class="section-inner">
+          <div class="section-title" data-reveal style="text-align:center;margin-inline:auto;">
+            <span class="tag">Impacto territorial</span>
+            <h2 id="mapaTitle">Mapa de acción</h2>
+            <p>Explora las regiones donde acompañamos y transformamos. Toca un punto para ver la línea de tiempo de proyectos, actividades y aliados.</p>
+          </div>
+
+          <div class="mapa-layout">
+            <div class="mapa-stage" data-reveal="scale">
+              <svg class="mapa-art" viewBox="0 0 460 520" role="img" aria-label="Mapa estilizado de Colombia">
+                <defs>
+                  <linearGradient id="mapaFill" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#9185c7" stop-opacity="0.55"/>
+                    <stop offset="1" stop-color="#36aeb8" stop-opacity="0.32"/>
+                  </linearGradient>
+                  <linearGradient id="mapaStroke" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#c9bfe8"/>
+                    <stop offset="1" stop-color="#95dce2"/>
+                  </linearGradient>
+                </defs>
+                <path fill="url(#mapaFill)" stroke="url(#mapaStroke)" stroke-width="2.5" stroke-linejoin="round"
+                  d="M196 44 C160 58 132 78 122 116 C112 152 138 176 126 214 C114 256 150 286 158 326
+                     C166 366 146 402 176 442 C204 480 250 476 274 436 C296 400 336 392 356 350
+                     C376 308 362 268 386 230 C408 194 428 168 408 128 C392 96 362 92 330 76
+                     C300 60 282 52 250 50 C226 48 214 36 196 44 Z"/>
+                <!-- líneas de conexión decorativas -->
+                <g stroke="#95dce2" stroke-width="1.4" stroke-dasharray="4 6" opacity="0.5" fill="none">
+                  <path d="M222 300 L262 178"/>
+                  <path d="M262 178 L306 122"/>
+                  <path d="M222 300 L255 236"/>
+                </g>
+              </svg>
+
+              <div class="mapa-hotspots">
+                <button class="hotspot" type="button" data-region="ARAUCA" style="left:66%;top:34%" aria-label="Ver proyectos en Arauca">
+                  <span class="hotspot-dot" aria-hidden="true"></span>
+                  <span class="hotspot-label">Arauca</span>
+                </button>
+                <button class="hotspot" type="button" data-region="FRONTERA DE VENEZUELA (ARAUCA Y CÚCUTA)" style="left:70%;top:22%" aria-label="Ver proyectos en la Frontera de Venezuela (Arauca y Cúcuta)">
+                  <span class="hotspot-dot" aria-hidden="true"></span>
+                  <span class="hotspot-label">Frontera VE</span>
+                </button>
+                <button class="hotspot" type="button" data-region="BUCARAMANGA" style="left:56%;top:45%" aria-label="Ver proyectos en Bucaramanga">
+                  <span class="hotspot-dot" aria-hidden="true"></span>
+                  <span class="hotspot-label">Bucaramanga</span>
+                </button>
+                <button class="hotspot" type="button" data-region="BOGOTÁ" style="left:48%;top:59%" aria-label="Ver proyectos en Bogotá">
+                  <span class="hotspot-dot" aria-hidden="true"></span>
+                  <span class="hotspot-label">Bogotá</span>
+                </button>
+              </div>
+            </div>
+
+            <aside class="mapa-panel" id="mapaPanel" aria-live="polite"></aside>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -328,8 +388,9 @@
         <span data-i18n="footer.contact">@fmujerespurpura · 3107623336 · 3017752762</span>
       </div>
     </footer>
-    <script src="js/main.js?v=17"></script>
-    <script src="js/i18n.js?v=17"></script>
-    <script src="js/effects.js?v=17"></script>
+    <script src="js/main.js?v=18"></script>
+    <script src="js/mapa.js?v=18"></script>
+    <script src="js/i18n.js?v=18"></script>
+    <script src="js/effects.js?v=18"></script>
   </body>
 </html>
