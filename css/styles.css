@@ -4471,3 +4471,60 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 @media (prefers-reduced-motion: reduce) {
   .mapa-marker-pulse { animation: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAPA DE COLOMBIA — profundidad 3D (extrusión + flotación) y vista completa
+   ═══════════════════════════════════════════════════════════════════════════ */
+.mapa-stage {
+  padding: 34px 30px;
+  perspective: 1400px;
+}
+.mapa-art {
+  max-height: none;                 /* que no recorte: se ve el mapa completo */
+  overflow: visible;
+  animation: mapaFloat 7s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+/* Extrusión: sombras moradas apiladas hacia abajo = grosor 3D + sombra al piso */
+.mapa-depts {
+  filter:
+    drop-shadow(0 1px 0 #7a6bb4)
+    drop-shadow(0 2px 0 #6f60a8)
+    drop-shadow(0 3px 0 #64559d)
+    drop-shadow(0 4px 0 #594a90)
+    drop-shadow(0 5px 0 #4f4184)
+    drop-shadow(0 6px 0 #453977)
+    drop-shadow(0 16px 16px rgba(44, 36, 80, 0.38));
+}
+
+/* Los departamentos con impacto se elevan al pasar el cursor / activarse */
+.mapa-depts .dept--impact {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.mapa-depts .dept--impact:hover,
+.mapa-depts .dept--impact.is-active {
+  transform: translateY(-4px);
+}
+
+/* El punto activo también levanta su etiqueta */
+.mapa-marker.is-active { filter: drop-shadow(0 6px 10px rgba(44, 36, 80, 0.35)); }
+
+@keyframes mapaFloat {
+  0%, 100% { transform: translateY(0) rotateX(0deg); }
+  50%      { transform: translateY(-8px) rotateX(1.5deg); }
+}
+
+@media (max-width: 900px) {
+  .mapa-depts {
+    filter:
+      drop-shadow(0 1px 0 #6f60a8)
+      drop-shadow(0 2px 0 #5f5099)
+      drop-shadow(0 3px 0 #4f4184)
+      drop-shadow(0 10px 12px rgba(44, 36, 80, 0.34));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mapa-art { animation: none !important; }
+}
