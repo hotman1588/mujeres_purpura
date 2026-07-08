@@ -5,7 +5,7 @@ const translations = {
     "nav.about": "Quiénes somos",
     "nav.multimedia": "Nuestras Historias 🎧",
     "nav.contact": "Contacto",
-    "nav.donate": "Donaciones",
+    "nav.donate": "💜 Donaciones",
     // Index — hero
     "index.eyebrow": "Fuerza, libertad y autenticidad",
     "index.h1": "Somos mujeres dispuestas a luchar por los derechos de otras mujeres.",
@@ -176,7 +176,7 @@ const translations = {
     "nav.about": "Who we are",
     "nav.multimedia": "Our Stories 🎧",
     "nav.contact": "Contact",
-    "nav.donate": "Donate",
+    "nav.donate": "💜 Donate",
     // Index — hero
     "index.eyebrow": "Strength, freedom and authenticity",
     "index.h1": "We are women ready to fight for the rights of other women.",
