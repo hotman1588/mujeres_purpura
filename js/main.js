@@ -238,27 +238,15 @@ if (toggle && links) {
   thanks.addEventListener("click", (e) => { if (e.target === thanks) closeThanks(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeThanks(); });
 
-  function isApprovedDonationReturn(params) {
-    const status = (params.get("status") || "").toLowerCase();
-    const collectionStatus = (params.get("collection_status") || "").toLowerCase();
-    const paymentStatus = (params.get("payment_status") || "").toLowerCase();
-
-    // Mercado Pago puede devolver estados de navegación como "success" sin que
-    // necesariamente exista un pago aprobado. Solo mostramos agradecimiento
-    // cuando el estado de pago viene explícitamente como "approved".
-    return status === "approved" ||
-      collectionStatus === "approved" ||
-      paymentStatus === "approved";
-  }
-
-  // Retorno desde Mercado Pago con una señal explícita de pago aprobado.
+  // (1) Retorno desde Mercado Pago con ?donacion=gracias o ?status=approved
   const params = new URLSearchParams(location.search);
-  if (isApprovedDonationReturn(params)) {
+  if (params.get("donacion") === "gracias" || params.get("status") === "approved") {
     setTimeout(showThanks, 400);
-    // Limpia la URL para que no se repita al recargar.
-    ["status", "collection_status", "payment_status"].forEach((key) => params.delete(key));
+    // Limpia la URL para que no se repita al recargar
+    params.delete("donacion"); params.delete("status");
     const clean = location.pathname + (params.toString() ? "?" + params.toString() : "");
     history.replaceState(null, "", clean);
+    sessionStorage.removeItem("mp_donation_started");
   }
 
   /* ─── MODAL DE DONACIÓN NO CONFIRMADA (reintento) ─────────────────────────
