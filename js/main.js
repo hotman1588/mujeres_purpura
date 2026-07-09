@@ -105,9 +105,10 @@ if (toggle && links) {
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
   overlay.setAttribute("aria-label", "Donar a Fundación Mujeres Púrpura");
+  overlay.setAttribute("data-i18n-aria", "donate.modal.label");
   overlay.innerHTML = `
     <div class="donate-card" role="document">
-      <button class="donate-close" type="button" aria-label="Cerrar">
+      <button class="donate-close" type="button" aria-label="Cerrar" data-i18n-aria="donate.close">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
 
@@ -123,33 +124,33 @@ if (toggle && links) {
       </div>
 
       <div class="donate-body">
-        <span class="donate-eyebrow">Tu aporte transforma vidas</span>
-        <h3>Sé parte del cambio</h3>
-        <p>Cada donación impulsa talleres, acompañamiento psicosocial y redes de apoyo para mujeres que lo necesitan.</p>
+        <span class="donate-eyebrow" data-i18n="donate.eyebrow">Tu aporte transforma vidas</span>
+        <h3 data-i18n="donate.title">Sé parte del cambio</h3>
+        <p data-i18n="donate.text">Cada donación impulsa talleres, acompañamiento psicosocial y redes de apoyo para mujeres que lo necesitan.</p>
 
-        <div class="donate-amounts" role="group" aria-label="Montos sugeridos">
-          <button class="donate-amount" type="button" data-amt="20.000" data-impact="Aportas material para un taller comunitario.">$20.000</button>
-          <button class="donate-amount donate-amount--featured" type="button" data-amt="50.000" data-impact="Financias una sesión de acompañamiento psicosocial.">$50.000</button>
-          <button class="donate-amount" type="button" data-amt="100.000" data-impact="Apoyas a una mujer durante todo un programa.">$100.000</button>
-          <button class="donate-amount" type="button" data-amt="" data-impact="Tú decides cuánto aportar. ¡Cada peso suma!">Otro monto</button>
+        <div class="donate-amounts" role="group" aria-label="Montos sugeridos" data-i18n-aria="donate.amounts.label">
+          <button class="donate-amount" type="button" data-amt="20.000" data-impact="Aportas material para un taller comunitario." data-impact-en="You provide materials for a community workshop.">$20.000</button>
+          <button class="donate-amount donate-amount--featured" type="button" data-amt="50.000" data-impact="Financias una sesión de acompañamiento psicosocial." data-impact-en="You fund a psychosocial support session.">$50.000</button>
+          <button class="donate-amount" type="button" data-amt="100.000" data-impact="Apoyas a una mujer durante todo un programa." data-impact-en="You support a woman through a full program.">$100.000</button>
+          <button class="donate-amount" type="button" data-amt="" data-impact="Tú decides cuánto aportar. ¡Cada peso suma!" data-impact-en="You decide how much to give. Every contribution matters!" data-i18n="donate.other">Otro monto</button>
         </div>
 
         <!-- Línea de impacto dinámica según el monto -->
         <div class="donate-impact-line" id="donateImpactLine">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Elige un monto para ver tu impacto.</span>
+          <span data-i18n="donate.impact.default">Elige un monto para ver tu impacto.</span>
         </div>
 
         <a class="donate-cta" href="${DONATE_URL}" target="_blank" rel="noopener">
           <svg class="donate-cta-heart" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Donar con Mercado Pago</span>
+          <span data-i18n="donate.cta">Donar con Mercado Pago</span>
           <svg class="donate-cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
 
         <!-- Sello seguro -->
         <div class="donate-secure">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Procesado de forma segura por Mercado Pago
+          <span data-i18n="donate.secure">Procesado de forma segura por Mercado Pago</span>
         </div>
       </div>
     </div>`;
@@ -172,9 +173,9 @@ if (toggle && links) {
   closeBtn.addEventListener("click", closeModal);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-  // Al continuar al pago: cerramos el modal y marcamos que inició una donación
+  // Al continuar al pago, solo cerramos el modal. El agradecimiento se muestra
+  // únicamente si Mercado Pago vuelve con estado aprobado en la URL.
   cta.addEventListener("click", () => {
-    sessionStorage.setItem("mp_donation_started", String(Date.now()));
     setTimeout(closeModal, 100);
   });
 
@@ -184,10 +185,11 @@ if (toggle && links) {
   thanks.setAttribute("role", "dialog");
   thanks.setAttribute("aria-modal", "true");
   thanks.setAttribute("aria-label", "Gracias por tu donación");
+  thanks.setAttribute("data-i18n-aria", "thanks.label");
   thanks.innerHTML = `
     <div class="thanks-card" role="document">
       <div class="thanks-confetti" aria-hidden="true"></div>
-      <button class="thanks-close" type="button" aria-label="Cerrar">
+      <button class="thanks-close" type="button" aria-label="Cerrar" data-i18n-aria="donate.close">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
       <div class="thanks-badge">
@@ -196,14 +198,14 @@ if (toggle && links) {
           <path class="thanks-check-mark" fill="none" d="M14 27l8 8 16-16"/>
         </svg>
       </div>
-      <span class="thanks-eyebrow">Donación recibida</span>
-      <h3>¡Gracias por tu generosidad! 💜</h3>
-      <p>Tu aporte se convierte en talleres, acompañamiento y oportunidades reales para más mujeres. Eres parte del cambio.</p>
+      <span class="thanks-eyebrow" data-i18n="thanks.eyebrow">Donación recibida</span>
+      <h3 data-i18n="thanks.title">¡Gracias por tu generosidad! 💜</h3>
+      <p data-i18n="thanks.text">Tu aporte se convierte en talleres, acompañamiento y oportunidades reales para más mujeres. Eres parte del cambio.</p>
       <div class="thanks-actions">
-        <button class="thanks-btn primary" type="button" data-close>Volver al inicio</button>
-        <a class="thanks-btn ghost" href="https://instagram.com/fmujerespurpura" target="_blank" rel="noopener">Síguenos en Instagram</a>
+        <button class="thanks-btn primary" type="button" data-close data-i18n="thanks.home">Volver al inicio</button>
+        <a class="thanks-btn ghost" href="https://instagram.com/fmujerespurpura" target="_blank" rel="noopener" data-i18n="thanks.instagram">Síguenos en Instagram</a>
       </div>
-      <p class="thanks-note">Recibirás el comprobante de Mercado Pago en tu correo.</p>
+      <p class="thanks-note" data-i18n="thanks.note">Recibirás el comprobante de Mercado Pago en tu correo.</p>
     </div>`;
   document.body.appendChild(thanks);
 
@@ -236,15 +238,27 @@ if (toggle && links) {
   thanks.addEventListener("click", (e) => { if (e.target === thanks) closeThanks(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeThanks(); });
 
-  // (1) Retorno desde Mercado Pago con ?donacion=gracias o ?status=approved
+  function isApprovedDonationReturn(params) {
+    const status = (params.get("status") || "").toLowerCase();
+    const collectionStatus = (params.get("collection_status") || "").toLowerCase();
+    const paymentStatus = (params.get("payment_status") || "").toLowerCase();
+
+    // Mercado Pago puede devolver estados de navegación como "success" sin que
+    // necesariamente exista un pago aprobado. Solo mostramos agradecimiento
+    // cuando el estado de pago viene explícitamente como "approved".
+    return status === "approved" ||
+      collectionStatus === "approved" ||
+      paymentStatus === "approved";
+  }
+
+  // Retorno desde Mercado Pago con una señal explícita de pago aprobado.
   const params = new URLSearchParams(location.search);
-  if (params.get("donacion") === "gracias" || params.get("status") === "approved") {
+  if (isApprovedDonationReturn(params)) {
     setTimeout(showThanks, 400);
-    // Limpia la URL para que no se repita al recargar
-    params.delete("donacion"); params.delete("status");
+    // Limpia la URL para que no se repita al recargar.
+    ["status", "collection_status", "payment_status"].forEach((key) => params.delete(key));
     const clean = location.pathname + (params.toString() ? "?" + params.toString() : "");
     history.replaceState(null, "", clean);
-    sessionStorage.removeItem("mp_donation_started");
   }
 
   /* ─── MODAL DE DONACIÓN NO CONFIRMADA (reintento) ─────────────────────────
@@ -316,6 +330,11 @@ if (toggle && links) {
     cta.href = url;
     if (ctaLabel) ctaLabel.textContent = label;
   }
+  window.addEventListener("mp:languagechange", () => {
+    const selected = overlay.querySelector(".donate-amount.is-active");
+    if (!selected) setCta(DONATE_URL, window.MP_I18N?.t?.("donate.cta") || "Donar con Mercado Pago");
+  });
+
   overlay.querySelectorAll(".donate-amount").forEach((b) => {
     b.addEventListener("click", () => {
       overlay.querySelectorAll(".donate-amount").forEach((x) => x.classList.remove("is-active"));
@@ -323,16 +342,16 @@ if (toggle && links) {
       const amt = b.dataset.amt;                       // "50.000" o "" (Otro monto)
       // Línea de impacto dinámica (con animación de entrada)
       if (impactLine && b.dataset.impact) {
-        impactLine.textContent = b.dataset.impact;
+        impactLine.textContent = (window.MP_I18N?.lang?.() === "en" && b.dataset.impactEn) ? b.dataset.impactEn : b.dataset.impact;
         const line = overlay.querySelector("#donateImpactLine");
         line.classList.remove("pulse"); void line.offsetWidth; line.classList.add("pulse");
       }
       const specific = amt && DONATE_LINKS[amt];        // link fijo si existe
       if (specific) {
-        setCta(specific, "Donar $" + amt);              // monto YA fijado en el link
+        setCta(specific, (window.MP_I18N?.lang?.() === "en" ? "Donate $" : "Donar $") + amt);              // monto YA fijado en el link
       } else {
         // Sin link específico → genérico (monto libre, se escribe en Mercado Pago)
-        setCta(DONATE_URL, amt ? "Donar $" + amt : "Donar con Mercado Pago");
+        setCta(DONATE_URL, amt ? ((window.MP_I18N?.lang?.() === "en" ? "Donate $" : "Donar $") + amt) : (window.MP_I18N?.t?.("donate.cta") || "Donar con Mercado Pago"));
       }
     });
   });

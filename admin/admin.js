@@ -3,8 +3,10 @@ const CREDENTIALS  = { username: "admin", password: "purpura2025" };
 const SESSION_KEY  = "mp_admin_session";
 const SPOTIFY_KEY  = "mp_spotify_episodes";
 const YOUTUBE_KEY  = "mp_youtube_videos";
+const POSTS_KEY    = "mp_publications";
 const DRAFT_SP_KEY = "mp_draft_spotify";
 const DRAFT_YT_KEY = "mp_draft_youtube";
+const DRAFT_POSTS_KEY = "mp_draft_publications";
 
 /* ─── DATOS DEFAULT ─────────────────────────────────────────────────────── */
 const DEFAULT_SPOTIFY = [
@@ -41,9 +43,17 @@ const DEFAULT_YOUTUBE = [
     thumbUrl:"../assets/hero-group.jpg", duration:"Próximamente" }
 ];
 
+
+const DEFAULT_POSTS = [
+  { title:"Bienvenida a nuestro espacio de publicaciones", category:"Novedad", date:"2026-07-08",
+    excerpt:"Aquí podrás publicar comunicados, actividades, historias y avances de la Fundación Mujeres Púrpura.",
+    body:"Este módulo funciona sin base de datos usando almacenamiento local del navegador.",
+    imageUrl:"assets/logo.jpg", linkUrl:"" }
+];
 /* ─── ESTADO ────────────────────────────────────────────────────────────── */
 let spotifyData = [];
 let youtubeData = [];
+let postsData = [];
 let isDirty     = false;   // cambios no guardados
 let hasDraft    = false;   // borrador guardado sin publicar
 
@@ -52,8 +62,10 @@ function loadData() {
   catch { spotifyData = [...DEFAULT_SPOTIFY]; }
   try { youtubeData = JSON.parse(localStorage.getItem(DRAFT_YT_KEY) || localStorage.getItem(YOUTUBE_KEY)) || [...DEFAULT_YOUTUBE]; }
   catch { youtubeData = [...DEFAULT_YOUTUBE]; }
+  try { postsData = JSON.parse(localStorage.getItem(DRAFT_POSTS_KEY) || localStorage.getItem(POSTS_KEY)) || [...DEFAULT_POSTS]; }
+  catch { postsData = [...DEFAULT_POSTS]; }
   // Detectar si hay borradores sin publicar
-  hasDraft = !!(localStorage.getItem(DRAFT_SP_KEY) || localStorage.getItem(DRAFT_YT_KEY));
+  hasDraft = !!(localStorage.getItem(DRAFT_SP_KEY) || localStorage.getItem(DRAFT_YT_KEY) || localStorage.getItem(DRAFT_POSTS_KEY));
 }
 
 /* ─── HELPERS ───────────────────────────────────────────────────────────── */
@@ -82,8 +94,10 @@ function markDirty() {
 function updateDots() {
   const dsp = document.getElementById("dot-spotify");
   const dyt = document.getElementById("dot-youtube");
+  const dpt = document.getElementById("dot-posts");
   if (dsp) dsp.classList.toggle("active", hasDraft);
   if (dyt) dyt.classList.toggle("active", hasDraft);
+  if (dpt) dpt.classList.toggle("active", hasDraft);
 }
 
 function updateBanner() {
@@ -124,6 +138,62 @@ function spotifyToEmbed(url) {
   return `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator`;
 }
 
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function imageFileToDataUrl(file) {
+  if (!file || !file.type?.startsWith("image/")) return Promise.reject(new Error("Archivo no válido"));
+  if (file.type === "image/svg+xml" || file.size <= 450000) return readFileAsDataUrl(file);
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+    img.onload = () => {
+      const maxSide = 1400;
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const width = Math.max(1, Math.round(img.width * scale));
+      const height = Math.max(1, Math.round(img.height * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(objectUrl);
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          resolve(await readFileAsDataUrl(file));
+          return;
+        }
+        resolve(await readFileAsDataUrl(blob));
+      }, "image/jpeg", 0.82);
+    };
+    img.onerror = async () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve(await readFileAsDataUrl(file));
+    };
+    img.src = objectUrl;
+  });
+}
+
+function saveLocalJson(key, data) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    return true;
+  } catch (err) {
+    console.error("No se pudo guardar en localStorage", err);
+    setStatus("Error al guardar", "warn");
+    showToast("No se pudo guardar. Prueba con una imagen más liviana o elimina una publicación antigua.", "#ff4444");
+    return false;
+  }
+}
 /* ─── IMAGEN: URL o archivo local → base64 ─────────────────────────────── */
 function bindImageUpload(fileInputId, urlInputId, previewId) {
   const fileInput = document.getElementById(fileInputId);
@@ -195,12 +265,14 @@ if (document.getElementById("panel-spotify")) {
 
   const PANEL_META = {
     spotify: { title:"Episodios de Spotify",  sub:"Gestiona los episodios del carrusel de podcast.", addLabel:"+ Agregar episodio" },
-    youtube: { title:"Videos de YouTube",     sub:"Gestiona los videos del carrusel de YouTube.",   addLabel:"+ Agregar video"    }
+    youtube: { title:"Videos de YouTube",     sub:"Gestiona los videos del carrusel de YouTube.",   addLabel:"+ Agregar video"    },
+    posts:   { title:"Publicaciones",         sub:"Crea novedades para la sección de inicio sin usar base de datos.", addLabel:"+ Agregar publicación" }
   };
 
   // Render inicial
   renderSpotifyGrid();
   renderYoutubeGrid();
+  renderPostsGrid();
   updateDots();
   updateBanner();
   if (hasDraft) setStatus("Borrador sin publicar", "warn");
@@ -228,11 +300,16 @@ if (document.getElementById("panel-spotify")) {
         author:"", duration:"", spotifyUrl:"", embedUrl:"", coverUrl:"", isNew:false });
       renderSpotifyGrid();
       scrollToLast("#spotifyGrid .ep-card");
-    } else {
+    } else if (activePanel === "youtube") {
       youtubeData.push({ title:"Nuevo video", channel:"Mujeres Púrpura",
         description:"", ytUrl:"", thumbUrl:"", duration:"Próximamente" });
       renderYoutubeGrid();
       scrollToLast("#youtubeGrid .ep-card");
+    } else {
+      postsData.push({ title:"Nueva publicación", category:"Novedad", date:new Date().toISOString().slice(0,10),
+        excerpt:"", body:"", imageUrl:"", linkUrl:"" });
+      renderPostsGrid();
+      scrollToLast("#postsGrid .ep-card");
     }
     markDirty();
   });
@@ -247,8 +324,9 @@ if (document.getElementById("panel-spotify")) {
   /* ── GUARDAR BORRADOR ── */
   document.getElementById("draftBtn").addEventListener("click", () => {
     collectFromForms();
-    localStorage.setItem(DRAFT_SP_KEY, JSON.stringify(spotifyData));
-    localStorage.setItem(DRAFT_YT_KEY, JSON.stringify(youtubeData));
+    if (!saveLocalJson(DRAFT_SP_KEY, spotifyData)) return;
+    if (!saveLocalJson(DRAFT_YT_KEY, youtubeData)) return;
+    if (!saveLocalJson(DRAFT_POSTS_KEY, postsData)) return;
     isDirty  = false;
     hasDraft = true;
     setStatus("Guardado · " + new Date().toLocaleTimeString("es-CO"), "ok");
@@ -263,11 +341,14 @@ if (document.getElementById("panel-spotify")) {
 
   function publishChanges() {
     collectFromForms();
-    localStorage.setItem(SPOTIFY_KEY, JSON.stringify(spotifyData));
-    localStorage.setItem(YOUTUBE_KEY, JSON.stringify(youtubeData));
+    if (!saveLocalJson(SPOTIFY_KEY, spotifyData)) return;
+    if (!saveLocalJson(YOUTUBE_KEY, youtubeData)) return;
+    if (!saveLocalJson(POSTS_KEY, postsData)) return;
+    localStorage.setItem("mp_publications_last_publish", new Date().toISOString());
     // Limpiar borradores
     localStorage.removeItem(DRAFT_SP_KEY);
     localStorage.removeItem(DRAFT_YT_KEY);
+    localStorage.removeItem(DRAFT_POSTS_KEY);
     isDirty  = false;
     hasDraft = false;
     setStatus("Publicado · " + new Date().toLocaleTimeString("es-CO"), "ok");
@@ -305,6 +386,8 @@ if (document.getElementById("panel-spotify")) {
   document.getElementById("spotifyGrid").addEventListener("change", markDirty);
   document.getElementById("youtubeGrid").addEventListener("input",  markDirty);
   document.getElementById("youtubeGrid").addEventListener("change", markDirty);
+  document.getElementById("postsGrid").addEventListener("input",  markDirty);
+  document.getElementById("postsGrid").addEventListener("change", markDirty);
 
   /* ════════════════════════════════════════════════════════════
      SPOTIFY GRID
@@ -479,11 +562,101 @@ if (document.getElementById("panel-spotify")) {
     grid.appendChild(makeAddCard("youtube"));
   }
 
+
+  /* ════════════════════════════════════════════════════════════
+     PUBLICACIONES GRID
+  ════════════════════════════════════════════════════════════ */
+  function renderPostsGrid() {
+    const grid = document.getElementById("postsGrid");
+    grid.innerHTML = "";
+    postsData.forEach((post, i) => {
+      const card = document.createElement("div");
+      card.className = "ep-card";
+      card.style.animation = "cardIn 0.35s cubic-bezier(0.16,1,0.3,1) both";
+      card.innerHTML = `
+        <div class="ep-card-header">
+          <img class="ep-preview" id="post-preview-${i}"
+            src="${esc(post.imageUrl)||'../assets/logo.jpg'}" alt="Imagen publicación"
+            onerror="this.src='../assets/logo.jpg'">
+          <div style="flex:1;min-width:0">
+            <div class="ep-badges">
+              <span class="ep-badge post-badge">${esc(post.category)||'Novedad'}</span>
+            </div>
+            <strong class="ep-name-preview">${esc(post.title)||'Sin título'}</strong>
+          </div>
+          <button class="delete-btn" aria-label="Eliminar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+        </div>
+        <div class="ep-card-body">
+          <div class="field-row">
+            <div class="admin-field">
+              <label>Título</label>
+              <input class="admin-input" id="post-title-${i}" value="${esc(post.title)}" placeholder="Título de la publicación">
+            </div>
+            <div class="admin-field">
+              <label>Categoría</label>
+              <input class="admin-input" id="post-category-${i}" value="${esc(post.category)}" placeholder="Novedad, Evento, Comunicado">
+            </div>
+          </div>
+          <div class="admin-field">
+            <label>Fecha</label>
+            <input class="admin-input" type="date" id="post-date-${i}" value="${esc(post.date)}">
+          </div>
+          <div class="admin-field">
+            <label>Resumen corto</label>
+            <textarea class="admin-input admin-textarea" id="post-excerpt-${i}" rows="3" placeholder="Texto visible en la tarjeta">${esc(post.excerpt)}</textarea>
+          </div>
+          <div class="admin-field">
+            <label>Contenido completo / notas internas</label>
+            <textarea class="admin-input admin-textarea" id="post-body-${i}" rows="5" placeholder="Puedes escribir más detalle aquí">${esc(post.body)}</textarea>
+          </div>
+          <div class="admin-field">
+            <label>Imagen</label>
+            <div class="img-field-wrap">
+              <input class="admin-input" id="post-image-${i}"
+                value="${post.imageUrl && post.imageUrl.startsWith('data:') ? '[Imagen cargada localmente]' : esc(post.imageUrl)}"
+                data-realval="${esc(post.imageUrl)}"
+                placeholder="https://... o carga una imagen">
+              <label class="img-upload-label" for="post-file-${i}" title="Cargar imagen desde tu dispositivo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </label>
+              <input type="file" id="post-file-${i}" accept="image/*" class="hidden-file">
+            </div>
+          </div>
+          <div class="admin-field">
+            <label>Link opcional</label>
+            <input class="admin-input" id="post-link-${i}" value="${esc(post.linkUrl)}" placeholder="https://...">
+            <span class="field-hint">Si lo dejas vacío, la tarjeta se muestra sin botón externo.</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+
+      card.querySelector(`#post-title-${i}`).addEventListener("input", (e) => {
+        card.querySelector(".ep-name-preview").textContent = e.target.value || "Sin título";
+      });
+      card.querySelector(`#post-category-${i}`).addEventListener("input", (e) => {
+        card.querySelector(".post-badge").textContent = e.target.value || "Novedad";
+      });
+      card.querySelector(`#post-image-${i}`).addEventListener("input", (e) => {
+        document.getElementById(`post-preview-${i}`).src = e.target.value || "../assets/logo.jpg";
+      });
+      bindImageUpload(`post-file-${i}`, `post-image-${i}`, `post-preview-${i}`);
+      card.querySelector(".delete-btn").addEventListener("click", () => {
+        if (confirm(`¿Eliminar "${postsData[i]?.title||'esta publicación'}"?`)) {
+          postsData.splice(i, 1);
+          renderPostsGrid();
+          markDirty();
+        }
+      });
+    });
+    grid.appendChild(makeAddCard("posts"));
+  }
   /* ── Add card placeholder ── */
   function makeAddCard(type) {
     const card = document.createElement("div");
     card.className = "ep-card add-card";
-    const label = type === "spotify" ? "Agregar episodio" : "Agregar video";
+    const label = type === "spotify" ? "Agregar episodio" : (type === "youtube" ? "Agregar video" : "Agregar publicación");
     card.innerHTML = `
       <button class="add-card-btn" type="button" aria-label="${label}">
         <div class="add-card-icon">
@@ -537,6 +710,16 @@ if (document.getElementById("panel-spotify")) {
         duration:    val(`yt-dur-${i}`)     || ""
       };
     });
+
+    postsData = postsData.map((_, i) => ({
+      title:    val(`post-title-${i}`) || _.title,
+      category: val(`post-category-${i}`) || "Novedad",
+      date:     val(`post-date-${i}`) || "",
+      excerpt:  val(`post-excerpt-${i}`) || "",
+      body:     val(`post-body-${i}`) || "",
+      imageUrl: readImageVal(`post-image-${i}`),
+      linkUrl:  val(`post-link-${i}`) || ""
+    }));
   }
 }
 
@@ -555,3 +738,7 @@ window.previewImg = function(inputId, imgId) {
   const img = document.getElementById(imgId);
   if (img && el) img.src = el.dataset.realval || el.value;
 };
+
+
+
+

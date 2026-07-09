@@ -748,3 +748,16 @@ body {
   .sidebar   { display: none; }
   .episodes-grid { grid-template-columns: 1fr; }
 }
+
+/* ── PUBLICACIONES ───────────────────────────────────────── */
+.ep-badge.post-badge {
+  background: rgba(149,220,226,0.15);
+  color: var(--aqua);
+}
+
+textarea.admin-input,
+.admin-textarea {
+  min-height: 92px;
+  resize: vertical;
+  line-height: 1.5;
+}

@@ -5,6 +5,8 @@
 (function () {
   const SPOTIFY_KEY = "mp_spotify_episodes";
   const YOUTUBE_KEY = "mp_youtube_videos";
+  const POSTS_KEY = "mp_publications";
+  const DRAFT_POSTS_KEY = "mp_draft_publications";
 
   /* ── Spotify ── */
   function applySpotify() {
@@ -45,7 +47,7 @@
           <p class="pmc-meta">${escHtml(ep.duration||'')} · Podcast</p>
           <h3 class="pmc-title">${escHtml(ep.title||'')}</h3>
           <p class="pmc-sub">${escHtml(ep.author||'')}</p>
-          <button class="pmc-cta" type="button">Escuchar en Spotify</button>
+          <button class="pmc-cta" type="button" data-i18n="media.cta.spotify">Escuchar en Spotify</button>
         </div>`;
       track.appendChild(art);
     });
@@ -85,13 +87,81 @@
           <p class="ytc-desc">${escHtml(vid.description||'')}</p>
           <a class="ytc-cta" href="${escHtml(vid.ytUrl||'#')}" target="_blank" rel="noreferrer">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            Ver en YouTube
+            ${window.MP_I18N?.t?.("media.cta.youtube") || "Ver en YouTube"}
           </a>
         </div>`;
       track.appendChild(art);
     });
   }
 
+
+  /* ── Publicaciones ── */
+  function applyPosts() {
+    const grid = document.getElementById("postsGrid");
+    const empty = document.getElementById("postsEmpty");
+    if (!grid) return;
+
+    let raw = "";
+    let draftRaw = "";
+    let data = [];
+    try {
+      raw = localStorage.getItem(POSTS_KEY) || "";
+      draftRaw = localStorage.getItem(DRAFT_POSTS_KEY) || "";
+      data = raw ? JSON.parse(raw) : [];
+    } catch (err) {
+      console.error("No se pudieron leer las publicaciones", err);
+      if (empty) {
+        empty.hidden = false;
+        empty.textContent = "Hay publicaciones guardadas, pero el navegador no pudo leerlas. Vuelve a publicar desde el panel admin.";
+      }
+      return;
+    }
+
+    const posts = Array.isArray(data)
+      ? data.filter((post) => post && (post.title || post.excerpt || post.body))
+      : [];
+
+    grid.innerHTML = "";
+    if (!posts.length) {
+      if (empty) {
+        empty.hidden = false;
+        empty.textContent = draftRaw
+          ? (window.MP_I18N?.t?.("posts.draftOnly") || "Hay un borrador de publicaciones guardado, pero todavía no está publicado. Entra al panel admin y presiona Publicar.")
+          : (window.MP_I18N?.t?.("posts.noneOrigin") || `No hay publicaciones publicadas en este navegador/origen (${location.origin}). Verifica que admin y landing usen la misma URL.`);
+      }
+      return;
+    }
+    if (empty) empty.hidden = true;
+
+    posts
+      .slice()
+      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+      .forEach((post) => {
+        const art = document.createElement("article");
+        art.className = "post-card";
+        art.setAttribute("data-reveal", "");
+
+        const image = post.imageUrl
+          ? `<div class="post-card-media"><img src="${escHtml(post.imageUrl)}" alt="${escHtml(post.title || 'Publicación')}" onerror="this.parentElement.remove()"></div>`
+          : "";
+        const link = post.linkUrl
+          ? `<a class="post-card-link" href="${escHtml(post.linkUrl)}" target="_blank" rel="noreferrer">${window.MP_I18N?.t?.("posts.readMore") || "Leer más"}</a>`
+          : "";
+
+        art.innerHTML = `
+          ${image}
+          <div class="post-card-body">
+            <div class="post-card-meta">
+              <span>${escHtml(post.category || 'Novedad')}</span>
+              <time datetime="${escHtml(post.date || '')}">${escHtml(formatDate(post.date))}</time>
+            </div>
+            <h3>${escHtml(post.title || 'Publicación')}</h3>
+            <p>${escHtml(post.excerpt || post.body || '')}</p>
+            ${link}
+          </div>`;
+        grid.appendChild(art);
+      });
+  }
   /* ── Utils ── */
   function ytUrlToThumb(url) {
     if (!url) return "";
@@ -120,6 +190,13 @@
     return m ? `spotify:${m[1]}:${m[2]}` : url;
   }
 
+
+  function formatDate(value) {
+    if (!value) return "Sin fecha";
+    const date = new Date(value + "T00:00:00");
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString("es-CO", { day:"2-digit", month:"short", year:"numeric" });
+  }
   function escHtml(str) {
     return String(str || "")
       .replace(/&/g,"&amp;")
@@ -131,4 +208,8 @@
   // Ejecutar de inmediato — antes de main.js
   applySpotify();
   applyYoutube();
+  applyPosts();
 })();
+
+
+

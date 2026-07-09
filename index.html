@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=26">
+    <link rel="stylesheet" href="css/styles.css?v=27">
   </head>
   <body>
     <header class="site-header">
@@ -22,14 +22,15 @@
           <a class="active" href="index.html" data-i18n="nav.home">Inicio</a>
           <a href="quienes-somos.html" data-i18n="nav.about">Quiénes somos</a>
           <a href="multimedia.html" data-i18n="nav.multimedia">Nuestras Historias 🎧</a>
-          <a href="#ayuda">Ayuda</a>
-          <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+          <a href="#publicaciones" data-i18n="nav.posts">Publicaciones</a>
+          <a href="#ayuda" data-i18n="nav.help">Ayuda</a>
+          <a href="#contacto-general" data-i18n="nav.contact">Contacto</a>
           <a class="donate" href="#" data-donation data-i18n="nav.donate">💜 Donaciones</a>
         </div>
         <button class="lang-btn" id="langToggle" type="button" aria-label="Cambiar idioma">EN</button>
-        <a class="admin-login-btn" href="admin/index.html">
+        <a class="admin-login-btn" href="admin/index.html" aria-label="Iniciar sesión en el panel administrativo">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-          Ingresar
+          <span class="admin-login-text" data-i18n="nav.login">Ingresar</span>
         </a>
       </nav>
     </header>
@@ -124,8 +125,8 @@
       <section class="section testimonials-section voces" id="voces-transforman" aria-label="Voces que transforman">
         <div class="section-inner">
           <div class="section-title" data-reveal>
-            <span class="tag">Voces que transforman</span>
-            <h2>Lo que dicen las mujeres que acompañamos.</h2>
+            <span class="tag" data-i18n="index.testimonials.tag">Voces que transforman</span>
+            <h2 data-i18n="index.testimonials.h2">Lo que dicen las mujeres que acompañamos.</h2>
             <p data-i18n="index.voces.hint">Pasa el cursor o toca cada tarjeta para leer su testimonio.</p>
           </div>
 
@@ -142,14 +143,14 @@
                     <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
                     <span class="flip-brand">Mujeres Púrpura</span>
                     <strong class="flip-name">María Alejandra R.</strong>
-                    <span class="flip-role">Programa Emprende Mujer</span>
-                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                    <span class="flip-role" data-i18n="test.1.role">Programa Emprende Mujer</span>
+                    <span class="flip-cta" aria-hidden="true" data-i18n="index.testimonials.cta">Ver testimonio</span>
                   </div>
                   <div class="flip-card-back">
-                    <blockquote><p>"La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad."</p></blockquote>
+                    <blockquote><p data-i18n="test.1.quote">La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad.</p></blockquote>
                     <figcaption>
                       <div class="testimonial-avatar" aria-hidden="true">M</div>
-                      <div><strong>María Alejandra R.</strong><span>Programa Emprende Mujer</span></div>
+                      <div><strong>María Alejandra R.</strong><span data-i18n="test.1.role">Programa Emprende Mujer</span></div>
                     </figcaption>
                   </div>
                 </div>
@@ -161,14 +162,14 @@
                     <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
                     <span class="flip-brand">Mujeres Púrpura</span>
                     <strong class="flip-name">Carmen L.</strong>
-                    <span class="flip-role">Mujeres Tejiendo Redes</span>
-                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                    <span class="flip-role" data-i18n="test.2.role">Mujeres Tejiendo Redes</span>
+                    <span class="flip-cta" aria-hidden="true" data-i18n="index.testimonials.cta">Ver testimonio</span>
                   </div>
                   <div class="flip-card-back">
-                    <blockquote><p>"Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida."</p></blockquote>
+                    <blockquote><p data-i18n="test.2.quote">Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida.</p></blockquote>
                     <figcaption>
                       <div class="testimonial-avatar" aria-hidden="true">C</div>
-                      <div><strong>Carmen L.</strong><span>Mujeres Tejiendo Redes</span></div>
+                      <div><strong>Carmen L.</strong><span data-i18n="test.2.role">Mujeres Tejiendo Redes</span></div>
                     </figcaption>
                   </div>
                 </div>
@@ -180,14 +181,14 @@
                     <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
                     <span class="flip-brand">Mujeres Púrpura</span>
                     <strong class="flip-name">Lucía P.</strong>
-                    <span class="flip-role">Renacer Mujer</span>
-                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                    <span class="flip-role" data-i18n="test.3.role">Renacer Mujer</span>
+                    <span class="flip-cta" aria-hidden="true" data-i18n="index.testimonials.cta">Ver testimonio</span>
                   </div>
                   <div class="flip-card-back">
-                    <blockquote><p>"Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí."</p></blockquote>
+                    <blockquote><p data-i18n="test.3.quote">Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí.</p></blockquote>
                     <figcaption>
                       <div class="testimonial-avatar" aria-hidden="true">L</div>
-                      <div><strong>Lucía P.</strong><span>Renacer Mujer</span></div>
+                      <div><strong>Lucía P.</strong><span data-i18n="test.3.role">Renacer Mujer</span></div>
                     </figcaption>
                   </div>
                 </div>
@@ -199,14 +200,14 @@
                     <img class="flip-logo" src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
                     <span class="flip-brand">Mujeres Púrpura</span>
                     <strong class="flip-name">Sandra M.</strong>
-                    <span class="flip-role">Aprender para Transformar</span>
-                    <span class="flip-cta" aria-hidden="true">Ver testimonio</span>
+                    <span class="flip-role" data-i18n="test.4.role">Aprender para Transformar</span>
+                    <span class="flip-cta" aria-hidden="true" data-i18n="index.testimonials.cta">Ver testimonio</span>
                   </div>
                   <div class="flip-card-back">
-                    <blockquote><p>"Llegué sin saber qué hacer con mi vida y aquí encontré formación, apoyo y hermanas. Hoy lidero un proyecto social en mi barrio."</p></blockquote>
+                    <blockquote><p data-i18n="test.4.quote">Llegué sin saber qué hacer con mi vida y aquí encontré formación, apoyo y hermanas. Hoy lidero un proyecto social en mi barrio.</p></blockquote>
                     <figcaption>
                       <div class="testimonial-avatar" aria-hidden="true">S</div>
-                      <div><strong>Sandra M.</strong><span>Aprender para Transformar</span></div>
+                      <div><strong>Sandra M.</strong><span data-i18n="test.4.role">Aprender para Transformar</span></div>
                     </figcaption>
                   </div>
                 </div>
@@ -244,6 +245,20 @@
         </div>
       </section>
 
+
+      <!-- PUBLICACIONES — contenido editable desde el panel admin sin base de datos -->
+      <section class="section posts-section" id="publicaciones" aria-label="Publicaciones de la fundación">
+        <div class="section-inner">
+          <div class="section-title" data-reveal>
+            <span class="tag" data-i18n="index.posts.tag">Publicaciones</span>
+            <h2 data-i18n="index.posts.h2">Actualidad, historias y novedades de la fundación.</h2>
+            <p data-i18n="index.posts.p">Comparte comunicados, actividades, reflexiones y logros recientes de Mujeres Púrpura.</p>
+          </div>
+
+          <div class="posts-grid" id="postsGrid" aria-live="polite"></div>
+          <p class="posts-empty" id="postsEmpty" hidden data-i18n="index.posts.empty">Aún no hay publicaciones disponibles.</p>
+        </div>
+      </section>
       <!-- CONTACTO — Formulario Web3Forms (sin backend) -->
       <section class="contact-section" id="contacto">
         <div class="section-inner">
@@ -256,32 +271,32 @@
             </button>
             <div class="help-card" id="ayuda" aria-label="¿Cómo podemos ayudarte?">
             <div class="help-intro">
-              <span class="help-badge"><span class="help-pulse" aria-hidden="true"></span>No estás sola</span>
-              <h2>Estamos de tu lado. Cuéntanos tu historia.</h2>
-              <p>Sabemos lo que es necesitar una mano, <strong>por eso creamos este espacio para ti</strong>: para que nos cuentes tu historia y, desde nuestra comunidad, podamos acompañarte y ayudarte mejor.</p>
-              <p>Cada mujer que se acerca fortalece esta red. Tu voz importa, y aquí siempre habrá alguien dispuesta a escucharte.</p>
+              <span class="help-badge"><span class="help-pulse" aria-hidden="true"></span><span data-i18n="help.badge">No estás sola</span></span>
+              <h2 data-i18n="help.h2">Estamos de tu lado. Cuéntanos tu historia.</h2>
+              <p data-i18n="help.p1">Sabemos lo que es necesitar una mano, por eso creamos este espacio para ti: para que nos cuentes tu historia y, desde nuestra comunidad, podamos acompañarte y ayudarte mejor.</p>
+              <p data-i18n="help.p2">Cada mujer que se acerca fortalece esta red. Tu voz importa, y aquí siempre habrá alguien dispuesta a escucharte.</p>
               <p class="help-confidential">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span><strong>Todo es 100% confidencial.</strong> Tus datos se tratan con total reserva y solo los usamos para contactarte y acompañarte.</span>
+                <span data-i18n="help.confidential">Todo es 100% confidencial. Tus datos se tratan con total reserva y solo los usamos para contactarte y acompañarte.</span>
               </p>
             </div>
 
             <form class="help-form" id="helpForm" novalidate>
               <div class="help-field">
-                <label for="hf-nombre">¿Cómo te llamas?</label>
-                <input type="text" id="hf-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre (puede ser solo el primero)">
+                <label for="hf-nombre" data-i18n="help.name">¿Cómo te llamas?</label>
+                <input type="text" id="hf-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre (puede ser solo el primero)" data-i18n-ph="help.name.ph">
               </div>
 
               <div class="help-field">
-                <label for="hf-tipo">¿En qué buscas apoyo?</label>
+                <label for="hf-tipo" data-i18n="help.type">¿En qué buscas apoyo?</label>
                 <select id="hf-tipo" name="tipo" required>
-                  <option value="" disabled selected>Selecciona una opción…</option>
-                  <option>Apoyo psicosocial y emocional</option>
-                  <option>Orientación legal o de derechos</option>
-                  <option>Formación y empoderamiento</option>
-                  <option>Emprendimiento / empleo</option>
-                  <option>Quiero ser voluntaria o aliada</option>
-                  <option>Otra — te cuento abajo</option>
+                  <option value="" disabled selected data-i18n="help.type.placeholder">Selecciona una opción…</option>
+                  <option data-i18n="help.type.1">Apoyo psicosocial y emocional</option>
+                  <option data-i18n="help.type.2">Orientación legal o de derechos</option>
+                  <option data-i18n="help.type.3">Formación y empoderamiento</option>
+                  <option data-i18n="help.type.4">Emprendimiento / empleo</option>
+                  <option data-i18n="help.type.5">Quiero ser voluntaria o aliada</option>
+                  <option data-i18n="help.type.6">Otra — te cuento abajo</option>
                 </select>
               </div>
 
@@ -319,16 +334,18 @@
               </div>
 
               <button class="button cta-button help-submit" type="submit">
-                <span class="help-submit-label">Pedir ayuda ahora</span>
+                <span class="help-submit-label" data-i18n="help.submit">Pedir ayuda ahora</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               </button>
 
               <p class="help-feedback" id="helpFeedback" role="status" aria-live="polite"></p>
-              <p class="help-privacy">Al enviar aceptas que te contactemos de forma reservada. Nunca compartimos tu información.</p>
+              <p class="help-privacy" data-i18n="help.privacy">Al enviar aceptas que te contactemos de forma reservada. Nunca compartimos tu información.</p>
             </form>
             </div>
            </div>
           </div>
+
+          <div class="contact-or" id="contacto-general"><span data-i18n="contact.or">o escríbenos un mensaje general</span></div>
 
           <div class="contact-grid">
 
@@ -387,14 +404,14 @@
                 <label for="cf-nombre" data-i18n="form.name">Nombre completo</label>
                 <div class="input-wrap">
                   <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  <input type="text" id="cf-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre">
+                  <input type="text" id="cf-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre" data-i18n-ph="form.name.ph">
                 </div>
               </div>
               <div class="form-field">
                 <label for="cf-email" data-i18n="form.email">Correo electrónico</label>
                 <div class="input-wrap">
                   <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  <input type="email" id="cf-email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+                  <input type="email" id="cf-email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com" data-i18n-ph="form.email.ph">
                 </div>
               </div>
             </div>
@@ -420,14 +437,14 @@
                 </div>
                 <div class="input-wrap phone-number">
                   <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  <input type="tel" id="cf-telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="(opcional)">
+                  <input type="tel" id="cf-telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="(opcional)" data-i18n-ph="form.phone.ph">
                 </div>
               </div>
             </div>
 
             <div class="form-field">
               <label for="cf-mensaje" data-i18n="form.message">Mensaje</label>
-              <textarea id="cf-mensaje" name="mensaje" rows="5" required placeholder="Cuéntanos en qué podemos ayudarte…"></textarea>
+              <textarea id="cf-mensaje" name="mensaje" rows="5" required placeholder="Cuéntanos en qué podemos ayudarte…" data-i18n-ph="form.message.ph"></textarea>
             </div>
 
             <button class="button cta-button contact-submit" type="submit">
@@ -450,9 +467,10 @@
         <span data-i18n="footer.contact">@fmujerespurpura · 3107623336 · 3017752762</span>
       </div>
     </footer>
-    <script src="js/main.js?v=26"></script>
-    <script src="js/i18n.js?v=26"></script>
-    <script src="js/effects.js?v=26"></script>
+    <script src="js/cms.js?v=27"></script>
+    <script src="js/main.js?v=27"></script>
+    <script src="js/i18n.js?v=27"></script>
+    <script src="js/effects.js?v=27"></script>
     <script>
       // Selector de indicativo de país con banderas y búsqueda (todos los formularios)
       (function () {
@@ -664,3 +682,14 @@
     </script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
