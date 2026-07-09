@@ -4480,7 +4480,11 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   perspective: 1400px;
 }
 .mapa-art {
-  max-height: none;                 /* que no recorte: se ve el mapa completo */
+  width: 100%;
+  max-width: 500px;                 /* tamaño fijo del mapa (no crece más) */
+  max-height: 520px;
+  height: auto;
+  margin: 0 auto;
   overflow: visible;
   animation: mapaFloat 7s ease-in-out infinite;
   transform-style: preserve-3d;
