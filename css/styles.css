@@ -4719,3 +4719,10 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   .nav-toggle { width: 38px; height: 38px; min-height: 38px; }
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OCULTAR botones de navegación: Publicaciones e Ingresar (admin)
+   (temporal — quitar estas reglas para volver a mostrarlos)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.nav-links a[data-i18n="nav.posts"] { display: none !important; }
+.admin-login-btn { display: none !important; }
