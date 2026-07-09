@@ -174,14 +174,16 @@ if (toggle && links) {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeThanks(); });
 
   function isApprovedDonationReturn(params) {
-    const approvedValues = new Set(["approved", "success", "succeeded"]);
     const status = (params.get("status") || "").toLowerCase();
     const collectionStatus = (params.get("collection_status") || "").toLowerCase();
     const paymentStatus = (params.get("payment_status") || "").toLowerCase();
 
-    return approvedValues.has(status) ||
-      approvedValues.has(collectionStatus) ||
-      approvedValues.has(paymentStatus);
+    // Mercado Pago puede devolver estados de navegación como "success" sin que
+    // necesariamente exista un pago aprobado. Solo mostramos agradecimiento
+    // cuando el estado de pago viene explícitamente como "approved".
+    return status === "approved" ||
+      collectionStatus === "approved" ||
+      paymentStatus === "approved";
   }
 
   // Retorno desde Mercado Pago con una señal explícita de pago aprobado.
@@ -660,5 +662,6 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
   setEdgePadding();
   setTimeout(() => { scrollToCard(0); updateCards(); }, 80);
 })();
+
 
 
