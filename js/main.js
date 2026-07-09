@@ -146,13 +146,7 @@ if (toggle && links) {
           <svg class="donate-cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
 
-        <!-- Métodos de pago + sello seguro -->
-        <div class="donate-methods" aria-label="Métodos de pago aceptados">
-          <span class="donate-method">VISA</span>
-          <span class="donate-method">Mastercard</span>
-          <span class="donate-method">PSE</span>
-          <span class="donate-method">Efectivo</span>
-        </div>
+        <!-- Sello seguro -->
         <div class="donate-secure">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           Procesado de forma segura por Mercado Pago
@@ -253,18 +247,67 @@ if (toggle && links) {
     sessionStorage.removeItem("mp_donation_started");
   }
 
-  // (2) Volvió a la pestaña tras iniciar la donación (mín. 6 s fuera)
-  function maybeThankOnReturn() {
+  /* ─── MODAL DE DONACIÓN NO CONFIRMADA (reintento) ─────────────────────────
+     Como un link de pago no puede verificar el pago desde el navegador, al
+     volver a la pestaña NO afirmamos que la donación se hizo: mostramos una
+     ventana amable para reintentar (y una salida para quien sí ya donó).     */
+  const retry = document.createElement("div");
+  retry.className = "thanks-modal";
+  retry.setAttribute("role", "dialog");
+  retry.setAttribute("aria-modal", "true");
+  retry.setAttribute("aria-label", "No pudimos confirmar tu donación");
+  retry.innerHTML = `
+    <div class="thanks-card thanks-card--retry" role="document">
+      <button class="thanks-close" type="button" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="thanks-badge thanks-badge--retry">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+      </div>
+      <span class="thanks-eyebrow thanks-eyebrow--retry">Donación no confirmada</span>
+      <h3>¿Completaste tu donación?</h3>
+      <p>No pudimos confirmar tu pago automáticamente. Si algo salió mal o cerraste la ventana antes de terminar, puedes intentarlo de nuevo — cada aporte hace posible acompañar a más mujeres. 💜</p>
+      <div class="thanks-actions">
+        <button class="thanks-btn primary" type="button" data-retry>Intentar de nuevo</button>
+        <button class="thanks-btn ghost" type="button" data-idonated>Ya realicé mi donación</button>
+      </div>
+      <p class="thanks-note">También puedes intentarlo en otra ocasión. ¡Gracias por tu intención de apoyar!</p>
+    </div>`;
+  document.body.appendChild(retry);
+
+  function showRetry() {
+    retry.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeRetry() {
+    retry.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+  retry.querySelector(".thanks-close").addEventListener("click", closeRetry);
+  retry.addEventListener("click", (e) => { if (e.target === retry) closeRetry(); });
+  retry.querySelector("[data-retry]").addEventListener("click", () => {
+    closeRetry();
+    openModal();
+  });
+  retry.querySelector("[data-idonated]").addEventListener("click", () => {
+    closeRetry();
+    showThanks();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeRetry(); });
+
+  // (2) Volvió a la pestaña tras iniciar la donación (mín. 6 s fuera):
+  //     no confirmamos el pago → ofrecemos reintentar.
+  function maybeAskOnReturn() {
     const started = parseInt(sessionStorage.getItem("mp_donation_started") || "0", 10);
     if (started && Date.now() - started > 6000) {
       sessionStorage.removeItem("mp_donation_started");
-      showThanks();
+      showRetry();
     }
   }
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") maybeThankOnReturn();
+    if (document.visibilityState === "visible") maybeAskOnReturn();
   });
-  window.addEventListener("focus", maybeThankOnReturn);
+  window.addEventListener("focus", maybeAskOnReturn);
 
   // Montos sugeridos: además de resaltar, ajustan el destino del botón de pago.
   const ctaLabel = cta.querySelector("span");

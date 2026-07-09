@@ -4570,3 +4570,13 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 @media (prefers-reduced-motion: reduce) {
   .donate { animation: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODAL DE DONACIÓN NO CONFIRMADA (reintento) — variante del modal de gracias
+   ═══════════════════════════════════════════════════════════════════════════ */
+.thanks-badge--retry {
+  background: radial-gradient(circle at 50% 35%, rgba(232, 132, 114, 0.22), transparent 70%);
+  color: var(--coral);
+}
+.thanks-eyebrow--retry { color: var(--coral); }
+.thanks-card--retry h3 { color: var(--purple-dark); }
