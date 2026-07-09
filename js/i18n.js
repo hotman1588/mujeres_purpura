@@ -5,6 +5,9 @@ const translations = {
     "nav.about": "Quiénes somos",
     "nav.multimedia": "Multimedia",
     "nav.contact": "Contacto",
+    "nav.posts": "Publicaciones",
+    "nav.help": "Ayuda",
+    "nav.login": "Ingresar",
     "nav.donate": "Donaciones",
     // Index — hero
     "index.eyebrow": "Fuerza, libertad y autenticidad",
@@ -16,7 +19,63 @@ const translations = {
     "index.stat.women": "Mujeres impactadas",
     "index.stat.allies": "Aliados",
     "index.stat.years": "Años de experiencia",
-    // Index — about section
+    "index.testimonials.tag": "Voces que transforman",
+    "index.testimonials.h2": "Lo que dicen las mujeres que acompañamos.",
+    "index.testimonials.cta": "Ver testimonio",
+    "test.1.role": "Programa Emprende Mujer",
+    "test.1.quote": "La fundación me dio las herramientas para creer en mí misma y construir mi propio negocio. Hoy tengo mi emprendimiento y soy referente en mi comunidad.",
+    "test.2.role": "Mujeres Tejiendo Redes",
+    "test.2.quote": "Encontré un espacio seguro donde pude sanar y reconocer mis derechos. La red de mujeres que tejimos juntas me cambió la vida.",
+    "test.3.role": "Renacer Mujer",
+    "test.3.quote": "Gracias al apoyo psicosocial logré superar mi crisis y hoy acompaño a otras mujeres. La sororidad real existe aquí.",
+    "test.4.role": "Aprender para Transformar",
+    "test.4.quote": "Llegué sin saber qué hacer con mi vida y aquí encontré formación, apoyo y hermanas. Hoy lidero un proyecto social en mi barrio.",    "index.posts.tag": "Publicaciones",
+    "index.posts.h2": "Actualidad, historias y novedades de la fundación.",
+    "index.posts.p": "Comparte comunicados, actividades, reflexiones y logros recientes de Mujeres Púrpura.",
+    "index.posts.empty": "Aún no hay publicaciones disponibles.",
+    "help.badge": "No estás sola",
+    "help.h2": "Estamos de tu lado. Cuéntanos tu historia.",
+    "help.p1": "Sabemos lo que es necesitar una mano, por eso creamos este espacio para ti: para que nos cuentes tu historia y, desde nuestra comunidad, podamos acompañarte y ayudarte mejor.",
+    "help.p2": "Cada mujer que se acerca fortalece esta red. Tu voz importa, y aquí siempre habrá alguien dispuesta a escucharte.",
+    "help.confidential": "Todo es 100% confidencial. Tus datos se tratan con total reserva y solo los usamos para contactarte y acompañarte.",
+    "help.name": "¿Cómo te llamas?",
+    "help.name.ph": "Tu nombre (puede ser solo el primero)",
+    "help.type": "¿En qué buscas apoyo?",
+    "help.type.placeholder": "Selecciona una opción…",
+    "help.type.1": "Apoyo psicosocial y emocional",
+    "help.type.2": "Orientación legal o de derechos",
+    "help.type.3": "Formación y empoderamiento",
+    "help.type.4": "Emprendimiento / empleo",
+    "help.type.5": "Quiero ser voluntaria o aliada",
+    "help.type.6": "Otra — te cuento abajo",
+    "help.email": "Correo de contacto *",
+    "help.phone": "Teléfono / WhatsApp *",
+    "help.message": "Cuéntanos tu situación",
+    "help.message.ph": "Escríbenos con confianza. Estamos para escucharte…",
+    "help.submit": "Pedir ayuda ahora",
+    "help.privacy": "Al enviar aceptas que te contactemos de forma reservada. Nunca compartimos tu información.",
+    "contact.or": "o escríbenos un mensaje general",
+    "form.name.ph": "Tu nombre",
+    "form.email.ph": "tucorreo@ejemplo.com",
+    "form.phone.ph": "(opcional)",
+    "form.message.ph": "Cuéntanos en qué podemos ayudarte…",
+    "donate.modal.label": "Donar a Fundación Mujeres Púrpura",
+    "donate.close": "Cerrar",
+    "donate.eyebrow": "Tu aporte transforma vidas",
+    "donate.title": "Sé parte del cambio",
+    "donate.text": "Cada donación impulsa talleres, acompañamiento psicosocial y redes de apoyo para mujeres que lo necesitan.",
+    "donate.amounts.label": "Montos sugeridos",
+    "donate.other": "Otro monto",
+    "donate.impact.default": "Elige un monto para ver tu impacto.",
+    "donate.cta": "Donar con Mercado Pago",
+    "donate.secure": "Procesado de forma segura por Mercado Pago",
+    "thanks.label": "Gracias por tu donación",
+    "thanks.eyebrow": "Donación recibida",
+    "thanks.title": "¡Gracias por tu generosidad! 💜",
+    "thanks.text": "Tu aporte se convierte en talleres, acompañamiento y oportunidades reales para más mujeres. Eres parte del cambio.",
+    "thanks.home": "Volver al inicio",
+    "thanks.instagram": "Síguenos en Instagram",
+    "thanks.note": "Recibirás el comprobante de Mercado Pago en tu correo.",    // Index — about section
     "index.tag.purple": "Ser Mujer Púrpura",
     "index.h2.solidarity": "Solidaridad, valor y compromiso en movimiento.",
     "index.p.solidarity": "La fundación trabaja por la garantía y el reconocimiento de los derechos de las mujeres, creando espacios seguros de apoyo, empoderamiento, formación y acción comunitaria.",
@@ -156,7 +215,12 @@ const translations = {
     "media.cta.spotify": "Escuchar en Spotify",
     "media.tag.videos": "Videos",
     "media.h2.videos": "YouTube de la fundación",
-    "media.p.videos": "El diseño queda listo para insertar videos cargados en YouTube. Por ahora enlaza a la búsqueda pública mientras se confirma el canal o los videos oficiales.",
+    "media.p.videos": "Desliza para explorar los videos de la Fundación Mujeres Púrpura.",
+    "media.cta.youtube": "Ver en YouTube",
+    "media.badge.new": "Nuevo",
+    "posts.readMore": "Leer más",
+    "posts.draftOnly": "Hay un borrador de publicaciones guardado, pero todavía no está publicado. Entra al panel admin y presiona Publicar.",
+    "posts.noneOrigin": "No hay publicaciones publicadas en este navegador/origen. Verifica que admin y landing usen la misma URL.",
     "media.vid1.h3": "Historias de impacto",
     "media.vid1.p": "Videos sobre proyectos, talleres y acciones comunitarias.",
     "media.vid1.btn": "Buscar en YouTube",
@@ -176,6 +240,9 @@ const translations = {
     "nav.about": "Who we are",
     "nav.multimedia": "Multimedia",
     "nav.contact": "Contact",
+    "nav.posts": "Posts",
+    "nav.help": "Help",
+    "nav.login": "Log in",
     "nav.donate": "Donate",
     // Index — hero
     "index.eyebrow": "Strength, freedom and authenticity",
@@ -187,7 +254,63 @@ const translations = {
     "index.stat.women": "Women impacted",
     "index.stat.allies": "Allies",
     "index.stat.years": "Years of experience",
-    // Index — about section
+    "index.testimonials.tag": "Voices that transform",
+    "index.testimonials.h2": "What the women we support say.",
+    "index.testimonials.cta": "Read testimonial",
+    "test.1.role": "Women Entrepreneur Program",
+    "test.1.quote": "The foundation gave me the tools to believe in myself and build my own business. Today I have my venture and I am a reference in my community.",
+    "test.2.role": "Women Weaving Networks",
+    "test.2.quote": "I found a safe space where I could heal and recognize my rights. The network of women we built together changed my life.",
+    "test.3.role": "Women Reborn",
+    "test.3.quote": "Thanks to psychosocial support, I was able to overcome my crisis and now I accompany other women. Real sisterhood exists here.",
+    "test.4.role": "Learning to Transform",
+    "test.4.quote": "I arrived without knowing what to do with my life and found training, support and sisters here. Today I lead a social project in my neighborhood.",    "index.posts.tag": "Posts",
+    "index.posts.h2": "Updates, stories and news from the foundation.",
+    "index.posts.p": "Share announcements, activities, reflections and recent achievements from Mujeres Púrpura.",
+    "index.posts.empty": "There are no posts available yet.",
+    "help.badge": "You are not alone",
+    "help.h2": "We are on your side. Tell us your story.",
+    "help.p1": "We know what it feels like to need a hand, so we created this space for you: tell us your story and, from our community, we can accompany and support you better.",
+    "help.p2": "Every woman who reaches out strengthens this network. Your voice matters, and here there will always be someone ready to listen.",
+    "help.confidential": "Everything is 100% confidential. Your data is handled with full discretion and used only to contact and support you.",
+    "help.name": "What is your name?",
+    "help.name.ph": "Your name (first name is enough)",
+    "help.type": "What kind of support are you looking for?",
+    "help.type.placeholder": "Select an option…",
+    "help.type.1": "Psychosocial and emotional support",
+    "help.type.2": "Legal or rights guidance",
+    "help.type.3": "Training and empowerment",
+    "help.type.4": "Entrepreneurship / employment",
+    "help.type.5": "I want to volunteer or become an ally",
+    "help.type.6": "Other — I will explain below",
+    "help.email": "Contact email *",
+    "help.phone": "Phone / WhatsApp *",
+    "help.message": "Tell us about your situation",
+    "help.message.ph": "Write to us with confidence. We are here to listen…",
+    "help.submit": "Ask for help now",
+    "help.privacy": "By submitting, you agree that we may contact you privately. We never share your information.",
+    "contact.or": "or send us a general message",
+    "form.name.ph": "Your name",
+    "form.email.ph": "your@email.com",
+    "form.phone.ph": "(optional)",
+    "form.message.ph": "Tell us how we can help you…",
+    "donate.modal.label": "Donate to Fundación Mujeres Púrpura",
+    "donate.close": "Close",
+    "donate.eyebrow": "Your contribution transforms lives",
+    "donate.title": "Be part of the change",
+    "donate.text": "Every donation supports workshops, psychosocial accompaniment and support networks for women who need them.",
+    "donate.amounts.label": "Suggested amounts",
+    "donate.other": "Other amount",
+    "donate.impact.default": "Choose an amount to see your impact.",
+    "donate.cta": "Donate with Mercado Pago",
+    "donate.secure": "Securely processed by Mercado Pago",
+    "thanks.label": "Thank you for your donation",
+    "thanks.eyebrow": "Donation received",
+    "thanks.title": "Thank you for your generosity! 💜",
+    "thanks.text": "Your contribution becomes workshops, accompaniment and real opportunities for more women. You are part of the change.",
+    "thanks.home": "Back to home",
+    "thanks.instagram": "Follow us on Instagram",
+    "thanks.note": "You will receive your Mercado Pago receipt by email.",    // Index — about section
     "index.tag.purple": "Being a Purple Woman",
     "index.h2.solidarity": "Solidarity, courage and commitment in motion.",
     "index.p.solidarity": "The foundation works for the guarantee and recognition of women's rights, creating safe spaces for support, empowerment, training and community action.",
@@ -327,7 +450,12 @@ const translations = {
     "media.cta.spotify": "Listen on Spotify",
     "media.tag.videos": "Videos",
     "media.h2.videos": "Foundation's YouTube",
-    "media.p.videos": "The design is ready to embed YouTube videos. Currently linking to public search while the official channel or videos are confirmed.",
+    "media.p.videos": "Swipe to explore videos from Fundación Mujeres Púrpura.",
+    "media.cta.youtube": "Watch on YouTube",
+    "media.badge.new": "New",
+    "posts.readMore": "Read more",
+    "posts.draftOnly": "There is a saved post draft, but it has not been published yet. Go to the admin panel and press Publish.",
+    "posts.noneOrigin": "There are no published posts in this browser/origin. Make sure admin and the landing page use the same URL.",
     "media.vid1.h3": "Impact stories",
     "media.vid1.p": "Videos about projects, workshops and community actions.",
     "media.vid1.btn": "Search on YouTube",
@@ -357,12 +485,28 @@ const translations = {
       const key = el.dataset.i18nPh;
       if (dict[key] !== undefined) el.placeholder = dict[key];
     });
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      const key = el.dataset.i18nAria;
+      if (dict[key] !== undefined) el.setAttribute("aria-label", dict[key]);
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+      const key = el.dataset.i18nTitle;
+      if (dict[key] !== undefined) el.setAttribute("title", dict[key]);
+    });
     document.documentElement.lang = lang;
     currentLang = lang;
     localStorage.setItem(STORAGE_KEY, lang);
     const btn = document.getElementById("langToggle");
     if (btn) btn.textContent = lang === "es" ? "EN" : "ES";
+    window.dispatchEvent(new CustomEvent("mp:languagechange", { detail: { lang, dict } }));
   }
+
+  window.MP_I18N = {
+    t: (key) => (translations[currentLang] && translations[currentLang][key]) || key,
+    lang: () => currentLang,
+    apply: applyLanguage,
+    applyCurrent: () => applyLanguage(currentLang)
+  };
 
   function init() {
     const btn = document.getElementById("langToggle");
@@ -381,3 +525,8 @@ const translations = {
     init();
   }
 })();
+
+
+
+
+

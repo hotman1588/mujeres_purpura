@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=menu-ajustado-20260708">
   </head>
   <body>
     <header class="site-header">
@@ -22,13 +22,15 @@
           <a href="index.html" data-i18n="nav.home">Inicio</a>
           <a href="quienes-somos.html" data-i18n="nav.about">Quiénes somos</a>
           <a class="active" href="multimedia.html" data-i18n="nav.multimedia">Multimedia</a>
-          <a href="index.html#contacto" data-i18n="nav.contact">Contacto</a>
+          <a href="index.html#publicaciones" data-i18n="nav.posts">Publicaciones</a>
+          <a href="index.html#ayuda" data-i18n="nav.help">Ayuda</a>
+          <a href="index.html#contacto-general" data-i18n="nav.contact">Contacto</a>
           <a class="donate" href="#" data-donation data-i18n="nav.donate">Donaciones</a>
         </div>
         <button class="lang-btn" id="langToggle" type="button" aria-label="Cambiar idioma">EN</button>
-        <a class="admin-login-btn" href="admin/index.html">
+        <a class="admin-login-btn" href="admin/index.html" aria-label="Iniciar sesión en el panel administrativo">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-          Ingresar
+          <span class="admin-login-text" data-i18n="nav.login">Ingresar</span>
         </a>
       </nav>
     </header>
@@ -175,7 +177,7 @@
                 <button class="ytc-play" type="button" aria-label="Ver video">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
                 </button>
-                <span class="ytc-duration">Próximamente</span>
+                <span class="ytc-duration" data-i18n="media.vid2.tag">Próximamente</span>
               </div>
               <div class="ytc-body">
                 <p class="ytc-channel">Mujeres Púrpura</p>
@@ -238,7 +240,7 @@
                 <button class="ytc-play" type="button" aria-label="Ver video">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
                 </button>
-                <span class="ytc-duration">Próximamente</span>
+                <span class="ytc-duration" data-i18n="media.vid2.tag">Próximamente</span>
               </div>
               <div class="ytc-body">
                 <p class="ytc-channel">Mujeres Púrpura</p>
@@ -274,8 +276,17 @@
       </div>
     </footer>
     <script src="js/cms.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/i18n.js"></script>
+    <script src="js/main.js?v=i18n-textos-20260708"></script>
+    <script src="js/i18n.js?v=i18n-textos-20260708"></script>
     <script src="js/effects.js"></script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
