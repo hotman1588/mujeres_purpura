@@ -173,9 +173,10 @@ if (toggle && links) {
   closeBtn.addEventListener("click", closeModal);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-  // Al continuar al pago, solo cerramos el modal. El agradecimiento se muestra
-  // únicamente si Mercado Pago vuelve con estado aprobado en la URL.
+  // Al continuar al pago: cerramos el modal y marcamos que inició una donación,
+  // para poder ofrecer reintentar cuando la persona vuelva a la pestaña.
   cta.addEventListener("click", () => {
+    sessionStorage.setItem("mp_donation_started", String(Date.now()));
     setTimeout(closeModal, 100);
   });
 
@@ -238,12 +239,15 @@ if (toggle && links) {
   thanks.addEventListener("click", (e) => { if (e.target === thanks) closeThanks(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeThanks(); });
 
-  // (1) Retorno desde Mercado Pago con ?donacion=gracias o ?status=approved
+  // (1) Agradecimiento automático SOLO con nuestro parámetro controlado
+  //     ?donacion=gracias (el que se configura como URL de retorno de pago
+  //     aprobado en Mercado Pago). NO usamos ?status=approved porque Mercado
+  //     Pago puede devolverlo como estado de navegación sin que exista pago.
   const params = new URLSearchParams(location.search);
-  if (params.get("donacion") === "gracias" || params.get("status") === "approved") {
+  if (params.get("donacion") === "gracias") {
     setTimeout(showThanks, 400);
     // Limpia la URL para que no se repita al recargar
-    params.delete("donacion"); params.delete("status");
+    params.delete("donacion");
     const clean = location.pathname + (params.toString() ? "?" + params.toString() : "");
     history.replaceState(null, "", clean);
     sessionStorage.removeItem("mp_donation_started");
