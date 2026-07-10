@@ -5055,3 +5055,52 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   .academia-btn:hover .academia-btn-arrow { transform: none; }
   .academia-modal { transition: opacity 0.2s ease; transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ENLACE PERMANENTE "Academia Púrpura" en la barra de navegación
+   Siempre visible en TODAS las pantallas (no se colapsa en el menú hamburguesa).
+   ═══════════════════════════════════════════════════════════════════════════ */
+.academia-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 4px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+  border: 1px solid rgba(255, 209, 102, 0.55);
+  box-shadow: 0 4px 14px rgba(62, 51, 111, 0.28);
+  transition: transform 0.25s var(--spring), box-shadow 0.25s var(--ease-out),
+              background 0.2s ease;
+}
+
+.academia-nav-link:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #7b6bb8 0%, #47398a 100%);
+  box-shadow: 0 8px 22px rgba(62, 51, 111, 0.4);
+}
+
+.academia-nav-link:active { transform: scale(0.97); }
+
+/* En móvil se mantiene visible y compacto (solo se reduce el padding) */
+@media (max-width: 900px) {
+  .academia-nav-link {
+    order: 2;
+    padding: 7px 12px;
+    font-size: 0.76rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .academia-nav-link { padding: 6px 10px; font-size: 0.72rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .academia-nav-link:hover { transform: none; }
+}
