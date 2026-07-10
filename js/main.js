@@ -1028,3 +1028,65 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
   // Si se llega con #ayuda en la URL (p. ej. desde otra página), abrir al cargar
   if (location.hash === "#ayuda") setTimeout(open, 200);
 })();
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACADEMIA PÚRPURA 🎓 — Modal de lista de espera (Fase 1)
+   El botón abre un modal accesible en lugar de enlazar a Moodle (aún no activo).
+
+   FASE 3 (Moodle en producción): en index.html reemplaza el <button data-academia-open>
+   por un <a href="URL_DEL_LOGIN_DE_MOODLE"> (ver comentario en el HTML). Este script
+   ignora el botón si ya no existe, así que no necesita cambios.
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  const overlay = document.getElementById("academiaModal");
+  const openers = document.querySelectorAll("[data-academia-open]");
+  if (!overlay || !openers.length) return;
+
+  const closeBtns = overlay.querySelectorAll("[data-academia-close]");
+  const form = document.getElementById("academiaForm");
+  const feedback = document.getElementById("academiaFeedback");
+  let lastFocused = null;
+
+  function open() {
+    lastFocused = document.activeElement;
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    const firstField = overlay.querySelector("input");
+    if (firstField) setTimeout(() => firstField.focus(), 120);
+  }
+
+  function close() {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocused) lastFocused.focus();
+  }
+
+  openers.forEach((btn) => btn.addEventListener("click", open));
+  closeBtns.forEach((btn) => btn.addEventListener("click", close));
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("open")) close();
+  });
+
+  // Envío del formulario de lista de espera.
+  // FASE 2: conectar a un servicio real (p. ej. Web3Forms como el resto del sitio,
+  // o el endpoint de matrícula de Moodle). Por ahora confirma la inscripción localmente.
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = form.nombre.value.trim();
+      const email = form.email.value.trim();
+      if (!nombre || !email || !/^\S+@\S+\.\S+$/.test(email)) {
+        feedback.textContent = "Por favor completa tu nombre y un correo válido.";
+        feedback.style.color = "var(--coral)";
+        return;
+      }
+      feedback.style.color = "var(--purple-dark)";
+      feedback.textContent = "¡Listo, " + nombre + "! Te avisaremos apenas abra el Campus. 💜";
+      form.reset();
+      setTimeout(close, 2200);
+    });
+  }
+})();

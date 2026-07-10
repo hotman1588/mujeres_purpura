@@ -4726,3 +4726,332 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
    ═══════════════════════════════════════════════════════════════════════════ */
 .nav-links a[data-i18n="nav.posts"] { display: none !important; }
 .admin-login-btn { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACADEMIA PÚRPURA 🎓 — Módulo educativo destacado (Fase 1: captación)
+   Mobile-first, animaciones sutiles, preparado para escalar a Moodle/LMS.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.academia-section {
+  position: relative;
+}
+
+/* Tarjeta contenedora tipo "módulo premium" */
+.academia-card {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 24px 44px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(111, 96, 168, 0.16);
+  background:
+    radial-gradient(at 90% 0%, rgba(255, 209, 102, 0.12) 0px, transparent 45%),
+    radial-gradient(at 0% 100%, rgba(149, 220, 226, 0.14) 0px, transparent 45%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(247, 242, 246, 0.92));
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+/* Franja superior dorada/púrpura que lo marca como destacado */
+.academia-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--purple) 0%, #ffd166 55%, var(--aqua) 100%);
+}
+
+/* Badge superior */
+.academia-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.9), rgba(255, 190, 60, 0.9));
+  border: 1px solid rgba(214, 158, 46, 0.5);
+  color: #5b4a10;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 4px 14px rgba(255, 190, 60, 0.35);
+}
+
+.academia-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d68e2e;
+  box-shadow: 0 0 0 0 rgba(214, 142, 46, 0.6);
+  animation: academiaPulse 2s var(--ease-out) infinite;
+}
+
+@keyframes academiaPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(214, 142, 46, 0.55); }
+  70%  { box-shadow: 0 0 0 9px rgba(214, 142, 46, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(214, 142, 46, 0); }
+}
+
+/* Encabezado */
+.academia-head h2 {
+  margin: 0;
+  font-size: clamp(1.9rem, 5vw, 3.4rem);
+  color: var(--purple-dark);
+  line-height: 1.1;
+}
+
+.academia-emoji {
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.academia-lead {
+  max-width: 620px;
+  margin: 16px auto 0;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+/* Líneas de formación — grid 2 columnas en desktop, 1 en móvil */
+.academia-lines {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin: 34px auto 0;
+  max-width: 860px;
+  text-align: left;
+}
+
+.academia-line {
+  padding: 24px 22px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(111, 96, 168, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s var(--spring), box-shadow 0.3s var(--ease-out),
+              border-color 0.3s ease;
+}
+
+.academia-line:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: rgba(111, 96, 168, 0.22);
+}
+
+.academia-line-icon {
+  font-size: 1.9rem;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.academia-line h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--purple-dark);
+}
+
+.academia-line p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+/* Expectativa tecnológica */
+.academia-tech {
+  max-width: 640px;
+  margin: 28px auto 0;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(111, 96, 168, 0.06);
+  border: 1px dashed rgba(111, 96, 168, 0.28);
+  color: var(--purple);
+  font-size: 0.92rem;
+}
+
+.academia-tech strong { color: var(--purple-dark); }
+.academia-tech-icon { margin-right: 4px; }
+
+/* CTA */
+.academia-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.academia-btn {
+  gap: 10px;
+  min-height: 54px;
+  padding: 14px 32px;
+  font-size: 1rem;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+  color: var(--white);
+  box-shadow: 0 6px 22px rgba(62, 51, 111, 0.32);
+}
+
+.academia-btn:hover {
+  background: linear-gradient(135deg, #7b6bb8 0%, #47398a 100%);
+  box-shadow: 0 10px 30px rgba(62, 51, 111, 0.45);
+}
+
+.academia-btn-arrow {
+  transition: transform 0.25s var(--ease-out);
+}
+
+.academia-btn:hover .academia-btn-arrow {
+  transform: translateX(4px);
+}
+
+.academia-cta-hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ── Modal / Lista de espera ─────────────────────────────────────────────── */
+.academia-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(30, 27, 46, 0.55);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s var(--ease-out), visibility 0.3s;
+}
+
+.academia-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.academia-modal {
+  position: relative;
+  width: min(480px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 36px 30px 30px;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(24px) scale(0.97);
+  transition: transform 0.35s var(--spring);
+}
+
+.academia-overlay.open .academia-modal {
+  transform: none;
+}
+
+.academia-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(111, 96, 168, 0.1);
+  color: var(--purple-dark);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s var(--spring);
+}
+
+.academia-modal-close:hover {
+  background: rgba(111, 96, 168, 0.2);
+  transform: rotate(90deg);
+}
+
+.academia-badge--modal {
+  margin-bottom: 16px;
+  background: rgba(149, 220, 226, 0.3);
+  border-color: rgba(149, 220, 226, 0.5);
+  color: var(--purple-dark);
+  box-shadow: none;
+}
+
+.academia-modal h3 {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+  color: var(--purple-dark);
+}
+
+.academia-modal-copy {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 0.96rem;
+}
+
+.academia-form {
+  display: grid;
+  gap: 14px;
+}
+
+.academia-field {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+}
+
+.academia-field label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--purple-dark);
+}
+
+.academia-field input {
+  min-height: 46px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(111, 96, 168, 0.2);
+  background: var(--paper);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.academia-field input:focus {
+  outline: none;
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(111, 96, 168, 0.15);
+}
+
+.academia-form-submit {
+  margin-top: 6px;
+  min-height: 50px;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+  color: var(--white);
+  box-shadow: 0 6px 20px rgba(62, 51, 111, 0.3);
+}
+
+.academia-form-submit:hover {
+  background: linear-gradient(135deg, #7b6bb8 0%, #47398a 100%);
+  box-shadow: 0 10px 28px rgba(62, 51, 111, 0.42);
+}
+
+.academia-form-feedback {
+  margin: 4px 0 0;
+  min-height: 1.2em;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--purple-dark);
+}
+
+/* ── Responsive: 2 columnas y más aire en pantallas medianas/grandes ─────── */
+@media (min-width: 720px) {
+  .academia-card { padding: 56px 48px 60px; }
+  .academia-lines { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── Accesibilidad: respeta reduce-motion ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .academia-badge-dot { animation: none; }
+  .academia-line:hover,
+  .academia-btn:hover,
+  .academia-btn:hover .academia-btn-arrow { transform: none; }
+  .academia-modal { transition: opacity 0.2s ease; transform: none; }
+}
