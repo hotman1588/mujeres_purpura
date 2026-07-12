@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=31">
+    <link rel="stylesheet" href="css/styles.css?v=36">
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
   </head>
   <body>
     <header class="site-header">
@@ -27,7 +28,7 @@
           <a href="#contacto-general" data-i18n="nav.contact">Contacto</a>
           <a class="donate" href="#" data-donation data-i18n="nav.donate">💜 Donaciones</a>
         </div>
-        <a class="academia-nav-link" href="#academia-purpura" data-i18n="nav.academia">🎓 Academia Púrpura</a>
+        <a class="academia-nav-link" href="academia.html" data-i18n="nav.academia">Academia Púrpura</a>
         <button class="lang-btn" id="langToggle" type="button" aria-label="Cambiar idioma">EN</button>
         <a class="admin-login-btn" href="admin/index.html" aria-label="Iniciar sesión en el panel administrativo">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
@@ -246,139 +247,7 @@
         </div>
       </section>
 
-
-      <!-- =========================================================================
-           ACADEMIA PÚRPURA 🎓 — Módulo destacado / hub educativo (Fase 1: captación)
-           Diseñado para escalar a un LMS (Moodle) sin romper la maquetación.
-           FASE 3 (Moodle en producción): ver comentario junto al botón principal.
-           ========================================================================= -->
-      <section class="section academia-section" id="academia-purpura" aria-labelledby="academia-title">
-        <div class="section-inner">
-          <div class="academia-card" data-reveal>
-
-            <!-- Badge superior destacado -->
-            <span class="academia-badge">
-              <span class="academia-badge-dot" aria-hidden="true"></span>
-              <span data-i18n="academia.badge">Nueva Era Educativa · Próximamente</span>
-            </span>
-
-            <!-- Encabezado -->
-            <div class="academia-head">
-              <h2 id="academia-title">
-                <span class="academia-emoji" aria-hidden="true">🎓</span>
-                <span data-i18n="academia.h2">Academia Púrpura</span>
-              </h2>
-              <p class="academia-lead" data-i18n="academia.lead">
-                Formación para el empoderamiento: cursos y diplomados que transforman
-                el conocimiento en libertad, autonomía y proyectos de vida dignos.
-              </p>
-            </div>
-
-            <!-- Líneas de formación -->
-            <div class="academia-lines">
-              <article class="academia-line">
-                <div class="academia-line-icon" aria-hidden="true">📚</div>
-                <h3 data-i18n="academia.line1.h3">Aprender para Transformar</h3>
-                <p data-i18n="academia.line1.p">
-                  Formación en enfoque de género, prevención de las violencias
-                  y derechos económicos para decidir con autonomía.
-                </p>
-              </article>
-
-              <article class="academia-line">
-                <div class="academia-line-icon" aria-hidden="true">🌸</div>
-                <h3 data-i18n="academia.line2.h3">Renacer Mujer</h3>
-                <p data-i18n="academia.line2.p">
-                  Espacios de acompañamiento integral, sanación y crecimiento
-                  personal para reencontrarte con tu fuerza.
-                </p>
-              </article>
-            </div>
-
-            <!-- Expectativa tecnológica -->
-            <p class="academia-tech" data-i18n="academia.tech">
-              <span class="academia-tech-icon" aria-hidden="true">✨</span>
-              Muy pronto: todo nuestro conocimiento centralizado en un Campus Virtual
-              automatizado bajo la robustez de <strong>Moodle&nbsp;/&nbsp;LMS</strong> para tu comodidad.
-            </p>
-
-            <!-- CTA principal -->
-            <div class="academia-cta">
-              <!--
-                FASE 1 (actual): el botón abre el modal de Lista de Espera.
-                No usa href para evitar enlaces rotos mientras Moodle se implementa.
-
-                ── FASE 3 (Moodle en producción) ──────────────────────────────────
-                Cuando el Campus Virtual esté activo, reemplaza este <button> por:
-
-                    <a class="button primary academia-btn"
-                       href="https://campus.mujerespurpura.org/login/index.php">
-                       Ingresar al Campus Virtual
-                    </a>
-
-                El diseño de la Home NO cambia: mismas clases, mismo aspecto.
-                (Opcional) también puedes conservar el botón y solo cambiar el
-                atributo data-academia-open por data-academia-href con la URL.
-                ────────────────────────────────────────────────────────────────── -->
-              <button type="button" class="button primary academia-btn" data-academia-open
-                       aria-haspopup="dialog" aria-controls="academiaModal">
-                <span data-i18n="academia.cta">Ingresar al Campus Virtual</span>
-                <span class="academia-btn-arrow" aria-hidden="true">→</span>
-              </button>
-              <span class="academia-cta-hint" data-i18n="academia.cta.hint">
-                Acceso gratuito para las primeras inscritas
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal / Lista de espera -->
-        <div class="academia-overlay" id="academiaModal" role="dialog" aria-modal="true"
-             aria-labelledby="academiaModalTitle" aria-hidden="true">
-          <div class="academia-modal" role="document">
-            <button type="button" class="academia-modal-close" data-academia-close aria-label="Cerrar">✕</button>
-
-            <span class="academia-badge academia-badge--modal">
-              <span class="academia-badge-dot" aria-hidden="true"></span>
-              <span data-i18n="academia.modal.badge">Lista de espera</span>
-            </span>
-
-            <h3 id="academiaModalTitle" data-i18n="academia.modal.h3">
-              Asegura tu cupo en la Academia Púrpura 🎓
-            </h3>
-            <p class="academia-modal-copy" data-i18n="academia.modal.copy">
-              El Campus Virtual está en sus últimos ajustes técnicos. Regístrate ahora
-              para ser la primera en recibir tu usuario de acceso, asegurar tu cupo en
-              los primeros diplomados gratuitos y participar en los talleres de lanzamiento.
-            </p>
-
-            <form class="academia-form" id="academiaForm" novalidate>
-              <div class="academia-field">
-                <label for="ac-nombre" data-i18n="academia.form.name">Nombre</label>
-                <input type="text" id="ac-nombre" name="nombre" required autocomplete="name"
-                       placeholder="Tu nombre">
-              </div>
-              <div class="academia-field">
-                <label for="ac-email" data-i18n="academia.form.email">Correo</label>
-                <input type="email" id="ac-email" name="email" required autocomplete="email"
-                       placeholder="tucorreo@ejemplo.com">
-              </div>
-              <div class="academia-field">
-                <label for="ac-telefono" data-i18n="academia.form.phone">Teléfono</label>
-                <input type="tel" id="ac-telefono" name="telefono" autocomplete="tel"
-                       inputmode="tel" placeholder="Ej: 310 762 3336">
-              </div>
-              <button type="submit" class="button primary academia-form-submit">
-                <span data-i18n="academia.form.submit">Reservar mi cupo 💜</span>
-              </button>
-              <p class="academia-form-feedback" id="academiaFeedback" role="status" aria-live="polite"></p>
-            </form>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- PUBLICACIONES — contenido editable desde el panel admin sin base de datos -->
+<!-- PUBLICACIONES — contenido editable desde el panel admin sin base de datos -->
       <section class="section posts-section" id="publicaciones" aria-label="Publicaciones de la fundación">
         <div class="section-inner">
           <div class="section-title" data-reveal>
@@ -599,10 +468,10 @@
         <span data-i18n="footer.contact">@fmujerespurpura · 3107623336 · 3017752762</span>
       </div>
     </footer>
-    <script src="js/cms.js?v=31"></script>
-    <script src="js/main.js?v=31"></script>
-    <script src="js/i18n.js?v=31"></script>
-    <script src="js/effects.js?v=31"></script>
+    <script src="js/cms.js?v=36"></script>
+    <script src="js/main.js?v=36"></script>
+    <script src="js/i18n.js?v=36"></script>
+    <script src="js/effects.js?v=36"></script>
     <script>
       // Selector de indicativo de país con banderas y búsqueda (todos los formularios)
       (function () {
@@ -814,14 +683,4 @@
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
