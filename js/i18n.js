@@ -343,6 +343,8 @@ const translations = {
     "cbar.title": "Conecta con Mujeres Púrpura",
     "cbar.sub": "Escríbenos o síguenos en nuestras redes.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
+    "footer.rights": "© 2026 Fundación Mujeres Púrpura · Todos los derechos reservados.",
+    "footer.security": "🔒 Sitio protegido con HTTPS, Política de Seguridad de Contenido (CSP) y tratamiento confidencial de tus datos personales.",
   },
 
   en: {
@@ -689,6 +691,8 @@ const translations = {
     "cbar.title": "Connect with Mujeres Púrpura",
     "cbar.sub": "Write to us or follow us on our social media.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
+    "footer.rights": "© 2026 Fundación Mujeres Púrpura · All rights reserved.",
+    "footer.security": "🔒 Site secured with HTTPS, Content Security Policy (CSP) and confidential handling of your personal data.",
   },
 
   fr: {
@@ -1026,6 +1030,8 @@ const translations = {
     "cbar.title": "Connecte-toi avec Mujeres Púrpura",
     "cbar.sub": "Écris-nous ou suis-nous sur nos réseaux sociaux.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
+    "footer.rights": "© 2026 Fundación Mujeres Púrpura · Tous droits réservés.",
+    "footer.security": "🔒 Site sécurisé avec HTTPS, Politique de Sécurité du Contenu (CSP) et traitement confidentiel de tes données personnelles.",
   },
 
   it: {
@@ -1363,6 +1369,8 @@ const translations = {
     "cbar.title": "Connettiti con Mujeres Púrpura",
     "cbar.sub": "Scrivici o seguici sui nostri social.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
+    "footer.rights": "© 2026 Fundación Mujeres Púrpura · Tutti i diritti riservati.",
+    "footer.security": "🔒 Sito protetto con HTTPS, Content Security Policy (CSP) e trattamento riservato dei tuoi dati personali.",
   }
 };
 

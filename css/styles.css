@@ -193,7 +193,7 @@ a {
 .sos-fab {
   position: fixed;
   right: 20px;
-  bottom: 20px;
+  bottom: 96px; /* elevado para no tapar el banner/footer inferior */
   z-index: 900;
   display: inline-flex;
   align-items: center;
@@ -419,7 +419,7 @@ a {
 .sos-tips strong { color: var(--purple-dark); }
 
 @media (max-width: 520px) {
-  .sos-fab { right: 14px; bottom: 14px; padding: 12px 15px 12px 13px; font-size: 0.84rem; }
+  .sos-fab { right: 14px; bottom: 86px; padding: 12px 15px 12px 13px; font-size: 0.84rem; }
   .sos-fab .sos-fab-label { max-width: 130px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5884,4 +5884,32 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
 @media (prefers-reduced-motion: reduce) {
   .cbar-glow { animation: none; }
   .cbar-indicator, .cbar-link svg { transition: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FOOTER — fila legal (política de seguridad + derechos reservados)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.footer-legal {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  align-items: center;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.45);
+}
+.footer-security {
+  max-width: 780px;
+}
+.footer-rights {
+  white-space: nowrap;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.62);
+}
+@media (max-width: 640px) {
+  .footer-legal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }

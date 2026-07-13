@@ -97,6 +97,14 @@
   roots.forEach(initSelect);
 })();
 
+// Sanitiza/limita un valor de texto (defensa en profundidad, compartido)
+function mpClean(v, max) {
+  return String(v || '')
+    .replace(/[\x00-\x1F\x7F]/g, '')
+    .trim()
+    .slice(0, max || 500);
+}
+
 // Envío del formulario de contacto vía Web3Forms (sin backend)
 (function () {
   var form = document.getElementById('contactForm');
@@ -115,9 +123,26 @@
     if (label) label.textContent = 'Enviando…';
     feedback.textContent = '';
 
+    // Construye la estructura del correo: etiquetas limpias, teléfono unificado y reply-to
+    var src = new FormData(form);
+    var indicativo = mpClean(src.get('indicativo'), 6);
+    var telNum = mpClean(src.get('telefono'), 25);
+    var correo = mpClean(src.get('email'), 120);
+    var payload = new FormData();
+    payload.append('access_key', src.get('access_key') || '');
+    if (src.get('ccemail')) payload.append('ccemail', src.get('ccemail'));
+    payload.append('subject', '💜 Nuevo mensaje desde la web — Mujeres Púrpura');
+    payload.append('from_name', 'Fundación Mujeres Púrpura · Web');
+    payload.append('replyto', correo);                     // "Responder" va al remitente
+    payload.append('Nombre', mpClean(src.get('nombre'), 80) || '(no indicado)');
+    payload.append('Correo', correo);
+    payload.append('Teléfono', telNum ? (indicativo + ' ' + telNum).trim() : '(no indicado)');
+    payload.append('Mensaje', mpClean(src.get('mensaje'), 1500) || '(sin mensaje)');
+    if (src.get('botcheck')) payload.append('botcheck', src.get('botcheck'));
+
     fetch(form.action, {
       method: 'POST',
-      body: new FormData(form),
+      body: payload,
       headers: { Accept: 'application/json' }
     })
       .then(function (r) { return r.json(); })
@@ -202,6 +227,7 @@
     payload.append('ccemail', 'mujerespurpura2019@gmail.com'); // copia a la fundación
     payload.append('subject', 'Nueva solicitud de ayuda — Mujeres Púrpura');
     payload.append('from_name', 'Formulario ¿Cómo podemos ayudarte?');
+    if (record.email) payload.append('replyto', record.email); // "Responder" va al remitente
     payload.append('Nombre', record.nombre || '(no indicado)');
     payload.append('Tipo de apoyo', record.tipo);
     payload.append('Correo', record.email);
