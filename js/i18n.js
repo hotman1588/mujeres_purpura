@@ -300,9 +300,9 @@ const translations = {
     "media.vid3.tag": "Video pendiente",
     "media.vid3.ph": "Aquí irá otro video destacado de la fundación.",
     "media.contact.h2": "Conecta con Mujeres Púrpura",
-    "media.contact.p": "Instagram: @fmujerespurpura · Teléfonos: 3107623336 / 3017752762 · Web: www.mujerespurpura.org",
+    "media.contact.p": "Instagram: @fmujerespurpura · Teléfonos: 3115440296 / 3115707310 · Web: www.mujerespurpura.org",
     // Footer
-    "footer.contact": "@fmujerespurpura · 3107623336 · 3017752762",
+    "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
   },
 
   en: {
@@ -606,9 +606,9 @@ const translations = {
     "media.vid3.tag": "Pending video",
     "media.vid3.ph": "Another featured foundation video will go here.",
     "media.contact.h2": "Connect with Mujeres Púrpura",
-    "media.contact.p": "Instagram: @fmujerespurpura · Phone: 3107623336 / 3017752762 · Web: www.mujerespurpura.org",
+    "media.contact.p": "Instagram: @fmujerespurpura · Phone: 3115440296 / 3115707310 · Web: www.mujerespurpura.org",
     // Footer
-    "footer.contact": "@fmujerespurpura · 3107623336 · 3017752762",
+    "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
   }
 };
 
