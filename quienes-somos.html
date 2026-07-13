@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=38">
+    <link rel="stylesheet" href="css/styles.css?v=39">
     <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
   </head>
   <body>
@@ -24,12 +24,24 @@
           <a class="active" href="quienes-somos.html" data-i18n="nav.about">Quiénes somos</a>
           <a href="multimedia.html" data-i18n="nav.multimedia">Nuestras Historias 🎧</a>
           <a href="index.html#publicaciones" data-i18n="nav.posts">Publicaciones</a>
-          <a href="index.html#ayuda" data-i18n="nav.help">Ayuda</a>
           <a href="index.html#contacto-general" data-i18n="nav.contact">Contacto</a>
+          <a href="index.html#ayuda" data-i18n="nav.help">Ayuda</a>
           <a class="donate" href="#" data-donation data-i18n="nav.donate">💜 Donaciones</a>
         </div>
         <a class="academia-nav-link" href="academia.html" data-i18n="nav.academia">Academia Púrpura</a>
-        <button class="lang-btn" id="langToggle" type="button" aria-label="Cambiar idioma">EN</button>
+        <div class="lang-select" id="langSelect">
+          <button class="lang-btn" id="langToggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Cambiar idioma">
+            <span class="lang-current-flag">🇪🇸</span>
+            <span class="lang-current-code">ES</span>
+            <svg class="lang-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="lang-menu" role="listbox" aria-label="Seleccionar idioma">
+            <li class="lang-option" role="option" data-lang="es" tabindex="0"><span class="lang-opt-flag">🇪🇸</span> Español</li>
+            <li class="lang-option" role="option" data-lang="en" tabindex="0"><span class="lang-opt-flag">🇬🇧</span> English</li>
+            <li class="lang-option" role="option" data-lang="fr" tabindex="0"><span class="lang-opt-flag">🇫🇷</span> Français</li>
+            <li class="lang-option" role="option" data-lang="it" tabindex="0"><span class="lang-opt-flag">🇮🇹</span> Italiano</li>
+          </ul>
+        </div>
         <a class="admin-login-btn" href="admin/index.html" aria-label="Iniciar sesión en el panel administrativo">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
           <span class="admin-login-text" data-i18n="nav.login">Ingresar</span>
@@ -413,9 +425,9 @@
         <span data-i18n="footer.contact">@fmujerespurpura · 3115440296 · 3115707310</span>
       </div>
     </footer>
-    <script src="js/main.js?v=38"></script>
-    <script src="js/mapa.js?v=38"></script>
-    <script src="js/i18n.js?v=38"></script>
-    <script src="js/effects.js?v=38"></script>
+    <script src="js/main.js?v=39"></script>
+    <script src="js/mapa.js?v=39"></script>
+    <script src="js/i18n.js?v=39"></script>
+    <script src="js/effects.js?v=39"></script>
   </body>
 </html>

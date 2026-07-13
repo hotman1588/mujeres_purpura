@@ -5632,3 +5632,98 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
     width: min(100%, 520px);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SELECTOR DE IDIOMA — desplegable con 4 idiomas (ES / EN / FR / IT)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.lang-select {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* El botón hereda el estilo .lang-btn; solo ajustamos el layout interno */
+.lang-select .lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-current-flag { font-size: 1rem; line-height: 1; }
+.lang-current-code { letter-spacing: 0.08em; }
+
+.lang-caret {
+  transition: transform 0.25s var(--ease-out);
+  opacity: 0.7;
+}
+.lang-select.open .lang-caret { transform: rotate(180deg); }
+
+/* Menú desplegable */
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 80;
+  min-width: 168px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.98);
+  transform-origin: top right;
+  transition: opacity 0.2s var(--ease-out), transform 0.25s var(--spring), visibility 0.2s;
+}
+
+.lang-select.open .lang-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.lang-option:hover,
+.lang-option:focus-visible {
+  background: rgba(111, 96, 168, 0.1);
+  outline: none;
+}
+
+.lang-option.is-active {
+  background: rgba(111, 96, 168, 0.14);
+  color: var(--purple-dark);
+}
+
+.lang-option.is-active::after {
+  content: "✓";
+  margin-left: auto;
+  font-weight: 900;
+  color: var(--purple);
+}
+
+.lang-opt-flag { font-size: 1.15rem; line-height: 1; }
+
+/* En móvil el menú se ancla a la derecha sin salirse de pantalla */
+@media (max-width: 720px) {
+  .lang-menu { min-width: 156px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lang-caret,
+  .lang-menu { transition: opacity 0.15s ease; }
+  .lang-select.open .lang-menu { transform: none; }
+}
