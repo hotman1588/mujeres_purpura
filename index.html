@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=31">
+    <link rel="stylesheet" href="css/styles.css?v=32">
   </head>
   <body>
     <header class="site-header">
@@ -525,6 +525,11 @@
             <input type="hidden" name="access_key" value="06d5b509-3677-4a75-bb1f-9e96a586f51f">
             <input type="hidden" name="subject" value="Nuevo mensaje desde la web de Mujeres Púrpura">
             <input type="hidden" name="from_name" value="Fundación Mujeres Púrpura">
+            <!-- Correo de la fundación que recibe copia de cada mensaje.
+                 NOTA: el destino PRINCIPAL depende del dueño del access_key en web3forms.com.
+                 Para que mujerespurpura2019@gmail.com sea el destinatario principal,
+                 genera un access_key con ese correo y reemplázalo arriba. -->
+            <input type="hidden" name="ccemail" value="mujerespurpura2019@gmail.com">
 
             <!-- Honeypot anti-spam (invisible para personas) -->
             <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" style="display:none !important">
@@ -599,10 +604,10 @@
         <span data-i18n="footer.contact">@fmujerespurpura · 3107623336 · 3017752762</span>
       </div>
     </footer>
-    <script src="js/cms.js?v=31"></script>
-    <script src="js/main.js?v=31"></script>
-    <script src="js/i18n.js?v=31"></script>
-    <script src="js/effects.js?v=31"></script>
+    <script src="js/cms.js?v=32"></script>
+    <script src="js/main.js?v=32"></script>
+    <script src="js/i18n.js?v=32"></script>
+    <script src="js/effects.js?v=32"></script>
     <script>
       // Selector de indicativo de país con banderas y búsqueda (todos los formularios)
       (function () {
@@ -778,6 +783,7 @@
           // 2) Envío confidencial a la fundación vía Web3Forms
           var payload = new FormData();
           payload.append('access_key', ACCESS_KEY);
+          payload.append('ccemail', 'mujerespurpura2019@gmail.com'); // copia a la fundación
           payload.append('subject', 'Nueva solicitud de ayuda — Mujeres Púrpura');
           payload.append('from_name', 'Formulario ¿Cómo podemos ayudarte?');
           payload.append('Nombre', record.nombre || '(no indicado)');

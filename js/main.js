@@ -791,7 +791,7 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
 (function () {
   if (document.querySelector(".sos-fab")) return;
 
-  const WA = "https://wa.me/573107623336"; // WhatsApp de la Fundación
+  const WA = "https://wa.me/573115707310"; // WhatsApp de la Fundación
   const svg = (p) =>
     `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
 
