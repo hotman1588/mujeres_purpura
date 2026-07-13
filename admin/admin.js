@@ -48,7 +48,7 @@ const DEFAULT_POSTS = [
   { title:"Bienvenida a nuestro espacio de publicaciones", category:"Novedad", date:"2026-07-08",
     excerpt:"Aquí podrás publicar comunicados, actividades, historias y avances de la Fundación Mujeres Púrpura.",
     body:"Este módulo funciona sin base de datos usando almacenamiento local del navegador.",
-    imageUrl:"assets/logo.jpg", linkUrl:"" }
+    imageUrl:"/assets/logo.jpg", linkUrl:"" }
 ];
 /* ─── ESTADO ────────────────────────────────────────────────────────────── */
 let spotifyData = [];
@@ -222,7 +222,7 @@ function bindImageUpload(fileInputId, urlInputId, previewId) {
    LOGIN
 ════════════════════════════════════════════════════════════════════════════ */
 if (document.getElementById("loginForm")) {
-  if (sessionStorage.getItem(SESSION_KEY) === "1") location.replace("dashboard.html");
+  if (sessionStorage.getItem(SESSION_KEY) === "1") location.replace("/admin/dashboard.html");
 
   const form    = document.getElementById("loginForm");
   const errEl   = document.getElementById("loginError");
@@ -244,7 +244,7 @@ if (document.getElementById("loginForm")) {
     setTimeout(() => {
       if (user === CREDENTIALS.username && pass === CREDENTIALS.password) {
         sessionStorage.setItem(SESSION_KEY, "1");
-        location.replace("dashboard.html");
+        location.replace("/admin/dashboard.html");
       } else {
         errEl.textContent = "Usuario o contraseña incorrectos.";
         btnText.textContent = "Ingresar";
@@ -258,7 +258,7 @@ if (document.getElementById("loginForm")) {
    DASHBOARD
 ════════════════════════════════════════════════════════════════════════════ */
 if (document.getElementById("panel-spotify")) {
-  if (sessionStorage.getItem(SESSION_KEY) !== "1") location.replace("index.html");
+  if (sessionStorage.getItem(SESSION_KEY) !== "1") location.replace("/admin/index.html");
 
   loadData();
   let activePanel = "spotify";
@@ -370,7 +370,7 @@ if (document.getElementById("panel-spotify")) {
       if (!confirm("Tienes un borrador sin publicar en la landing page. ¿Seguro que deseas cerrar sesión sin publicar?")) return;
     }
     sessionStorage.removeItem(SESSION_KEY);
-    location.replace("index.html");
+    location.replace("/admin/index.html");
   });
 
   /* ── Alerta antes de cerrar ventana ── */
@@ -403,7 +403,7 @@ if (document.getElementById("panel-spotify")) {
         <div class="ep-card-header">
           <img class="ep-preview" id="sp-preview-${i}"
             src="${esc(ep.coverUrl)||'../assets/logo.jpg'}" alt="Portada"
-            onerror="this.src='../assets/logo.jpg'">
+            onerror="this.src='/assets/logo.jpg'">
           <div style="flex:1;min-width:0">
             <div class="ep-badges">
               <span class="ep-badge spotify">${esc(ep.badge)||`Ep. ${i+1}`}</span>
@@ -576,8 +576,8 @@ if (document.getElementById("panel-spotify")) {
       card.innerHTML = `
         <div class="ep-card-header">
           <img class="ep-preview" id="post-preview-${i}"
-            src="${esc(post.imageUrl)||'../assets/logo.jpg'}" alt="Imagen publicación"
-            onerror="this.src='../assets/logo.jpg'">
+            src="${esc(adminAsset(post.imageUrl))||'/assets/logo.jpg'}" alt="Imagen publicación"
+            onerror="this.src='/assets/logo.jpg'">
           <div style="flex:1;min-width:0">
             <div class="ep-badges">
               <span class="ep-badge post-badge">${esc(post.category)||'Novedad'}</span>
@@ -639,7 +639,7 @@ if (document.getElementById("panel-spotify")) {
         card.querySelector(".post-badge").textContent = e.target.value || "Novedad";
       });
       card.querySelector(`#post-image-${i}`).addEventListener("input", (e) => {
-        document.getElementById(`post-preview-${i}`).src = e.target.value || "../assets/logo.jpg";
+        document.getElementById(`post-preview-${i}`).src = e.target.value || "/assets/logo.jpg";
       });
       bindImageUpload(`post-file-${i}`, `post-image-${i}`, `post-preview-${i}`);
       card.querySelector(".delete-btn").addEventListener("click", () => {
@@ -732,13 +732,15 @@ function getRealVal(id) {
 function esc(str) {
   return (str || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
 }
+function adminAsset(url) {
+  if (!url) return "";
+  if (/^(https?:|data:|\/)/.test(url)) return url;
+  return url.replace(/^\.\.\/assets\//, "/assets/").replace(/^assets\//, "/assets/");
+}
 
 window.previewImg = function(inputId, imgId) {
   const el  = document.getElementById(inputId);
   const img = document.getElementById(imgId);
   if (img && el) img.src = el.dataset.realval || el.value;
 };
-
-
-
 

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Academia Púrpura | Fundación Mujeres Púrpura</title>
+    <meta name="description" content="Academia Púrpura: vista previa del futuro campus virtual, cursos, clases en vivo y recursos formativos de Fundación Mujeres Púrpura.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css?v=37">
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  </head>
+  <body class="academy-page-body">
+    <header class="site-header">
+      <nav class="nav" aria-label="Navegación principal">
+        <a class="brand" href="index.html">
+          <img src="assets/logo.jpg" alt="Fundación Mujeres Púrpura">
+          <span>Fundación Mujeres Púrpura</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="index.html" data-i18n="nav.home">Inicio</a>
+          <a href="quienes-somos.html" data-i18n="nav.about">Quiénes somos</a>
+          <a href="multimedia.html" data-i18n="nav.multimedia">Nuestras Historias 🎧</a>
+          <a href="index.html#publicaciones" data-i18n="nav.posts">Publicaciones</a>
+          <a href="index.html#ayuda" data-i18n="nav.help">Ayuda</a>
+          <a href="index.html#contacto-general" data-i18n="nav.contact">Contacto</a>
+          <a class="donate" href="#" data-donation data-i18n="nav.donate">💜 Donaciones</a>
+        </div>
+        <a class="academia-nav-link active-academia" href="academia.html" data-i18n="nav.academia">Academia Púrpura</a>
+        <button class="lang-btn" id="langToggle" type="button" aria-label="Cambiar idioma">EN</button>
+        <a class="admin-login-btn" href="admin/index.html" aria-label="Iniciar sesión en el panel administrativo">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span class="admin-login-text" data-i18n="nav.login">Ingresar</span>
+        </a>
+      </nav>
+    </header>
+    <main>
+      <section class="academy-hero" aria-labelledby="academy-title">
+        <div class="section-inner academy-hero-grid">
+          <div class="academy-hero-copy" data-reveal>
+            <span class="academy-status" data-i18n="academy.page.badge">Campus virtual en construcción</span>
+            <h1 id="academy-title" data-i18n="academy.page.h1">Academia Púrpura</h1>
+            <p data-i18n="academy.page.lead">Un próximo espacio de formación digital para aprender, sanar, liderar y emprender con acompañamiento humano, rutas claras y recursos disponibles cuando los necesites.</p>
+            <div class="academy-hero-actions">
+              <a class="button primary" href="#rutas-formativas" data-i18n="academy.page.cta.routes">Ver rutas formativas</a>
+              <a class="button secondary" href="index.html#contacto-general" data-i18n="academy.page.cta.notify">Recibir novedades</a>
+            </div>
+            <dl class="academy-hero-stats" aria-label="Características previstas">
+              <div><dt data-i18n="academy.page.stat1.n">24/7</dt><dd data-i18n="academy.page.stat1.t">acceso a contenidos</dd></div>
+              <div><dt data-i18n="academy.page.stat2.n">En vivo</dt><dd data-i18n="academy.page.stat2.t">clases y círculos</dd></div>
+              <div><dt data-i18n="academy.page.stat3.n">Moodle</dt><dd data-i18n="academy.page.stat3.t">campus organizado</dd></div>
+            </dl>
+          </div>
+          <div class="academy-campus-frame" data-reveal data-delay="2" aria-label="Simulación visual del futuro campus Moodle">
+            <div class="academy-browser-bar"><span></span><span></span><span></span><strong>campus.mujerespurpura.org</strong></div>
+            <div class="academy-dashboard-mock">
+              <aside class="academy-dash-side">
+                <img src="assets/logo.jpg" alt="" aria-hidden="true">
+                <span>Inicio</span><span>Cursos</span><span>Calendario</span><span>Recursos</span>
+              </aside>
+              <div class="academy-dash-main">
+                <div class="academy-dash-welcome">
+                  <small data-i18n="academy.mock.welcome">Bienvenida, Laura</small>
+                  <strong data-i18n="academy.mock.title">Continúa tu ruta de liderazgo</strong>
+                </div>
+                <div class="academy-dash-cards">
+                  <article><b data-i18n="academy.mock.card1">Derechos y prevención</b><span style="--p:72%"></span><em>72%</em></article>
+                  <article><b data-i18n="academy.mock.card2">Emprendimiento con propósito</b><span style="--p:45%"></span><em>45%</em></article>
+                </div>
+                <div class="academy-video-mock">
+                  <div class="academy-play" aria-hidden="true"></div>
+                  <p data-i18n="academy.mock.video">Clase pregrabada · Proyecto de vida digno</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section academy-what" aria-labelledby="academy-what-title">
+        <div class="section-inner">
+          <div class="section-heading academy-heading-narrow" data-reveal>
+            <span class="tag" data-i18n="academy.what.tag">Qué encontrarás</span>
+            <h2 id="academy-what-title" data-i18n="academy.what.h2">Un campus pensado para acompañar procesos reales.</h2>
+            <p data-i18n="academy.what.p">La Academia Púrpura funcionará como un módulo conectado al futuro Moodle de la fundación, con aprendizaje guiado, comunidad y seguimiento.</p>
+          </div>
+          <div class="academy-feature-grid">
+            <article class="academy-feature" data-reveal><span>01</span><h3 data-i18n="academy.feature.1.h3">Cursos por módulos</h3><p data-i18n="academy.feature.1.p">Lecciones organizadas por temas, con avances visibles y actividades prácticas.</p></article>
+            <article class="academy-feature" data-reveal><span>02</span><h3 data-i18n="academy.feature.2.h3">Clases en vivo</h3><p data-i18n="academy.feature.2.p">Encuentros virtuales para resolver dudas, compartir experiencias y crear red.</p></article>
+            <article class="academy-feature" data-reveal><span>03</span><h3 data-i18n="academy.feature.3.h3">Videos pregrabados</h3><p data-i18n="academy.feature.3.p">Contenido flexible para aprender a tu ritmo desde celular o computador.</p></article>
+            <article class="academy-feature" data-reveal><span>04</span><h3 data-i18n="academy.feature.4.h3">Material descargable</h3><p data-i18n="academy.feature.4.p">Guías, ejercicios, formatos y recursos para aplicar lo aprendido.</p></article>
+            <article class="academy-feature" data-reveal><span>05</span><h3 data-i18n="academy.feature.5.h3">Foros y comunidad</h3><p data-i18n="academy.feature.5.p">Espacios seguros para conversar, preguntar y acompañarse entre participantes.</p></article>
+            <article class="academy-feature" data-reveal><span>06</span><h3 data-i18n="academy.feature.6.h3">Certificados</h3><p data-i18n="academy.feature.6.p">Reconocimientos digitales al completar rutas, talleres o diplomados.</p></article>
+          </div>
+        </div>
+      </section>
+      <section class="section academy-previews" id="rutas-formativas" aria-labelledby="academy-routes-title">
+        <div class="section-inner">
+          <div class="section-heading academy-heading-narrow" data-reveal>
+            <span class="tag" data-i18n="academy.routes.tag">Simulación de cursos</span>
+            <h2 id="academy-routes-title" data-i18n="academy.routes.h2">Rutas que podrían abrir la primera etapa.</h2>
+          </div>
+          <div class="academy-preview-grid">
+            <article class="academy-learning-preview live" data-reveal>
+              <div class="academy-preview-image" aria-hidden="true">
+                <div class="academy-live-chip" data-i18n="academy.preview.live">En vivo</div>
+                <div class="academy-avatar-row"><span></span><span></span><span></span></div>
+                <div class="academy-class-card"><small data-i18n="academy.preview.date">Jueves · 6:00 p. m.</small><b data-i18n="academy.preview.liveTitle">Círculo de liderazgo comunitario</b></div>
+              </div>
+              <h3 data-i18n="academy.route.1.h3">Liderazgo y acción comunitaria</h3>
+              <p data-i18n="academy.route.1.p">Herramientas para organizar iniciativas, movilizar redes y participar con voz propia.</p>
+            </article>
+            <article class="academy-learning-preview video" data-reveal>
+              <div class="academy-preview-image" aria-hidden="true">
+                <div class="academy-video-window"><span></span><i></i></div>
+                <ul><li></li><li></li><li></li></ul>
+              </div>
+              <h3 data-i18n="academy.route.2.h3">Derechos, cuidado y prevención</h3>
+              <p data-i18n="academy.route.2.p">Videos y guías para reconocer derechos, rutas de atención y señales de alerta.</p>
+            </article>
+            <article class="academy-learning-preview resources" data-reveal>
+              <div class="academy-preview-image" aria-hidden="true">
+                <div class="academy-resource-sheet"><b>PDF</b><span></span><span></span><span></span></div>
+                <div class="academy-resource-sheet small"><b>Quiz</b><span></span><span></span></div>
+              </div>
+              <h3 data-i18n="academy.route.3.h3">Emprendimiento y autonomía económica</h3>
+              <p data-i18n="academy.route.3.p">Plantillas, talleres y ejercicios para fortalecer ideas productivas y finanzas personales.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="section academy-moodle" aria-labelledby="academy-moodle-title">
+        <div class="section-inner academy-moodle-grid">
+          <div class="academy-moodle-copy" data-reveal>
+            <span class="tag" data-i18n="academy.moodle.tag">Futuro Moodle</span>
+            <h2 id="academy-moodle-title" data-i18n="academy.moodle.h2">Más que una biblioteca de videos: un proceso completo.</h2>
+            <p data-i18n="academy.moodle.p">El campus podrá incluir calendario de sesiones, inscripción a cursos, seguimiento de progreso, actividades calificables, certificados, mensajes internos y recursos para facilitadoras.</p>
+            <button class="button primary" type="button" data-academia-open aria-haspopup="dialog" aria-controls="academiaModal" data-i18n="academy.moodle.cta">Quiero saber cuando abra</button>
+          </div>
+          <div class="academy-phone-mock" data-reveal data-delay="2" aria-label="Simulación móvil del campus">
+            <div class="academy-phone-top"></div>
+            <div class="academy-phone-screen">
+              <strong data-i18n="academy.phone.title">Mi aprendizaje</strong>
+              <article><span></span><div><b data-i18n="academy.phone.item1">Clase en vivo</b><small data-i18n="academy.phone.item1s">Hoy · 6:00 p. m.</small></div></article>
+              <article><span></span><div><b data-i18n="academy.phone.item2">Tarea pendiente</b><small data-i18n="academy.phone.item2s">Bitácora personal</small></div></article>
+              <article><span></span><div><b data-i18n="academy.phone.item3">Certificado</b><small data-i18n="academy.phone.item3s">Ruta completada</small></div></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="academia-overlay" id="academiaModal" role="dialog" aria-modal="true"
+           aria-labelledby="academiaModalTitle" aria-hidden="true">
+        <div class="academia-modal" role="document">
+          <button type="button" class="academia-modal-close" data-academia-close aria-label="Cerrar">✕</button>
+
+          <span class="academia-badge academia-badge--modal">
+            <span class="academia-badge-dot" aria-hidden="true"></span>
+            <span data-i18n="academia.modal.badge">Lista de espera</span>
+          </span>
+
+          <h3 id="academiaModalTitle" data-i18n="academia.modal.h3">Asegura tu cupo en la Academia Púrpura 🎓</h3>
+          <p class="academia-modal-copy" data-i18n="academia.modal.copy">
+            El Campus Virtual está en sus últimos ajustes técnicos. Regístrate ahora para ser la primera en recibir tu usuario de acceso, asegurar tu cupo en los primeros diplomados gratuitos y participar en los talleres de lanzamiento.
+          </p>
+
+          <form class="academia-form" id="academiaForm" novalidate>
+            <div class="academia-field">
+              <label for="ac-nombre" data-i18n="academia.form.name">Nombre</label>
+              <input type="text" id="ac-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre">
+            </div>
+            <div class="academia-field">
+              <label for="ac-email" data-i18n="academia.form.email">Correo</label>
+              <input type="email" id="ac-email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+            </div>
+            <div class="academia-field">
+              <label for="ac-telefono" data-i18n="academia.form.phone">Teléfono</label>
+              <input type="tel" id="ac-telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="Ej: 310 762 3336">
+            </div>
+            <button type="submit" class="button primary academia-form-submit">
+              <span data-i18n="academia.form.submit">Reservar mi cupo 💜</span>
+            </button>
+            <p class="academia-form-feedback" id="academiaFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="section-inner footer-inner">
+        <span>Fundación Mujeres Púrpura</span>
+        <span data-i18n="footer.contact">@fmujerespurpura · 3107623336 · 3017752762</span>
+      </div>
+    </footer>
+    <script src="js/main.js?v=37"></script>
+    <script src="js/i18n.js?v=37"></script>
+    <script src="js/effects.js?v=37"></script>
+  </body>
+</html>
+
+
+
+
+
