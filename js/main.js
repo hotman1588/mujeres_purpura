@@ -1090,3 +1090,41 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
     });
   }
 })();
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BANDA DE CONTACTO ANIMADA — mueve el indicador (burbuja) al icono activo/hover
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  const bar = document.querySelector(".cbar");
+  if (!bar) return;
+  const indicator = bar.querySelector(".cbar-indicator");
+  const links = Array.from(bar.querySelectorAll(".cbar-link"));
+  if (!indicator || !links.length) return;
+
+  let activeIndex = links.findIndex((l) => l.classList.contains("is-active"));
+  if (activeIndex < 0) activeIndex = 0;
+
+  function moveTo(el) {
+    const barRect = bar.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const baseLeft = parseFloat(getComputedStyle(indicator).left) || 0;
+    indicator.style.transform = `translateX(${r.left - barRect.left - baseLeft}px)`;
+  }
+
+  function setActive(index) {
+    links.forEach((l, i) => l.classList.toggle("is-active", i === index));
+    activeIndex = index;
+    moveTo(links[index]);
+  }
+
+  links.forEach((link, i) => {
+    link.addEventListener("mouseenter", () => moveTo(link));
+    link.addEventListener("focus", () => moveTo(link));
+    link.addEventListener("click", () => setActive(i));
+  });
+  bar.addEventListener("mouseleave", () => moveTo(links[activeIndex]));
+  window.addEventListener("resize", () => moveTo(links[activeIndex]));
+  window.addEventListener("load", () => setActive(activeIndex));
+
+  setActive(activeIndex);
+})();

@@ -302,6 +302,8 @@ const translations = {
     "media.contact.h2": "Conecta con Mujeres Púrpura",
     "media.contact.p": "Instagram: @fmujerespurpura · Teléfonos: 3115440296 / 3115707310 · Web: www.mujerespurpura.org",
     // Footer
+    "cbar.title": "Conecta con Mujeres Púrpura",
+    "cbar.sub": "Escríbenos o síguenos en nuestras redes.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
   },
 
@@ -608,6 +610,8 @@ const translations = {
     "media.contact.h2": "Connect with Mujeres Púrpura",
     "media.contact.p": "Instagram: @fmujerespurpura · Phone: 3115440296 / 3115707310 · Web: www.mujerespurpura.org",
     // Footer
+    "cbar.title": "Connect with Mujeres Púrpura",
+    "cbar.sub": "Write to us or follow us on our social media.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
   },
 
@@ -905,6 +909,8 @@ const translations = {
     "media.vid3.ph": "Une autre vidéo en vedette de la fondation ira ici.",
     "media.contact.h2": "Connecte-toi avec Mujeres Púrpura",
     "media.contact.p": "Instagram : @fmujerespurpura · Téléphones : 3115440296 / 3115707310 · Web : www.mujerespurpura.org",
+    "cbar.title": "Connecte-toi avec Mujeres Púrpura",
+    "cbar.sub": "Écris-nous ou suis-nous sur nos réseaux sociaux.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
   },
 
@@ -1202,6 +1208,8 @@ const translations = {
     "media.vid3.ph": "Qui andrà un altro video in evidenza della fondazione.",
     "media.contact.h2": "Connettiti con Mujeres Púrpura",
     "media.contact.p": "Instagram: @fmujerespurpura · Telefoni: 3115440296 / 3115707310 · Web: www.mujerespurpura.org",
+    "cbar.title": "Connettiti con Mujeres Púrpura",
+    "cbar.sub": "Scrivici o seguici sui nostri social.",
     "footer.contact": "@fmujerespurpura · 3115440296 · 3115707310",
   }
 };

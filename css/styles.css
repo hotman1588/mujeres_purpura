@@ -5727,3 +5727,161 @@ h3 { letter-spacing: -0.01em; font-weight: 800; }
   .lang-menu { transition: opacity 0.15s ease; }
   .lang-select.open .lang-menu { transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BANDA DE CONTACTO ANIMADA — barra de iconos con fondo oscuro + glow difuminado
+   Clases con prefijo cbar- para no colisionar con .contact-*
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cbar-band {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 20px;
+  background: linear-gradient(160deg, #241d40 0%, var(--purple-dark) 60%, #1a1530 100%);
+  text-align: center;
+}
+
+/* Luces difuminadas (glow) con degradados radiales + blur */
+.cbar-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+.cbar-glow-1 {
+  width: 42vw; height: 42vw; top: -14%; left: -6%;
+  background: radial-gradient(circle at center, var(--purple) 0%, transparent 70%);
+  opacity: 0.6;
+  animation: cbarFloat 12s ease-in-out infinite alternate;
+}
+.cbar-glow-2 {
+  width: 38vw; height: 38vw; bottom: -16%; right: -6%;
+  background: radial-gradient(circle at center, var(--aqua) 0%, transparent 70%);
+  opacity: 0.42;
+  animation: cbarFloat 14s ease-in-out infinite alternate -6s;
+}
+.cbar-glow-3 {
+  width: 30vw; height: 30vw; left: 50%; top: 55%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at center, var(--coral) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: cbarFloat 16s ease-in-out infinite alternate;
+}
+
+@keyframes cbarFloat {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(4%, 6%) scale(1.12); }
+}
+.cbar-glow-3 { animation-name: cbarFloat3; }
+@keyframes cbarFloat3 {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to   { transform: translate(-46%, -42%) scale(1.14); }
+}
+
+.cbar-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.cbar-title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+}
+
+.cbar-sub {
+  margin: 12px 0 28px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.02rem;
+}
+
+/* Barra de iconos */
+.cbar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Indicador (burbuja) que se desliza al icono activo/hover */
+.cbar-indicator {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple) 0%, #8a79c9 100%);
+  box-shadow: 0 6px 22px rgba(149, 220, 226, 0.4);
+  transition: transform 0.45s var(--spring), background 0.35s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cbar-link {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.cbar-link svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s var(--spring);
+}
+.cbar-link:hover,
+.cbar-link.is-active { color: #fff; }
+.cbar-link:hover svg { transform: scale(1.15) translateY(-2px); }
+
+/* Etiqueta emergente */
+.cbar-link::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  padding: 5px 11px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--purple-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.cbar-link:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 480px) {
+  .cbar { gap: 4px; padding: 10px; }
+  .cbar-indicator, .cbar-link { width: 48px; height: 48px; }
+  .cbar-indicator { top: 10px; left: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cbar-glow { animation: none; }
+  .cbar-indicator, .cbar-link svg { transition: none; }
+}
