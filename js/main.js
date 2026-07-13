@@ -1105,10 +1105,9 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
   if (activeIndex < 0) activeIndex = 0;
 
   function moveTo(el) {
-    const barRect = bar.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
-    const baseLeft = parseFloat(getComputedStyle(indicator).left) || 0;
-    indicator.style.transform = `translateX(${r.left - barRect.left - baseLeft}px)`;
+    // offsetLeft usa píxeles de maquetación (inmune al zoom del <html>),
+    // así el círculo queda exactamente centrado sobre cada icono.
+    indicator.style.transform = `translateX(${el.offsetLeft - indicator.offsetLeft}px)`;
   }
 
   function setActive(index) {

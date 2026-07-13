@@ -86,7 +86,7 @@
       z-index: 1;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       padding: 12px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.06);
@@ -167,7 +167,7 @@
     }
 
     @media (max-width: 480px) {
-      .contact-bar { gap: 4px; padding: 10px; }
+      .contact-bar { gap: 6px; padding: 10px; }
       .indicator,
       .contact-link { width: 48px; height: 48px; }
       .indicator { top: 10px; left: 10px; }
@@ -229,11 +229,10 @@
       let activeIndex = links.findIndex((l) => l.classList.contains("is-active"));
       if (activeIndex < 0) activeIndex = 0;
 
-      // Reposiciona la burbuja bajo el icono indicado (por su posición real)
+      // Reposiciona la burbuja bajo el icono indicado.
+      // offsetLeft usa píxeles de maquetación (inmune a cualquier zoom del <html>).
       function moveTo(el) {
-        const barRect = bar.getBoundingClientRect();
-        const r = el.getBoundingClientRect();
-        indicator.style.transform = `translateX(${r.left - barRect.left - (parseFloat(getComputedStyle(indicator).left) || 0)}px)`;
+        indicator.style.transform = `translateX(${el.offsetLeft - indicator.offsetLeft}px)`;
       }
 
       function setActive(index) {
