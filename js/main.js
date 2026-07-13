@@ -792,6 +792,8 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
   if (document.querySelector(".sos-fab")) return;
 
   const WA = "https://wa.me/573115707310"; // WhatsApp de la Fundación
+  // Traduce una clave usando el sistema i18n (si aún no está listo, devuelve la clave)
+  const t = (k) => (window.MP_I18N && window.MP_I18N.t ? window.MP_I18N.t(k) : k);
   const svg = (p) =>
     `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
 
@@ -805,60 +807,57 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
   };
 
   /* ── Árbol de decisiones ────────────────────────────────────────────── */
+  /* Los textos son claves i18n; se traducen en render() según el idioma activo. */
   const NODES = {
     root: {
-      title: "Ruta de Ayuda Psicológica",
-      intro: "No estás sola. Cuéntanos qué necesitas ahora y te mostramos el camino más rápido.",
+      title: "sos.root.title",
+      intro: "sos.root.intro",
       items: [
         { ico: "danger",   goto: "emergencia",  danger: true,
-          t: "Estoy en peligro ahora", d: "Riesgo inmediato para tu vida o integridad." },
+          t: "sos.root.1.t", d: "sos.root.1.d" },
         { ico: "heart",    goto: "auxilios",
-          t: "Necesito calmarme o hablar", d: "Apoyo emocional y primeros auxilios psicológicos." },
+          t: "sos.root.2.t", d: "sos.root.2.d" },
         { ico: "building", goto: "instituciones",
-          t: "Quiero orientación profesional", d: "Instituciones aliadas y rutas de atención." }
+          t: "sos.root.3.t", d: "sos.root.3.d" }
       ]
     },
     emergencia: {
-      title: "Si tu vida corre peligro",
-      intro: "Llama de inmediato. Estas líneas atienden 24/7 y son gratuitas.",
+      title: "sos.emerg.title",
+      intro: "sos.emerg.intro",
       items: [
         { ico: "phone", tel: "123", danger: true,
-          t: "Emergencias — 123", d: "Policía y atención inmediata." },
+          t: "sos.emerg.1.t", d: "sos.emerg.1.d" },
         { ico: "phone", tel: "155",
-          t: "Línea 155", d: "Orientación a mujeres víctimas de violencia." },
+          t: "sos.emerg.2.t", d: "sos.emerg.2.d" },
         { ico: "phone", tel: "018000112137",
-          t: "Línea Púrpura", d: "Apoyo psicosocial y jurídico para mujeres." },
+          t: "sos.emerg.3.t", d: "sos.emerg.3.d" },
         { ico: "wa", href: WA,
-          t: "WhatsApp de la Fundación", d: "Escríbenos, te acompañamos." }
+          t: "sos.emerg.4.t", d: "sos.emerg.4.d" }
       ]
     },
     auxilios: {
-      title: "Primeros auxilios psicológicos",
-      tips: [
-        "<strong>Respira:</strong> inhala 4 seg, sostén 4, exhala 6. Repítelo 5 veces.",
-        "<strong>Ancla tu atención (5-4-3-2-1):</strong> nombra 5 cosas que ves, 4 que tocas, 3 que oyes, 2 que hueles, 1 que saboreas.",
-        "<strong>Recuerda:</strong> lo que sientes es válido y va a pasar. No tienes que resolverlo sola."
-      ],
-      intro: "Cuando te sientas lista, da el siguiente paso:",
+      title: "sos.aux.title",
+      tips: ["sos.aux.tip1", "sos.aux.tip2", "sos.aux.tip3"],
+      intro: "sos.aux.intro",
       items: [
         { ico: "wa", href: WA,
-          t: "Hablar con la Fundación", d: "Acompañamiento por WhatsApp." },
+          t: "sos.aux.1.t", d: "sos.aux.1.d" },
         { ico: "form", href: "index.html#ayuda", internal: "#ayuda",
-          t: "Pedir ayuda ahora", d: "Déjanos tus datos de forma confidencial." }
+          t: "sos.aux.2.t", d: "sos.aux.2.d" }
       ]
     },
     instituciones: {
-      title: "Instituciones aliadas",
-      intro: "Puedes acudir directamente a estas entidades de atención en Colombia.",
+      title: "sos.inst.title",
+      intro: "sos.inst.intro",
       items: [
         { ico: "form", href: "index.html#ayuda", internal: "#ayuda",
-          t: "Fundación Mujeres Púrpura", d: "Acompañamiento y derivación." },
+          t: "sos.inst.1.t", d: "sos.inst.1.d" },
         { ico: "phone", tel: "155",
-          t: "Comisarías de Familia — 155", d: "Medidas de protección." },
+          t: "sos.inst.2.t", d: "sos.inst.2.d" },
         { ico: "phone", tel: "122",
-          t: "Fiscalía — 122", d: "Denuncia de delitos." },
+          t: "sos.inst.3.t", d: "sos.inst.3.d" },
         { ico: "phone", tel: "141",
-          t: "ICBF — 141", d: "Protección de niñas, niños y adolescentes." }
+          t: "sos.inst.4.t", d: "sos.inst.4.d" }
       ]
     }
   };
@@ -902,18 +901,18 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
     const node = NODES[key];
     if (!node) return;
     overlay.dataset.node = key;
-    titleEl.textContent = node.title;
+    titleEl.textContent = t(node.title);
     backBtn.classList.toggle("show", key !== "root");
 
     let html = "";
     if (node.tips) {
-      html += '<ul class="sos-tips">' + node.tips.map((t) => "<li>" + t + "</li>").join("") + "</ul>";
+      html += '<ul class="sos-tips">' + node.tips.map((k) => "<li>" + t(k) + "</li>").join("") + "</ul>";
     }
-    if (node.intro) html += '<p class="sos-intro">' + node.intro + "</p>";
+    if (node.intro) html += '<p class="sos-intro">' + t(node.intro) + "</p>";
 
     node.items.forEach((it) => {
       const ico = '<span class="sos-item-ico">' + svg(ICON[it.ico] || ICON.heart) + "</span>";
-      const label = "<span><strong>" + it.t + "</strong><span>" + (it.d || "") + "</span></span>";
+      const label = "<span><strong>" + t(it.t) + "</strong><span>" + (it.d ? t(it.d) : "") + "</span></span>";
       const cls = "sos-item" + (it.danger ? " danger" : "");
       if (it.goto) {
         html += '<button type="button" class="' + cls + '" data-goto="' + it.goto + '">' + ico + label + "</button>";
@@ -972,6 +971,19 @@ document.querySelectorAll("[data-episode-browser]").forEach((browser) => {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && overlay.classList.contains("open")) close();
   });
+
+  // Traduce el botón flotante y el modal al idioma activo (y re-renderiza si está abierto)
+  function applySosLang() {
+    if (!window.MP_I18N) return;              // aún sin i18n: conserva el texto por defecto
+    const label = t("sos.fab");
+    fab.setAttribute("aria-label", label);
+    overlay.setAttribute("aria-label", label);
+    const lbl = fab.querySelector(".sos-fab-label");
+    if (lbl) lbl.textContent = label;
+    if (overlay.classList.contains("open")) render(overlay.dataset.node || "root");
+  }
+  window.addEventListener("mp:languagechange", applySosLang);
+  applySosLang();
 })();
 
 /* ═══════════════════════════════════════════════════════════════════════════
