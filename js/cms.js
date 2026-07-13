@@ -36,7 +36,7 @@
         <div class="pmc-ep-badge${ep.isNew ? ' pmc-ep-new' : ''}">${ep.isNew ? 'Nuevo' : (ep.badge || `Ep. ${String(i+1).padStart(2,'0')}`)}</div>
         <div class="pmc-art ${overlayClass}">
           <img src="${escHtml(ep.coverUrl||'')}" alt="${escHtml(ep.title||'')}" class="pmc-art-img"
-            onerror="this.src='assets/women-pattern.png'">
+            data-fallbacks="assets/women-pattern.png">
           <div class="pmc-art-overlay ${overlayColorClass}"></div>
           <button class="pmc-play-icon" type="button" aria-label="Reproducir episodio">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
@@ -71,10 +71,13 @@
       art.dataset.ytUrl = vid.ytUrl || "";
 
       const thumb = vid.thumbUrl || ytUrlToThumb(vid.ytUrl) || "assets/hero-community.jpg";
+      const thumbFb = thumb.includes("maxresdefault")
+        ? thumb.replace("maxresdefault", "hqdefault") + "|assets/hero-community.jpg"
+        : "assets/hero-community.jpg";
       art.innerHTML = `
         <div class="ytc-thumb">
           <img src="${escHtml(thumb)}" alt="${escHtml(vid.title||'')}" class="ytc-img"
-            onerror="this.src=this.src.includes('maxresdefault')?this.src.replace('maxresdefault','hqdefault'):'assets/hero-community.jpg'">
+            data-fallbacks="${escHtml(thumbFb)}">
           <div class="ytc-overlay"></div>
           <button class="ytc-play" type="button" aria-label="Ver video">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
@@ -142,7 +145,7 @@
         art.setAttribute("data-reveal", "");
 
         const image = post.imageUrl
-          ? `<div class="post-card-media"><img src="${escHtml(post.imageUrl)}" alt="${escHtml(post.title || 'Publicación')}" onerror="this.parentElement.remove()"></div>`
+          ? `<div class="post-card-media"><img src="${escHtml(post.imageUrl)}" alt="${escHtml(post.title || 'Publicación')}" data-fallbacks="__remove__"></div>`
           : "";
         const link = post.linkUrl
           ? `<a class="post-card-link" href="${escHtml(post.linkUrl)}" target="_blank" rel="noreferrer">${window.MP_I18N?.t?.("posts.readMore") || "Leer más"}</a>`
@@ -200,9 +203,11 @@
   function escHtml(str) {
     return String(str || "")
       .replace(/&/g,"&amp;")
-      .replace(/"/g,"&quot;")
       .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;");
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#39;")
+      .replace(/`/g,"&#96;");
   }
 
   // Ejecutar de inmediato — antes de main.js

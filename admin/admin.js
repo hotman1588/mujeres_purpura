@@ -403,7 +403,7 @@ if (document.getElementById("panel-spotify")) {
         <div class="ep-card-header">
           <img class="ep-preview" id="sp-preview-${i}"
             src="${esc(ep.coverUrl)||'../assets/logo.jpg'}" alt="Portada"
-            onerror="this.src='/assets/logo.jpg'">
+            data-fallbacks="/assets/logo.jpg">
           <div style="flex:1;min-width:0">
             <div class="ep-badges">
               <span class="ep-badge spotify">${esc(ep.badge)||`Ep. ${i+1}`}</span>
@@ -507,7 +507,7 @@ if (document.getElementById("panel-spotify")) {
           </button>
           <img class="yt-thumb-preview" id="yt-preview-${i}"
             src="${esc(vid.thumbUrl || ytUrlToThumb(vid.ytUrl) || '../assets/hero-community.jpg')}" alt="Miniatura"
-            onerror="this.src=this.src.includes('maxresdefault')?this.src.replace('maxresdefault','hqdefault'):'../assets/hero-community.jpg'">
+            data-fallbacks="../assets/hero-community.jpg">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <span class="ep-badge youtube">YouTube</span>
             <strong class="ep-name-preview">${esc(vid.title)||'Sin título'}</strong>
@@ -577,7 +577,7 @@ if (document.getElementById("panel-spotify")) {
         <div class="ep-card-header">
           <img class="ep-preview" id="post-preview-${i}"
             src="${esc(adminAsset(post.imageUrl))||'/assets/logo.jpg'}" alt="Imagen publicación"
-            onerror="this.src='/assets/logo.jpg'">
+            data-fallbacks="/assets/logo.jpg">
           <div style="flex:1;min-width:0">
             <div class="ep-badges">
               <span class="ep-badge post-badge">${esc(post.category)||'Novedad'}</span>
@@ -730,7 +730,12 @@ function getRealVal(id) {
   return el?.dataset?.realval || el?.value?.trim() || "";
 }
 function esc(str) {
-  return (str || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
 }
 function adminAsset(url) {
   if (!url) return "";
